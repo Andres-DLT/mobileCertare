@@ -1,0 +1,23 @@
+<div class="login-container">
+  <h1>JACKSON GRIM</h1>
+  <h2>CLOTH STORE</h2>
+  <h3>Welcome</h3>
+
+  <form (ngSubmit)="login()">
+    <input type="email" [(ngModel)]="email" name="email" placeholder="E-mail / Username" required />
+    <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required />
+
+    <div class="form-options">
+      <label>
+        <input type="checkbox" /> Remember me
+      </label>
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button type="submit">SIGN IN</button>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</div>

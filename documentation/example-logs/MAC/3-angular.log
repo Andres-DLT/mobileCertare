@@ -1,0 +1,47 @@
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  npm install -g @angular/cli
+
+added 274 packages in 7s
+
+52 packages are looking for funding
+  run `npm fund` for details
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  ng version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+    
+
+Angular CLI: 19.2.13
+Node: 22.16.0
+Package Manager: npm 10.9.2
+OS: darwin arm64
+
+Angular: <error>
+... common, compiler, compiler-cli, core, fire, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1902.13 (cli-only)
+@angular-devkit/build-angular   <error>
+@angular-devkit/core            19.2.13 (cli-only)
+@angular-devkit/schematics      19.2.13 (cli-only)
+@angular/cli                    19.2.13 (cli-only)
+@schematics/angular             19.2.13 (cli-only)
+rxjs                            7.8.1 (cli-only)
+typescript                      <error>
+zone.js                         <error>
+    
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  npm install
+
+added 1099 packages, and audited 1100 packages in 29s
+
+167 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  

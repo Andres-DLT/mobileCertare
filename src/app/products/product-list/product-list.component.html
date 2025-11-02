@@ -1,0 +1,85 @@
+<div class="product-page">
+  <div class="user-header">
+    <div>
+      <h2>Hello</h2>
+      <h1>Jackson Grim</h1>
+    </div>
+    <img src="../../../assets/images/profile/jackson-profile.jpg" class="user-avatar" alt="Jackson Grim">
+  </div>
+
+  <div class="segmented-control">
+    <button class="segment active">
+      <img src="assets/images/icons/products-icon.png" alt="Products">
+      Products
+    </button>
+    <button
+      class="segment"
+      [routerLink]="['/sales','cart']"
+      routerLinkActive="active">
+      <img src="assets/images/icons/cart-buy-icon.png" alt="Cart">
+      <span class="badge">{{ cartCount$ | async }}</span>
+    </button>
+  </div>
+
+   <!-- Toast Pop Up -->
+  <div class="toast" *ngIf="showToast">
+    {{ toastMessage }}
+  </div>
+
+  <div class="product-list">
+    <div class="product-card" *ngFor="let product of products">
+      <div class="image-wrapper">
+        <img [src]="product['image-front']" class="front" />
+        <img [src]="product['image-back']" class="back" />
+      </div>
+
+      <div class="product-info">
+        <h4>{{ product.title }}</h4>
+        <p>{{ product.description }}</p>
+
+        <!-- Aquí insertas el nuevo bloque -->
+        <div class="product-options">
+          <div class="color-selector">
+            <span>Color:</span>
+            <!-- Usamos un botón por cada color; añade más si necesitas -->
+            <button class="color-option black active"></button>
+          </div>
+            <div class="size-selector">
+              <span>Size:</span>
+              <button
+                class="size-option"
+                [class.active]="selectedSizes[product.id] === product.size_s"
+                (click)="selectedSizes[product.id] = product.size_s">
+                {{ product.size_s }}
+              </button>
+              <button
+                class="size-option"
+                [class.active]="selectedSizes[product.id] === product.size_m"
+                (click)="selectedSizes[product.id] = product.size_m">
+                {{ product.size_m }}
+              </button>
+              <button
+                class="size-option"
+                [class.active]="selectedSizes[product.id] === product.size_l"
+                (click)="selectedSizes[product.id] = product.size_l">
+                {{ product.size_l }}
+              </button>
+            </div>
+        </div>
+  <!-- /product-options -->
+
+        <div class="product-footer">
+          <span class="price-box">${{ product.price }}</span>
+          <button
+            class="cart-button"
+            (click)="onAddToCart(
+              product,
+              selectedSizes[product.id] || product.size_s
+            )">
+            <img src="assets/images/icons/cart-buy-icon.png" alt="Add">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

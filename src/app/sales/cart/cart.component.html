@@ -1,0 +1,58 @@
+<div class="cart-page">
+  <div class="user-header">
+    <div>
+      <h2>Hello</h2>
+      <h1>Jackson Grim</h1>
+    </div>
+    <img src="../../../assets/images/profile/jackson-profile.jpg" class="user-avatar" alt="Jackson Grim" />
+  </div>
+
+  <div class="segmented-control">
+    <button class="segment" [routerLink]="['/products']" routerLinkActive="active">
+      <img src="assets/images/icons/products-icon.png" alt="Products" />
+    </button>
+    <button class="segment active">
+      <img src="assets/images/icons/cart-buy-icon.png" alt="Cart" />
+      Cart
+    </button>
+  </div>
+
+  <div class="order-details">
+    <h1>ORDER DETAILS</h1>
+    <div class="order-line">
+      <span>Total Products</span>
+      <span>{{ totalProducts }}</span>
+    </div>
+    <div class="order-line">
+      <span>Total</span>
+      <span>${{ totalCost }}</span>
+    </div>
+    <button class="segment active">Payment</button>
+  </div>
+
+  <div class="product-list">
+    <h1>CART PRODUCTS</h1>
+    <div class="product-card" *ngFor="let item of cartItems">
+      <div class="image-wrapper">
+        <img [src]="item['image-front']" class="front" />
+      </div>
+
+      <div class="product-info">
+        <h5>{{ item.title }}</h5>
+        <p>
+          <strong>Size:</strong> {{ item.size }}<br />
+          <strong>Units:</strong> {{ item.units }}<br />
+          <strong>Unit Price:</strong> ${{ item.price }}
+        </p>
+
+        <div class="product-footer">
+          <span class="price-box">${{ item.price * item.units }}</span>
+          <div class="actions">
+            <button class="remove" (click)="removeUnit(item)">✖</button>
+            <button class="add" (click)="addUnit(item)">✔</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

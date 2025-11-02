@@ -1,0 +1,25 @@
+.size-option {
+  border: 1px solid #ccc;
+  background: white;
+  color: #333;
+  padding: 0.5em 1em;
+  margin: 0 0.2em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.size-option.active {
+  background-color: #ff4081;     /* tu color de “activo” */
+  border-color: #ff4081;
+  color: white;
+}
+
+.badge {
+  display: inline-block;
+  background: #ff4081;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  margin-left: 0.3em;
+}

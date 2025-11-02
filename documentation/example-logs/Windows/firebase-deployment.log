@@ -1,0 +1,43 @@
+PS C:\Users\User\OneDrive\Documents\github\marketplace> Remove-Item .\dist\marketplace -Recurse -Force
+PS C:\Users\User\OneDrive\Documents\github\marketplace> ng build --configuration=production
+Initial chunk files   | Names           |  Raw size | Estimated transfer size
+chunk-TWPJIJZI.js     | -               | 230.19 kB |                62.08 kB
+chunk-TEVOGH45.js     | -               | 214.96 kB |                59.28 kB
+chunk-MJCSCS64.js     | -               | 123.25 kB |                32.49 kB
+polyfills-FFHMD2TL.js | polyfills       |  34.52 kB |                11.28 kB
+main-V6NIXRF7.js      | main            |   7.65 kB |                 2.50 kB
+chunk-OJ6R3VLZ.js     | -               | 807 bytes |               807 bytes
+styles-4ZEQD24U.css   | styles          | 345 bytes |               345 bytes
+
+                      | Initial total   | 611.72 kB |               168.78 kB
+
+Lazy chunk files      | Names           |  Raw size | Estimated transfer size
+chunk-IPDABQAM.js     | auth-module     |  36.59 kB |                 8.32 kB
+chunk-UKP5TJTO.js     | products-module |   7.19 kB |                 2.02 kB
+chunk-TNHLYQM5.js     | sales-module    | 881 bytes |               881 bytes
+
+Application bundle generation complete. [1.934 seconds]
+
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 111.72 kB with a total of 611.72 kB.
+
+
+Output location: C:\Users\User\OneDrive\Documents\github\marketplace\dist\marketplace
+
+PS C:\Users\User\OneDrive\Documents\github\marketplace> firebase deploy --only hosting
+
+=== Deploying to 'marketplace-a9ab1'...
+
+i  deploying hosting
+i  hosting[marketplace-a9ab1]: beginning deploy...
+i  hosting[marketplace-a9ab1]: found 50 files in dist/marketplace/browser
++  hosting[marketplace-a9ab1]: file upload complete
+i  hosting[marketplace-a9ab1]: finalizing version...
++  hosting[marketplace-a9ab1]: version finalized
+i  hosting[marketplace-a9ab1]: releasing new version...
++  hosting[marketplace-a9ab1]: release complete
+
++  Deploy complete!
+
+Project Console: https://console.firebase.google.com/project/marketplace-a9ab1/overview
+Hosting URL: https://marketplace-a9ab1.web.app
+PS C:\Users\User\OneDrive\Documents\github\marketplace> 

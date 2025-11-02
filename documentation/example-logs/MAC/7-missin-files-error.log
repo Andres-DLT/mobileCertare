@@ -1,0 +1,33 @@
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  npm start
+
+> marketplace@0.0.0 start
+> ng serve
+
+Component HMR has been enabled.
+If you encounter application reload issues, you can manually reload the page to bypass HMR and/or disable this feature with the `--no-hmr` command line option.
+Please consider reporting any issues you encounter here: https://github.com/angular/angular-cli/issues
+
+Application bundle generation failed. [1.182 seconds]
+
+✘ [ERROR] TS2307: Cannot find module '../environments/environment' or its corresponding type declarations. [plugin angular-compiler]
+
+    src/app/app.component.ts:5:28:
+      5 │ import { environment } from '../environments/environment';
+        ╵                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+✘ [ERROR] Could not resolve "../environments/environment"
+
+    src/environments/firebase-config.ts:1:28:
+      1 │ import { environment } from '../environments/environment';
+        ╵                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+✘ [ERROR] TS2307: Cannot find module '../environments/environment' or its corresponding type declarations. [plugin angular-compiler]
+
+    src/environments/firebase-config.ts:1:28:
+      1 │ import { environment } from '../environments/environment';
+        ╵                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Watch mode enabled. Watching for file changes...

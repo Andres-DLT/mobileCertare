@@ -1,0 +1,13 @@
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  nvm install --lts
+Installing latest LTS version.
+Downloading and installing node v22.16.0...
+Downloading https://nodejs.org/dist/v22.16.0/node-v22.16.0-darwin-arm64.tar.xz...
+################################################################################################################### 100.0%
+Computing checksum with sha256sum
+Checksums matched!
+Now using node v22.16.0 (npm v10.9.2)
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻  node -v                                               
+npm -v
+v22.16.0
+10.9.2
+~/Documents/Red Boy Consulting/marketplace ⚡ Jackson Grim 💻 

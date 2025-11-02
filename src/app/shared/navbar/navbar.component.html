@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="hamburger" (click)="toggleMenu()">
+    &#9776;
+  </div>
+
+  <ul class="menu" [class.open]="menuOpen">
+
+    <ng-container *ngIf="hasCheckedLogin">
+      <ng-container *ngIf="isLoggedIn; else loggedOut">
+        <!-- Links logueado -->
+        <li><a routerLink="/products/list" (click)="menuOpen = false">Products</a></li>
+        <li><a routerLink="/sales/cart" (click)="menuOpen = false">Cart</a></li>
+        <li><a href="#" (click)="logout(); $event.preventDefault()">Log Out</a></li>
+      </ng-container>
+
+      <ng-template #loggedOut>
+        <!-- Links invitado -->
+        <li><a routerLink="/auth/login" (click)="menuOpen = false">Login</a></li>
+        <li><a routerLink="/auth/register" (click)="menuOpen = false">Register</a></li>
+      </ng-template>
+    </ng-container>
+  </ul>
+</nav>

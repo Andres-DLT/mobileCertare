@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'redboyconsulting.marketplace',
-  appName: 'marketplace',
-  webDir: 'dist/marketplace/browser'
+  appId: 'redboyconsulting.phonedevelopers',
+  appName: 'phoneDevelopers',
+  webDir: 'dist/phoneDevelopers/browser'
 };
 
 export default config;

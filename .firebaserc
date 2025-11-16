@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "marketplace-a9ab1"
-  }
+    "phoneDevelopers": "phonedevelopers",
+    "default": "phonedevelopers"
+  },
+  "targets": {},
+  "etags": {}
 }

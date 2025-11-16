@@ -17,7 +17,7 @@ Has tomado una gran decisión al invertir en ti mismo en algo que no es perecede
 - Crea una cuenta en [Discord](https://discord.gg/7h3Scw8W)
 
 ## Recursos
-- [Aplicación](https://marketplace-a9ab1.web.app/auth/login)
+- [Aplicación](https://phonedevelopers.web.app/auth/login)
 - [Presentación](https://www.canva.com/design/DAG3hPb_ARM/iz06qyL01Y5RliZ6TguGxg/edit?utm_content=DAG3hPb_ARM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 - [Mockup Gratuito](https://www.canva.com/design/DAGuTwAWJUM/J3r7NAg4ln3U7zuHFLg_6A/edit?utm_content=DAGuTwAWJUM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 ---

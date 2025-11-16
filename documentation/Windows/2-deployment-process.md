@@ -3,7 +3,7 @@
 ## Create Angular Workspace
 
 ```sh
-ng new marketplace
+ng new appDevelopers
 ```
 
 ## Create App Modules

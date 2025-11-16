@@ -26,8 +26,17 @@ npx cap init
 ```sh
 npm install --global @capacitor/android
 ```
+O
+```sh
+npm install @capacitor/android
+```
 
-6. Abre el proyecto Android generado en Android Studio para poder compilarlo y ejecutarlo en un dispositivo o emulador:
+6. Una vez que bajas el android Capacitor, hay que agregarlo
+```sh
+npx cap add android
+```
+
+7. Abre el proyecto Android generado en Android Studio para poder compilarlo y ejecutarlo en un dispositivo o emulador:
 ```sh
 npx cap open android
 ```

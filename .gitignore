@@ -51,3 +51,8 @@ src/environments/environment.prod.ts
 
 # Ignore github environment varibales automation
 .github\automations\environment-variables-deployments.sh
+
+# Capacitor
+android/
+ios/
+.capacitor/

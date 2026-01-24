@@ -84,21 +84,20 @@ ng g component shared/navbar
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-
     { 
         path: '', redirectTo: 'auth/login', pathMatch: 'full' 
     },
     {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+        loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
     },
     {
         path: 'products',
-        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
+        loadChildren: () => import('./products/products.routes').then(m => m.PRODUCTS_ROUTES)
     },
     {
         path: 'sales',
-        loadChildren: () => import('./sales/sales.module').then(m => m.SalesModule)
+        loadChildren: () => import('./sales/sales.routes').then(m => m.SALES_ROUTES)
     },
 ];
 ```

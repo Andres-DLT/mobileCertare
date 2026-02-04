@@ -2,6 +2,8 @@
 
 Esta es una guía de referencia con los comandos más comunes de Git y GitHub que necesitarás para trabajar en el proyecto. Estos comandos te ayudarán a versionar tu código, colaborar con otros desarrolladores y mantener tu proyecto sincronizado con el repositorio remoto.
 
+No necesitas completar toda la guia de github porque aqui tambien te explico como cargar automáticamente las llaves para hacer despliegues de pipeline automatizados, entonces eso no es parte del curso, es un contenido adicional que te servirá si lo quieres practicar.
+
 ---
 
 ## Configurar tu Aplicación como Proyecto de Github

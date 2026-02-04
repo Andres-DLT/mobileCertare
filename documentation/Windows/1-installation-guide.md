@@ -100,7 +100,11 @@ ng version
 
 ### Firebase CLI
 
-Para poder desplegar tu aplicación a Firebase, necesitas instalar las herramientas de línea de comandos de Firebase y autenticarte.
+Para trabajar con Firebase en Angular, necesitas instalar dos conjuntos de paquetes diferentes que cumplen funciones distintas.
+
+#### Firebase Tools (CLI - Línea de Comandos)
+
+Firebase Tools es la herramienta de línea de comandos que te permite **desplegar** tu aplicación a Firebase Hosting y gestionar tu proyecto desde la terminal.
 
 ```sh
 # Instala Firebase CLI de manera global
@@ -121,3 +125,23 @@ firebase projects:list
 ```
 
 El comando `firebase login` abrirá tu navegador para que puedas autenticarte con tu cuenta de Google asociada a Firebase. Después de autenticarte exitosamente, podrás ver la lista de tus proyectos de Firebase con el comando `firebase projects:list`.
+
+#### Firebase SDK y AngularFire (Integración en la App)
+
+Estos paquetes son diferentes a `firebase-tools`. Se instalan **dentro de tu proyecto** y te permiten usar Firebase directamente en tu código Angular (autenticación, base de datos, storage, etc.).
+
+```sh
+# Instala Firebase SDK y AngularFire en tu proyecto
+npm install firebase @angular/fire
+```
+
+**Diferencias clave:**
+
+| Paquete | Propósito | Instalación |
+|---------|-----------|-------------|
+| `firebase-tools` | **Desplegar** y administrar proyectos desde la terminal | Global (`-g`) |
+| `firebase @angular/fire` | **Usar servicios de Firebase** en tu código Angular (Auth, Firestore, etc.) | Local en el proyecto |
+
+> [!IMPORTANT]
+> - **firebase-tools** → Para comandos de terminal (deploy, login, configuración)
+> - **firebase + @angular/fire** → Para programar funcionalidades de Firebase en tu aplicación Angular (código TypeScript)

@@ -12,6 +12,8 @@ Vas a tener que entrar a todos estos portales y hacer una cuenta en cada uno de 
 ![Canva](https://img.shields.io/badge/Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white) [Canva](www.canva.com)  
 ![Discord](https://img.shields.io/badge/Discord) [Discord](https://discord.com/download)  
 
+---
+
 ### Download Tools
 
 También se requiere tener instalados algunos productos dentro de tu computadora, descarga e instala estos softwares.
@@ -20,7 +22,6 @@ También se requiere tener instalados algunos productos dentro de tu computadora
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white) [NodeJS + NPM](https://nodejs.org/en)  
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) [Git](https://git-scm.com/downloads)  
 ![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white) [Android Studio](https://developer.android.com/studio)  
-
 
 ## Descarga y Configura Proyecto Phone Developers
 
@@ -55,6 +56,8 @@ git config user.name "Tu Nombre"
 git config user.email "tuemail@example.com"
 ```
 
+---
+
 ### Verfica que hayas instalado el Package Manager
 
 Cuando hiciste la instalación de NodeJS, e te instalaron los programas necesarios para hacer la administración de paquetes, en particular, la instalación que bajaste sin saberlo es NPM. 
@@ -68,6 +71,8 @@ npm -v
 ```
 
 Después de ejecutar los comandos, se te responderá con 2 versiones, la de Node y NPM, de éste modo, sabrás que ya los tienes instalados, en caso de que no se te muestre alguna de las 2, quiere decir que no has instalado alguno de ellos.
+
+---
 
 ### Configuración de Ángular CLI
 
@@ -90,6 +95,8 @@ ng version
 npm install -g @angular/cli 
 ng version
 ```
+
+---
 
 ### Firebase CLI
 

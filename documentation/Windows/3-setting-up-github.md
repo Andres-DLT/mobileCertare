@@ -172,12 +172,16 @@ Esta sección es para configuración avanzada de CI/CD con GitHub Actions. Si es
 ### Instalar WSL (Windows Subsystem for Linux)
 
 ```sh
-    https://docs.microsoft.com/windows/wsl/install
-    wsl --install
-```
-Open the new ubuntu installation WIN + WSL
+# Documentación oficial
+https://docs.microsoft.com/windows/wsl/install
 
-## Log Example
+# Instalar WSL
+wsl --install
+```
+
+Abre la nueva instalación de Ubuntu presionando **WIN + R**, escribe `wsl` y presiona Enter.
+
+### Ejemplo de Log de Instalación
 
 ```sh
     Provisioning the new WSL instance Ubuntu
@@ -208,28 +212,28 @@ Open the new ubuntu installation WIN + WSL
     jackson@Jackson-Grim-gamer-pc:~$
 ```
 
-Install gh in your WSL environment
+### Instalar GitHub CLI en tu entorno WSL
 
 ```sh
-    # 1. Add the key of official repo
-    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
-    | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+# 1. Agregar la clave del repositorio oficial
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+| sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 
-    sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
 
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] \
-    https://cli.github.com/packages stable main" \
-    | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] \
+https://cli.github.com/packages stable main" \
+| sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 
-    # 2. Update and install
-    sudo apt update
-    sudo apt install gh -y
+# 2. Actualizar e instalar
+sudo apt update
+sudo apt install gh -y
 
-    # 3. Verfy
-    gh --version
+# 3. Verificar instalación
+gh --version
 ```
 
-Log into Github 
+### Iniciar sesión en GitHub 
 
 ```sh
     jackson@Jackson-Grim-gamer-pc:/mnt/c/Users/User/OneDrive/Documents/github/marketplace/.github/automations$ gh auth login
@@ -253,18 +257,20 @@ Log into Github
 
 Set ownership confidence
 
-```sh
-    git config --global --add safe.directory /mnt/c/Users/User/OneDrive/Documents/github/marketplace
-```
-
-Run the bash script
+### Configurar directorio seguro
 
 ```sh
-    cd /mnt/c/Users/Documents/github/marketplace/.github/automations
-    bash environment-variables-deployments.sh
+git config --global --add safe.directory /mnt/c/Users/User/OneDrive/Documents/github/marketplace
 ```
 
-Log Github Confirmation
+### Ejecutar el script bash
+
+```sh
+cd /mnt/c/Users/Documents/github/marketplace/.github/automations
+bash environment-variables-deployments.sh
+```
+
+### Log de confirmación de GitHub
 
 ```sh
 ✓ Set Actions secret FIREBASE_API_KEY for jacksongrimmx/marketplace
@@ -277,19 +283,19 @@ Log Github Confirmation
 ✓ Set Actions secret FIREBASE_SERVICE_ACCOUNT_MARKETPLACE_A9AB1 for jacksongrimmx/marketplace
 ```
 
-Create a Firebase Environment Variable Token
+### Crear variable de entorno de Firebase Token
 
 ```sh
 FIREBASE_TOKEN
 ```
 
-Create a Token
+### Crear un Token
 
 ```sh
 firebase login:ci     
 ```
 
-Log Firebase Confirmation
+### Log de confirmación de Firebase
 
 ```sh
 !  Authenticating with a `login:ci` token is deprecated and will be removed in a future major version of `firebase-tools`. Instead, use a service account key with `GOOGLE_APPLICATION_CREDENTIALS`: https://cloud.google.com/docs/authentication/getting-started
@@ -301,21 +307,23 @@ Waiting for authentication...
 
 +  Success! Use this token to login on a CI server:
 
-THIS IS THE TOKEN, COPY IT AND PASTE IT IN GITHUB SECRETS
+ESTE ES EL TOKEN, COPIÁLO Y PÉGALO EN GITHUB SECRETS
 
-Example: firebase deploy --token "$FIREBASE_TOKEN"
+Ejemplo: firebase deploy --token "$FIREBASE_TOKEN"
 
 PS C:\Users\User\OneDrive\Documents\github\marketplace> 
 ```
 
-🚫 Importante: Activar reglas de protección
+---
 
-Ve a GitHub → Settings → Branches y:
-	1.	Agrega una Branch Protection Rule para master
-	2.	Activa:
-	•	✅ Require pull request before merging
-	•	✅ Require status checks to pass before merging
-	•	Marca Firebase Hosting Preview on PR (cuando se ejecute por primera vez)
-	•	✅ Require approvals (mínimo 1)
-	•	✅ Block force pushes
-    
+## 🚫 Importante: Activar Reglas de Protección de Ramas
+
+Ve a GitHub → **Settings** → **Branches** y:
+
+1. Agrega una **Branch Protection Rule** para `master`
+2. Activa:
+   - ✅ **Require pull request before merging** (Requerir pull request antes de fusionar)
+   - ✅ **Require status checks to pass before merging** (Requerir que pasen las verificaciones)
+   - Marca **Firebase Hosting Preview on PR** (cuando se ejecute por primera vez)
+   - ✅ **Require approvals** (mínimo 1 aprobación)
+   - ✅ **Block force pushes** (Bloquear push forzados)

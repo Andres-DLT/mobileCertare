@@ -1,22 +1,25 @@
+/* ===== Product List - Estilo consistente ===== */
+
 .size-option {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   background: white;
   color: #333;
   padding: 0.5em 1em;
   margin: 0 0.2em;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .size-option.active {
-  background-color: #ff4081;     /* tu color de “activo” */
-  border-color: #ff4081;
+  background-color: #e8192c;
+  border-color: #e8192c;
   color: white;
 }
 
 .badge {
   display: inline-block;
-  background: #ff4081;
+  background: #e8192c;
   color: white;
   border-radius: 50%;
   padding: 0.2em 0.5em;

@@ -13,9 +13,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-image: url('./assets/images/background/background-app.png');
-  background-size: cover;
-  background-repeat: repeat;
+  background-color: #f5f5f5;
 }
 
 /*
@@ -24,23 +22,26 @@ body {
 
 button[type="submit"] {
   width: 100%;
-  padding: 12px;
-  background-color: #ff4c4c;
+  padding: 14px;
+  background-color: #1a1a1a;
   color: white;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 15px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  letter-spacing: 1px;
+  transition: background-color 0.2s ease;
 }
 
 button[type="submit"]:hover {
-  background-color: #e03b3b;
+  background-color: #333;
 }
 
  h1 {
   font-family: 'EvilDead', sans-serif;
   font-size: 28px;
-  color: #ff4c4c;
+  color: #e8192c;
   margin: 0;
  }
 
@@ -54,12 +55,13 @@ h2 {
 h3 {
   font-family: 'serif';
   font-size: 20px;
-  color: #e74c3c;
+  color: #333;
   margin-bottom: 20px;
+  font-weight: 400;
 }
 
  .error {
-  color: red;
+  color: #e8192c;
   font-size: 13px;
   margin-top: 10px;
 }
@@ -67,11 +69,21 @@ h3 {
 form input[type="email"],
 form input[type="password"] {
   width: 100%;
-  padding: 12px;
+  padding: 14px 16px;
   margin-bottom: 12px;
-  border: 1px solid #ccc;
+  background-color: #ececec;
+  border: none;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 15px;
+  color: #333;
+  box-sizing: border-box;
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+  background-color: #e0e0e0;
 }
 
 .form-options {
@@ -91,13 +103,15 @@ Body App Global Styles
  */
 
  .login-container {
-  max-width: 360px;
-  margin: 40px auto;
-  padding: 30px;
-  border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.8);
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background-color: #ffffff;
   text-align: center;
-  font-family: Arial, sans-serif; 
+  font-family: Arial, sans-serif;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -160,7 +174,7 @@ Body App Global Styles
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
-  background: linear-gradient(90deg, #ff3e5e, #ff9138);
+  background: linear-gradient(90deg, #e8192c, #ff6b3d);
   color: white;
 }
 
@@ -185,9 +199,9 @@ Body App Global Styles
   padding: 2rem;
   width: 100%;
   max-width: 920px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   gap: 2rem;
-  border: 3px solid #eee;
+  border: none;
 }
 
 /* Wrapper de la imagen con hover front/back */
@@ -228,7 +242,7 @@ Body App Global Styles
 
 .product-info h3 {
   font-size: 1.5rem;
-  color: #ff3e5e;
+  color: #e8192c;
   margin-bottom: 0.5rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -258,7 +272,7 @@ Body App Global Styles
 
 /* BOTÓN DE CARRITO */
 .cart-button {
-  background-color: #ff3e5e;
+  background-color: #e8192c;
   color: white;
   border: none;
   padding: 0.7rem 1rem;
@@ -283,7 +297,7 @@ Body App Global Styles
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90deg, #ff3e5e, #ff9138);
+  background: linear-gradient(90deg, #e8192c, #ff6b3d);
   border-radius: 40px;
   padding: 0.25rem;
   width: fit-content;
@@ -316,7 +330,7 @@ Body App Global Styles
 
 
 .segment.active {
-  background-color: #ff3e5e;
+  background-color: #e8192c;
   color: white;
   padding: 1rem 2rem;    /* 1 rem up/down, 2 rem left/right */
   font-size: 1.2rem;     /* opcional: Bigger Text */
@@ -368,7 +382,7 @@ Body App Global Styles
 /* ejemplo extra: .color-option.red { background-color: #f00; } */
 
 .color-option.active {
-  border-color: #ff3e5e;
+  border-color: #e8192c;
 }
 
 /* Botones de talla grandes */
@@ -509,14 +523,13 @@ Body App Global Styles
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.8);
+  background: #1a1a1a;
   color: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
   z-index: 1000;
-  /* opcional: pequeña animación de entrada/salida */
   transition: opacity 0.3s ease;
 }
 

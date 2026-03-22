@@ -1,0 +1,134 @@
+/* ===== LOGIN - Diseño tipo tarjeta con header rojo ===== */
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-container {
+  max-width: 380px;
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* ===== Header rojo ===== */
+
+.login-header {
+  background-color: #e8192c;
+  padding: 30px 24px 25px;
+  text-align: center;
+  position: relative;
+}
+
+.login-header h1 {
+  font-family: 'EvilDead', sans-serif;
+  font-size: 42px;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Cuerpo blanco ===== */
+
+.login-body {
+  padding: 30px 28px 36px;
+  text-align: center;
+}
+
+.login-body h2 {
+  font-family: 'NightTraveler', sans-serif;
+  font-size: 24px;
+  color: #222;
+  margin: 0 0 2px 0;
+}
+
+.login-body h3 {
+  font-family: 'serif';
+  font-size: 22px;
+  color: #333;
+  margin: 0 0 28px 0;
+  font-weight: 400;
+}
+
+/* ===== Campos de formulario ===== */
+
+.form-group {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  font-family: Arial, sans-serif;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: #ececec;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #333;
+  box-sizing: border-box;
+  margin-bottom: 0;
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+  background-color: #e0e0e0;
+}
+
+.form-group input[type="email"]::placeholder,
+.form-group input[type="password"]::placeholder {
+  color: #999;
+}
+
+/* ===== Botón ===== */
+
+button[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  letter-spacing: 1px;
+  transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #333;
+}
+
+/* ===== Error ===== */
+
+.error {
+  color: #e8192c;
+  font-size: 13px;
+  margin: 8px 0;
+  text-align: center;
+}

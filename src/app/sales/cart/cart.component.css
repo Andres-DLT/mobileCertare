@@ -6,7 +6,7 @@
 
 /* Bloque resumen de la orden */
 .order-details {
-  background: rgba(255, 90, 95, 0.05);
+  background: #ffffff;
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -19,7 +19,7 @@
 .order-details h1 {
   font-family: 'EvilDead', sans-serif;
   font-size: 22px;
-  color: #ff4c4c;
+  color: #e8192c;
   margin: 0 0 0.5rem 0;
 }
 
@@ -43,14 +43,19 @@
   cursor: pointer;
   font-weight: bold;
   color: white;
+  transition: opacity 0.2s ease;
+}
+
+.actions button:hover {
+  opacity: 0.85;
 }
 
 .actions .remove {
-  background-color: #e74c3c;
+  background-color: #e8192c;
 }
 
 .actions .add {
-  background-color: #2ecc71;
+  background-color: #1a1a1a;
 }
 
 /* Responsive */

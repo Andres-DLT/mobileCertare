@@ -55,4 +55,4 @@ src/environments/environment.prod.ts
 # Capacitor
 android/
 ios/
-.capacitor/
+.capacitor/scripts/phoneDevelopers.code-workspace

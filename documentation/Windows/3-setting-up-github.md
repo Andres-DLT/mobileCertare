@@ -30,7 +30,7 @@ git init
 git remote -v
 
 # Si te aparece mi cuenta, entonces primero desvinculate
-git remote remove
+git remote remove origin
 
 # Agrega tu repositorio de GitHub como remoto
 git remote add origin https://github.com/tu-usuario/phoneDevelopers.git

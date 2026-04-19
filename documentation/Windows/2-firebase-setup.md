@@ -53,7 +53,7 @@ export const environment = {
 
 ### Paso 3: Actualizar tu Archivo
 
-1. Abre el archivo `src/environments/firebase-config.ts`
+1. Abre el archivo `src/environments/environment.ts`
 2. Reemplaza los valores de ejemplo con tus datos reales:
 
 ```typescript

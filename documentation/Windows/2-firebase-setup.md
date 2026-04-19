@@ -57,7 +57,7 @@ export const environment = {
 2. Reemplaza los valores de ejemplo con tus datos reales:
 
 ```typescript
-// src/environments/firebase-config.ts
+// Sustituye el contenido desde API KEY hasta APPID, si hay algunos datos que tu no tienes, no te preocupes porque eso quiere decir que mi cuenta tiene mas productos activados
 export const firebaseConfig = {
   apiKey: "TU_API_KEY",
   authDomain: "TU_AUTH_DOMAIN",

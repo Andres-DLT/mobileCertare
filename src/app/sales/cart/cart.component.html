@@ -27,7 +27,22 @@
       <span>Total</span>
       <span>${{ totalCost }}</span>
     </div>
-    <button class="segment active">Payment</button>
+    <button class="segment active" (click)="initPayment()" [disabled]="cartItems.length === 0">
+      Pay with PayPal
+    </button>
+
+    <!-- PayPal Button Container -->
+    <div *ngIf="showPaypal" class="paypal-section">
+      <div id="paypal-button-container"></div>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="paymentSuccess" class="payment-success">
+      <p>Payment successful! Thank you, {{ payerName }}.</p>
+    </div>
+
+    <!-- Error Message -->
+    <p *ngIf="paymentError" class="payment-error">{{ paymentError }}</p>
   </div>
 
   <div class="product-list">

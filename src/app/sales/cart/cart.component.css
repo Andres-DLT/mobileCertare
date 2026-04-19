@@ -76,3 +76,29 @@
     justify-content: flex-start;
   }
 }
+
+/* PayPal Section */
+.paypal-section {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.payment-success {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 12px;
+  color: #155724;
+  text-align: center;
+  font-weight: bold;
+}
+
+.payment-error {
+  margin-top: 1rem;
+  color: #e8192c;
+  font-weight: bold;
+  text-align: center;
+}

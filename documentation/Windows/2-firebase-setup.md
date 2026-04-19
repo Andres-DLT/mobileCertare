@@ -149,6 +149,10 @@ Una vez que has configurado todo y tu aplicación está lista, es momento de des
 
 Si es la primera vez que despliegas tu proyecto, necesitas inicializar Firebase Hosting:
 
+> [!ADVERTENCIA]
+> Antes de correr este comando crea la carpeta dist ejecutando
+> **ng build**
+
 ```sh
 firebase init hosting
 ```
@@ -157,6 +161,8 @@ Durante la inicialización, Firebase te hará varias preguntas:
 
 1. **"What do you want to use as your public directory?"**
    - Responde: `dist/app-developers/browser` (o el nombre de tu carpeta de build)
+
+---
 
 2. **"Configure as a single-page app (rewrite all urls to /index.html)?"**
    - Responde: `Yes`

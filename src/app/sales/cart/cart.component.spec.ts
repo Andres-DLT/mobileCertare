@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartComponent } from './cart.component';
 import { CartService, CartItem } from '../cart.service';
 import { PaypalService } from '../paypal.service';
-import { OrderEmailService } from '../order-email.service';
 import { BehaviorSubject } from 'rxjs';
 
 describe('CartComponent', () => {
@@ -11,7 +10,6 @@ describe('CartComponent', () => {
   let fixture: ComponentFixture<CartComponent>;
   let cartServiceSpy: jasmine.SpyObj<CartService>;
   let paypalServiceSpy: jasmine.SpyObj<PaypalService>;
-  let orderEmailServiceSpy: jasmine.SpyObj<OrderEmailService>;
   let mockItems$: BehaviorSubject<CartItem[]>;
 
   const mockCartItems: CartItem[] = [
@@ -40,9 +38,6 @@ describe('CartComponent', () => {
 
     paypalServiceSpy = jasmine.createSpyObj('PaypalService', ['renderButtons']);
 
-    orderEmailServiceSpy = jasmine.createSpyObj('OrderEmailService', ['sendOrderEmail']);
-    orderEmailServiceSpy.sendOrderEmail.and.returnValue(Promise.resolve());
-
     await TestBed.configureTestingModule({
       imports: [CartComponent, RouterTestingModule]
     })
@@ -51,7 +46,6 @@ describe('CartComponent', () => {
         providers: [
           { provide: CartService, useValue: cartServiceSpy },
           { provide: PaypalService, useValue: paypalServiceSpy },
-          { provide: OrderEmailService, useValue: orderEmailServiceSpy },
         ]
       }
     })
@@ -96,36 +90,6 @@ describe('CartComponent', () => {
     tick();
     const callArgs = paypalServiceSpy.renderButtons.calls.first().args;
     expect(callArgs[0]).toBe('paypal-button-container');
-  }));
-
-  it('should call orderEmailService on payment success', fakeAsync(() => {
-    component.cartItems = mockCartItems;
-    cartServiceSpy.getTotalCost.and.returnValue(105.00);
-
-    // Simulate renderButtons capturing the onSuccess callback
-    paypalServiceSpy.renderButtons.and.callFake(
-      (_id: string, _items: any, _total: number, onSuccess: Function, _onError: Function) => {
-        const mockDetails = {
-          id: 'PAY-TEST',
-          payer: {
-            name: { given_name: 'Test', surname: 'User' },
-            email_address: 'test@example.com'
-          }
-        };
-        onSuccess(mockDetails);
-      }
-    );
-
-    component.initPayment();
-    tick();
-    tick(); // extra tick for async sendOrderEmail
-
-    expect(orderEmailServiceSpy.sendOrderEmail).toHaveBeenCalledTimes(1);
-    expect(orderEmailServiceSpy.sendOrderEmail).toHaveBeenCalledWith(
-      jasmine.objectContaining({ id: 'PAY-TEST' }),
-      mockCartItems,
-      105.00
-    );
   }));
 
   it('should set paymentSuccess and payerName on successful payment', fakeAsync(() => {
@@ -178,27 +142,6 @@ describe('CartComponent', () => {
     tick();
 
     expect(component.paymentError).toBe('Error processing payment. Please try again.');
-  }));
-
-  it('should still clear cart even if email fails', fakeAsync(() => {
-    component.cartItems = mockCartItems;
-    orderEmailServiceSpy.sendOrderEmail.and.returnValue(Promise.reject(new Error('Email failed')));
-
-    paypalServiceSpy.renderButtons.and.callFake(
-      (_id: string, _items: any, _total: number, onSuccess: Function) => {
-        onSuccess({
-          id: 'PAY-TEST',
-          payer: { name: { given_name: 'A', surname: 'B' }, email_address: 'a@b.com' }
-        });
-      }
-    );
-
-    component.initPayment();
-    tick();
-    tick();
-
-    expect(cartServiceSpy.clearCart).toHaveBeenCalled();
-    expect(component.paymentSuccess).toBeTrue();
   }));
 
   it('should call removeUnit on cart service', () => {

@@ -39,8 +39,7 @@
     <!-- Success Message -->
     <div *ngIf="paymentSuccess" class="payment-success">
       <p>Payment successful! Thank you, {{ payerName }}.</p>
-      <p *ngIf="sendingEmail" class="sending-email">Sending order confirmation...</p>
-      <p *ngIf="!sendingEmail">Order details sent to store owner.</p>
+      <p>Order completed successfully.</p>
     </div>
 
     <!-- Error Message -->

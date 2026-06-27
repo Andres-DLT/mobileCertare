@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService, CartItem } from '../cart.service';
 import { PaypalService } from '../paypal.service';
-import { OrderEmailService } from '../order-email.service';
 
 @Component({
   selector: 'app-cart',
@@ -19,12 +18,10 @@ export class CartComponent implements OnInit, AfterViewInit {
   paymentError = '';
   payerName = '';
   showPaypal = false;
-  sendingEmail = false;
 
   constructor(
     private cartService: CartService,
-    private paypalService: PaypalService,
-    private orderEmailService: OrderEmailService
+    private paypalService: PaypalService
   ) {}
 
   ngOnInit() {
@@ -68,20 +65,6 @@ export class CartComponent implements OnInit, AfterViewInit {
           this.payerName = details.payer.name.given_name;
           this.paymentSuccess = true;
           this.showPaypal = false;
-
-          // Enviar correo con los detalles del pedido
-          this.sendingEmail = true;
-          try {
-            await this.orderEmailService.sendOrderEmail(
-              details,
-              this.cartItems,
-              this.totalCost
-            );
-          } catch (emailErr) {
-            console.error('Error sending order email:', emailErr);
-          } finally {
-            this.sendingEmail = false;
-          }
 
           this.cartService.clearCart();
         },

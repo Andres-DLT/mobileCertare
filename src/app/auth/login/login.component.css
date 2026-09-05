@@ -23,15 +23,15 @@
 /* ===== Header rojo ===== */
 
 .login-header {
-  background-color: #e8192c;
+  background-color: #000000;
   padding: 30px 24px 25px;
   text-align: center;
   position: relative;
 }
 
 .login-header h1 {
-  font-family: 'EvilDead', sans-serif;
-  font-size: 42px;
+  font-family: var(--app-font);
+  font-size: 34px;
   color: #ffffff;
   margin: 0;
   letter-spacing: 2px;
@@ -46,14 +46,14 @@
 }
 
 .login-body h2 {
-  font-family: 'NightTraveler', sans-serif;
+  font-family: var(--app-font);
   font-size: 24px;
   color: #222;
   margin: 0 0 2px 0;
 }
 
 .login-body h3 {
-  font-family: 'serif';
+  font-family: var(--app-font);
   font-size: 22px;
   color: #333;
   margin: 0 0 28px 0;
@@ -75,7 +75,7 @@
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 6px;
-  font-family: Arial, sans-serif;
+  font-family: var(--app-font);
 }
 
 .form-group input[type="email"],

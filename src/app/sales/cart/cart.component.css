@@ -17,7 +17,7 @@
 }
 
 .order-details h1 {
-  font-family: 'EvilDead', sans-serif;
+  font-family: var(--app-font);
   font-size: 22px;
   color: #e8192c;
   margin: 0 0 0.5rem 0;

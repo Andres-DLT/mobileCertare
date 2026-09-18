@@ -1,85 +1,125 @@
 <div class="product-page">
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-chip">QUALITY ENGINEERING CONSULTANCY</span>
+    <h1>CERTARE</h1>
+    <p class="hero-sub">
+      Certainty in software delivery. Disciplined testing, automation and
+      performance engineering — delivered by senior engineers and tied to
+      your CI/CD pipelines.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><strong>20</strong><span>Services</span></div>
+      <div class="stat"><strong>6</strong><span>Practice lines</span></div>
+      <div class="stat"><strong>100%</strong><span>SLA coverage</span></div>
+    </div>
+  </section>
+
   <div class="user-header">
     <div>
-      <h2>Hello</h2>
-      <h1>Jackson Grim</h1>
+      <h2>Welcome{{ userLabel ? ',' : '' }}</h2>
+      <h1>{{ userLabel || 'Senior Dev Engineer' }}</h1>
     </div>
-    <img src="../../../assets/images/profile/jackson-profile.jpg" class="user-avatar" alt="Jackson Grim">
+    <div class="user-avatar" aria-label="Profile">{{ userLabel ? userLabel.charAt(0).toUpperCase() : 'C' }}</div>
   </div>
 
-  <div class="segmented-control">
-    <button class="segment active">
-      <img src="assets/images/icons/products-icon.png" alt="Products">
-      Products
-    </button>
+  <!-- Filter chips -->
+  <div class="filter-bar" *ngIf="!loading && products.length">
     <button
-      class="segment"
-      [routerLink]="['/sales','cart']"
-      routerLinkActive="active">
-      <img src="assets/images/icons/cart-buy-icon.png" alt="Cart">
-      <span class="badge">{{ cartCount$ | async }}</span>
+      class="chip"
+      *ngFor="let cat of categories"
+      [class.active]="filter === cat.key"
+      (click)="setFilter(cat.key)">
+      {{ cat.label }}
     </button>
   </div>
 
-   <!-- Toast Pop Up -->
-  <div class="toast" *ngIf="showToast">
-    {{ toastMessage }}
+  <!-- Skeleton -->
+  <div class="service-list" *ngIf="loading">
+    <div class="service-card skeleton" *ngFor="let _ of skeletonItems">
+      <div class="skeleton-block icon"></div>
+      <div class="service-info">
+        <div class="skeleton-block line w60"></div>
+        <div class="skeleton-block line w90"></div>
+        <div class="skeleton-block line w40"></div>
+      </div>
+    </div>
   </div>
 
-  <div class="product-list">
-    <div class="product-card" *ngFor="let product of products">
-      <div class="image-wrapper">
-        <img [src]="product['image-front']" class="front" />
-        <img [src]="product['image-back']" class="back" />
-      </div>
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!loading && filteredProducts.length === 0">
+    <p>No services match this filter.</p>
+    <button class="chip active" (click)="setFilter('all')">Show all services</button>
+  </div>
 
-      <div class="product-info">
-        <h4>{{ product.title }}</h4>
-        <p>{{ product.description }}</p>
+  <!-- Service cards -->
+  <div class="service-list" *ngIf="!loading && filteredProducts.length">
+    <div
+      class="service-card"
+      *ngFor="let service of filteredProducts; let i = index"
+      [style.animation-delay]="(i * 70) + 'ms'">
+      <div class="service-icon">{{ service.title.charAt(0) }}</div>
 
-        <!-- Aquí insertas el nuevo bloque -->
-        <div class="product-options">
-          <div class="color-selector">
-            <span>Color:</span>
-            <!-- Usamos un botón por cada color; añade más si necesitas -->
-            <button class="color-option black active"></button>
-          </div>
-            <div class="size-selector">
-              <span>Size:</span>
-              <button
-                class="size-option"
-                [class.active]="selectedSizes[product.id] === product.size_s"
-                (click)="selectedSizes[product.id] = product.size_s">
-                {{ product.size_s }}
-              </button>
-              <button
-                class="size-option"
-                [class.active]="selectedSizes[product.id] === product.size_m"
-                (click)="selectedSizes[product.id] = product.size_m">
-                {{ product.size_m }}
-              </button>
-              <button
-                class="size-option"
-                [class.active]="selectedSizes[product.id] === product.size_l"
-                (click)="selectedSizes[product.id] = product.size_l">
-                {{ product.size_l }}
-              </button>
-            </div>
+      <div class="service-info">
+        <span class="plan-tag">{{ categoryLabel(service) }}</span>
+        <h4>{{ service.title }}</h4>
+        <p>{{ service.description }}</p>
+
+        <div class="service-tags" *ngIf="service.tags?.length">
+          <span class="tag" *ngFor="let tag of service.tags">{{ tag }}</span>
         </div>
-  <!-- /product-options -->
 
-        <div class="product-footer">
-          <span class="price-box">${{ product.price }}</span>
+        <div class="plan-selector" *ngIf="plansFor(service).length" aria-label="Select plan">
           <button
-            class="cart-button"
-            (click)="onAddToCart(
-              product,
-              selectedSizes[product.id] || product.size_s
-            )">
-            <img src="assets/images/icons/cart-buy-icon.png" alt="Add">
+            *ngFor="let plan of plansFor(service)"
+            class="plan-option"
+            [class.active]="(selectedPlans[service.id] || service.size_m) === plan.label"
+            (click)="selectPlan(service, plan.label)">
+            {{ plan.label }}
+          </button>
+        </div>
+
+        <div class="service-footer">
+          <span class="price-box">${{ selectedPrice(service).toLocaleString() }} MXN</span>
+          <button class="cart-button" (click)="onAddToCart(service)" aria-label="Add to cart">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- About -->
+  <section id="about" class="about-section">
+    <h2>What Certare does</h2>
+    <p>
+      Certare is a quality engineering consultancy. We embed with your team to
+      design test strategy, build automation that runs in your pipeline, and
+      measure quality as a product — not a milestone. Every engagement follows
+      the same disciplined cycle:
+    </p>
+    <div class="process-row">
+      <div class="process-step">
+        <span class="step-num">01</span>
+        <h3>Discover</h3>
+        <p>Audit your stack, risks and release cadence to define what quality looks like.</p>
+      </div>
+      <div class="process-step">
+        <span class="step-num">02</span>
+        <h3>Plan</h3>
+        <p>Scope the test pyramid, select tooling and wire quality gates into your pipeline.</p>
+      </div>
+      <div class="process-step">
+        <span class="step-num">03</span>
+        <h3>Deliver</h3>
+        <p>Ship automation with evidence: reports, dashboards and defect insights your team can act on.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Snackbar -->
+  <div class="snackbar" *ngIf="snackbarVisible" role="status">
+    <span>{{ snackbarMessage }}</span>
+    <button id="snackbar-undo" (click)="undoLast()">Undo</button>
   </div>
 </div>

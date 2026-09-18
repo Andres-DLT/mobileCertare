@@ -16,6 +16,7 @@ export interface OrderEmailData {
   totalProducts: number;
   totalAmount: number;
   paymentDate: string;
+  currency: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -44,6 +45,7 @@ export class OrderEmailService {
       })),
       totalProducts: cartItems.reduce((sum, i) => sum + i.units, 0),
       totalAmount,
+      currency: 'MXN',
       paymentDate: new Date().toLocaleString('en-US', {
         dateStyle: 'full',
         timeStyle: 'short'

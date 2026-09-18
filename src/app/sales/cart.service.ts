@@ -16,16 +16,27 @@ export class CartService {
     return this.items$.asObservable();
   }
 
-  /** Agrega un producto al carrito (si ya existe mismo id+size, suma unidades) */
-  addToCart(p: Product, size: string) {
+  /** Agrega un producto al carrito (si ya existe mismo id+plan, suma unidades) */
+  addToCart(p: Product, size: string, planPrice?: number) {
     const list = this.items$.value.slice();
     const idx = list.findIndex(i => i.id === p.id && i.size === size);
     if (idx > -1) {
       list[idx].units += 1;
+      if (planPrice != null) list[idx].price = planPrice;
     } else {
-      list.push({ ...p, size, units: 1 });
+      list.push({ ...p, size, units: 1, price: planPrice ?? p.price });
     }
     this.items$.next(list);
+  }
+
+  /** Snapshot actual del carrito (para undo) */
+  snapshot(): CartItem[] {
+    return this.items$.value.slice();
+  }
+
+  /** Restaura un estado anterior del carrito (undo) */
+  restore(list: CartItem[]) {
+    this.items$.next(list.slice());
   }
 
   /** Quita una unidad (si llega a 0, lo elimina) */

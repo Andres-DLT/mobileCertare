@@ -1,74 +1,78 @@
-<div class="cart-page">
-  <div class="user-header">
-    <div>
-      <h2>Hello</h2>
-      <h1>Jackson Grim</h1>
-    </div>
-    <img src="../../../assets/images/profile/jackson-profile.jpg" class="user-avatar" alt="Jackson Grim" />
-  </div>
+<div class="cart-page" *ngIf="!paymentSuccess">
+  <header class="page-head">
+    <span class="head-chip">RESUMEN DE COMPRA</span>
+    <h1>Your Cart</h1>
+  </header>
 
-  <div class="segmented-control">
-    <button class="segment" [routerLink]="['/products']" routerLinkActive="active">
-      <img src="assets/images/icons/products-icon.png" alt="Products" />
-    </button>
-    <button class="segment active">
-      <img src="assets/images/icons/cart-buy-icon.png" alt="Cart" />
-      Cart
-    </button>
-  </div>
-
-  <div class="order-details">
-    <h1>ORDER DETAILS</h1>
-    <div class="order-line">
-      <span>Total Products</span>
-      <span>{{ totalProducts }}</span>
-    </div>
-    <div class="order-line">
-      <span>Total</span>
-      <span>${{ totalCost }}</span>
-    </div>
-    <button class="segment active" (click)="initPayment()" [disabled]="cartItems.length === 0">
-      Pay with PayPal
-    </button>
-
-    <!-- PayPal Button Container -->
-    <div *ngIf="showPaypal" class="paypal-section">
-      <div id="paypal-button-container"></div>
-    </div>
-
-    <!-- Success Message -->
-    <div *ngIf="paymentSuccess" class="payment-success">
-      <p>Payment successful! Thank you, {{ payerName }}.</p>
-      <p>Order completed successfully.</p>
-    </div>
-
-    <!-- Error Message -->
-    <p *ngIf="paymentError" class="payment-error">{{ paymentError }}</p>
-  </div>
-
-  <div class="product-list">
-    <h1>CART PRODUCTS</h1>
-    <div class="product-card" *ngFor="let item of cartItems">
-      <div class="image-wrapper">
-        <img [src]="item['image-front']" class="front" />
-      </div>
-
-      <div class="product-info">
-        <h5>{{ item.title }}</h5>
-        <p>
-          <strong>Size:</strong> {{ item.size }}<br />
-          <strong>Units:</strong> {{ item.units }}<br />
-          <strong>Unit Price:</strong> ${{ item.price }}
-        </p>
-
-        <div class="product-footer">
-          <span class="price-box">${{ item.price * item.units }}</span>
-          <div class="actions">
-            <button class="remove" (click)="removeUnit(item)">✖</button>
-            <button class="add" (click)="addUnit(item)">✔</button>
+  <div class="cart-layout">
+    <!-- Items -->
+    <section class="cart-items" aria-label="Cart items">
+      <div class="cart-card" *ngFor="let item of cartItems">
+        <div class="item-icon">{{ item.title.charAt(0) }}</div>
+        <div class="item-info">
+          <h4>{{ item.title }}</h4>
+          <span class="item-plan">Plan: {{ item.size }}</span>
+          <div class="item-price-line">
+            <span class="unit-price">${{ item.price }} MXN / unit</span>
+            <div class="stepper">
+              <button class="step" (click)="removeUnit(item)" aria-label="Remove one">−</button>
+              <span class="step-count">{{ item.units }}</span>
+              <button class="step" (click)="addUnit(item)" aria-label="Add one">+</button>
+            </div>
           </div>
         </div>
+        <div class="item-total">${{ (item.price * item.units).toLocaleString() }} MXN</div>
       </div>
-    </div>
+
+      <div class="cart-empty" *ngIf="cartItems.length === 0">
+        <p>Your cart is empty.</p>
+        <a class="chip-link" routerLink="/products/list">Browse services</a>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <aside class="order-summary" aria-label="Order summary">
+      <h2>Order Summary</h2>
+      <div class="summary-line">
+        <span>Services</span>
+        <span>{{ cartItems.length }}</span>
+      </div>
+      <div class="summary-line">
+        <span>Total units</span>
+        <span>{{ totalProducts }}</span>
+      </div>
+      <div class="summary-line total">
+        <span>Total</span>
+        <span>${{ totalCost.toLocaleString() }} MXN</span>
+      </div>
+
+      <button
+        class="pay-btn"
+        (click)="initPayment()"
+        [disabled]="cartItems.length === 0">
+        Checkout with PayPal
+      </button>
+
+      <!-- PayPal Button Container -->
+      <div *ngIf="showPaypal" class="paypal-section">
+        <div id="paypal-button-container"></div>
+      </div>
+
+      <!-- Error -->
+      <p *ngIf="paymentError" class="payment-error">{{ paymentError }}</p>
+    </aside>
   </div>
+</div>
+
+<!-- Success screen -->
+<div class="success-screen" *ngIf="paymentSuccess">
+  <div class="check-wrap">
+    <svg class="check" viewBox="0 0 52 52">
+      <circle class="check-circle" cx="26" cy="26" r="24" fill="none"/>
+      <path class="check-mark" fill="none" d="M14 27l8 8 16-16"/>
+    </svg>
+  </div>
+  <h1>Payment successful!</h1>
+  <p>Thank you, {{ payerName }}. Your order has been completed.</p>
+  <a class="chip-link" routerLink="/products/list">Back to services</a>
 </div>

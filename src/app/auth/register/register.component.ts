@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   name = '';
@@ -18,15 +18,21 @@ export class RegisterComponent {
   password = '';
   passwordConfirmation = '';
   errorMessage = '';
-  successMessage = ''; 
+  successMessage = '';
+  isLoading = false;
+  showPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   register() {
     this.successMessage = '';
     this.errorMessage = '';
 
-    if (!this.email || !this.password || !this.passwordConfirmation) {
+    if (!this.name || !this.surname || !this.email || !this.password || !this.passwordConfirmation) {
       this.errorMessage = 'All fields are required.';
       return;
     }
@@ -36,15 +42,19 @@ export class RegisterComponent {
       return;
     }
 
-    this.authService.register(this.email, this.password)
-    .then(() => {
-      this.successMessage = 'Successfully registered!';
-      setTimeout(() => {
-        this.router.navigate(['/auth/login']);
-      }, 1500);
-    })
-    .catch((error) => {
-      this.errorMessage = error.message || 'An error occurred during registration.';
-    });
+    this.isLoading = true;
+    this.authService.register(this.email, this.password, `${this.name} ${this.surname}`.trim())
+      .then(() => {
+        this.successMessage = 'Successfully registered!';
+        setTimeout(() => {
+          this.router.navigate(['/products']);
+        }, 1500);
+      })
+      .catch((error) => {
+        this.errorMessage = error.message || 'An error occurred during registration.';
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   }
 }

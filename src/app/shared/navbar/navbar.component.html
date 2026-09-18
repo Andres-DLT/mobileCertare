@@ -1,23 +1,58 @@
-<nav class="navbar">
-  <div class="hamburger" (click)="toggleMenu()">
-    &#9776;
-  </div>
+<header class="app-bar" *ngIf="!onAuth">
+  <div class="app-bar-inner">
+    <div class="navbar-brand" routerLink="/products/list" (click)="menuOpen = false">
+      <span class="brand-mark">C</span>
+      <span class="brand-text">Certare</span>
+    </div>
 
-  <ul class="menu" [class.open]="menuOpen">
+    <nav class="nav-links" *ngIf="isLoggedIn" aria-label="Primary">
+      <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Services</a>
+      <a [routerLink]="['/products/list']" [fragment]="'about'">About</a>
+      <a routerLink="/sales/cart" routerLinkActive="active">
+        Cart
+        <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </a>
+    </nav>
 
-    <ng-container *ngIf="hasCheckedLogin">
-      <ng-container *ngIf="isLoggedIn; else loggedOut">
-        <!-- Links logueado -->
-        <li><a routerLink="/products/list" (click)="menuOpen = false">Products</a></li>
-        <li><a routerLink="/sales/cart" (click)="menuOpen = false">Cart</a></li>
-        <li><a href="#" (click)="logout(); $event.preventDefault()">Log Out</a></li>
+    <div class="app-bar-right">
+      <ng-container *ngIf="hasCheckedLogin">
+        <ng-container *ngIf="isLoggedIn; else loggedOut">
+          <div class="avatar-menu">
+            <button class="avatar-btn" (click)="toggleMenu()" aria-label="Account menu" aria-haspopup="true" [attr.aria-expanded]="menuOpen">
+              {{ initials }}
+            </button>
+            <ul class="menu" [class.open]="menuOpen">
+              <li><a href="#" (click)="logout(); $event.preventDefault()">Log Out</a></li>
+            </ul>
+          </div>
+        </ng-container>
+
+        <ng-template #loggedOut>
+          <a class="btn-login" routerLink="/auth/login">Login</a>
+        </ng-template>
       </ng-container>
+    </div>
+  </div>
+</header>
 
-      <ng-template #loggedOut>
-        <!-- Links invitado -->
-        <li><a routerLink="/auth/login" (click)="menuOpen = false">Login</a></li>
-        <li><a routerLink="/auth/register" (click)="menuOpen = false">Register</a></li>
-      </ng-template>
-    </ng-container>
-  </ul>
+<nav class="bottom-nav" *ngIf="isLoggedIn && !onAuth" aria-label="Bottom">
+  <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    </span>
+    Services
+  </a>
+  <a routerLink="/sales/cart" routerLinkActive="active">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    </span>
+    Cart
+    <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+  </a>
+  <a href="#" (click)="logout(); $event.preventDefault()">
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </span>
+    Log Out
+  </a>
 </nav>

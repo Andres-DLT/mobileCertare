@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartComponent } from './cart.component';
 import { CartService, CartItem } from '../cart.service';
 import { PaypalService } from '../paypal.service';
+import { OrderEmailService } from '../order-email.service';
 import { BehaviorSubject } from 'rxjs';
 
 describe('CartComponent', () => {
@@ -10,17 +11,20 @@ describe('CartComponent', () => {
   let fixture: ComponentFixture<CartComponent>;
   let cartServiceSpy: jasmine.SpyObj<CartService>;
   let paypalServiceSpy: jasmine.SpyObj<PaypalService>;
+  let orderEmailServiceSpy: jasmine.SpyObj<OrderEmailService>;
   let mockItems$: BehaviorSubject<CartItem[]>;
 
   const mockCartItems: CartItem[] = [
     {
       id: '1', title: 'Red Hoodie', price: 45.00,
       description: '', 'image-front': '', 'image-back': '',
+      price_s: 30, price_m: 45, price_l: 60,
       size_s: 'S', size_m: 'M', size_l: 'L', size: 'M', units: 2
     },
     {
       id: '2', title: 'Black Cap', price: 15.00,
       description: '', 'image-front': '', 'image-back': '',
+      price_s: 15, price_m: 20, price_l: 25,
       size_s: 'S', size_m: 'M', size_l: '', size: 'S', units: 1
     }
   ];
@@ -37,6 +41,8 @@ describe('CartComponent', () => {
     cartServiceSpy.getTotalCost.and.returnValue(0);
 
     paypalServiceSpy = jasmine.createSpyObj('PaypalService', ['renderButtons']);
+    orderEmailServiceSpy = jasmine.createSpyObj('OrderEmailService', ['sendOrderEmail']);
+    orderEmailServiceSpy.sendOrderEmail.and.returnValue(Promise.resolve());
 
     await TestBed.configureTestingModule({
       imports: [CartComponent, RouterTestingModule]
@@ -46,6 +52,7 @@ describe('CartComponent', () => {
         providers: [
           { provide: CartService, useValue: cartServiceSpy },
           { provide: PaypalService, useValue: paypalServiceSpy },
+          { provide: OrderEmailService, useValue: orderEmailServiceSpy },
         ]
       }
     })
@@ -128,6 +135,26 @@ describe('CartComponent', () => {
     tick();
 
     expect(cartServiceSpy.clearCart).toHaveBeenCalled();
+  }));
+
+  it('should attempt to send the order email after successful payment', fakeAsync(() => {
+    component.cartItems = mockCartItems;
+    paypalServiceSpy.renderButtons.and.callFake(
+      (_id: string, _items: any, _total: number, onSuccess: Function) => {
+        onSuccess({
+          id: 'PAY-TEST',
+          payer: { name: { given_name: 'A', surname: 'B' }, email_address: 'a@b.com' }
+        });
+      }
+    );
+
+    component.initPayment();
+    tick();
+    tick();
+
+    expect(orderEmailServiceSpy.sendOrderEmail).toHaveBeenCalledTimes(1);
+    const args = orderEmailServiceSpy.sendOrderEmail.calls.mostRecent().args;
+    expect(args[1]).toEqual(mockCartItems);
   }));
 
   it('should set paymentError on PayPal error', fakeAsync(() => {

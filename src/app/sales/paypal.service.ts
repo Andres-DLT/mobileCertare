@@ -38,13 +38,13 @@ export class PaypalService {
       createOrder: (_data: any, actions: any) => {
         return actions.order.create({
           purchase_units: [{
-            description: 'Cloth Store - Compra',
+            description: 'Certare - Compra',
             amount: {
-              currency_code: 'USD',
+              currency_code: 'MXN',
               value: totalAmount.toFixed(2),
               breakdown: {
                 item_total: {
-                  currency_code: 'USD',
+                  currency_code: 'MXN',
                   value: totalAmount.toFixed(2)
                 }
               }
@@ -52,7 +52,7 @@ export class PaypalService {
             items: items.map(item => ({
               name: item.title,
               unit_amount: {
-                currency_code: 'USD',
+                currency_code: 'MXN',
                 value: item.price.toFixed(2)
               },
               quantity: String(item.units)

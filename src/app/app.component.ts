@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/navbar/navbar.component';
-// Debugger API Key import
-import { environment } from '../environments/environment';
-// Logout Logic
 import { Router } from '@angular/router';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { Auth } from '@angular/fire/auth';
 import { signOut } from 'firebase/auth';
-
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  title = 'marketplace';
+  title = 'certare';
   isLoggedIn = false;
 
   constructor(private auth: Auth, private router: Router) {}
@@ -25,12 +23,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const user = localStorage.getItem('user');
     this.isLoggedIn = !!user;
-    // Debugger API Key
-    //console.log('🔥 Firebase config loaded:', environment.firebaseConfig);
-    //const key = environment.firebaseConfig.apiKey;
-    //console.log('🔑 apiKey full:', key);
-    //console.log('🔑 apiKey length:', key.length);
-    //console.log('📂 storageBucket:', environment.firebaseConfig.storageBucket);
+
+    if (Capacitor.isNativePlatform()) {
+      StatusBar.setBackgroundColor({ color: '#0b1220' });
+      StatusBar.setStyle({ style: Style.Dark });
+      StatusBar.setOverlaysWebView({ overlay: true });
+    }
   }
 
   logout() {

@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   setPersistence,
   browserSessionPersistence,
+  updateProfile,
   User
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -41,8 +42,19 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  register(email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password);
+  register(email: string, password: string, fullName?: string) {
+    return createUserWithEmailAndPassword(this.auth, email, password).then(
+      (userCred) => {
+        if (!fullName) return userCred;
+        return updateProfile(userCred.user, { displayName: fullName }).then(() => {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({ ...userCred.user.toJSON(), displayName: fullName })
+          );
+          return userCred;
+        });
+      }
+    );
   }
 
   logout() {

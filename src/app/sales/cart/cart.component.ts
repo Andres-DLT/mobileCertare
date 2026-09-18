@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService, CartItem } from '../cart.service';
 import { PaypalService } from '../paypal.service';
+import { OrderEmailService } from '../order-email.service';
 
 @Component({
   selector: 'app-cart',
@@ -21,7 +22,8 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   constructor(
     private cartService: CartService,
-    private paypalService: PaypalService
+    private paypalService: PaypalService,
+    private orderEmailService: OrderEmailService
   ) {}
 
   ngOnInit() {
@@ -48,25 +50,29 @@ export class CartComponent implements OnInit, AfterViewInit {
     this.cartService.addUnit(item);
   }
 
-  /** Muestra la sección de PayPal y renderiza los botones */
   initPayment() {
     if (this.cartItems.length === 0) return;
     this.showPaypal = true;
     this.paymentSuccess = false;
     this.paymentError = '';
 
-    // Esperar al siguiente tick para que el div exista en el DOM
     setTimeout(() => {
       this.paypalService.renderButtons(
         'paypal-button-container',
         this.cartItems,
         this.totalCost,
-        async (details) => {
+        (details) => {
           this.payerName = details.payer.name.given_name;
           this.paymentSuccess = true;
           this.showPaypal = false;
-
+          const orderItems = this.cartItems;
+          const orderTotal = this.totalCost;
           this.cartService.clearCart();
+          this.orderEmailService
+            .sendOrderEmail(details, orderItems, orderTotal)
+            .catch((err) => {
+              console.warn('Order email not sent:', err);
+            });
         },
         (err) => {
           this.paymentError = 'Error processing payment. Please try again.';

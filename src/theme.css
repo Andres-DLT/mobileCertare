@@ -1,0 +1,53 @@
+:root {
+  /* ===== Surfaces ===== */
+  --bg: #0b1220;
+  --surface: #111a2e;
+  --surface-2: #16213a;
+  --surface-3: #1c2a4a;
+  --border: rgba(148, 163, 184, 0.14);
+
+  /* ===== Text ===== */
+  --text: #e6edf7;
+  --text-muted: #94a3b8;
+
+  /* ===== Brand / accents ===== */
+  --accent: #6366f1;
+  --accent-2: #22d3ee;
+  --accent-soft: rgba(99, 102, 241, 0.16);
+  --accent-glow: rgba(99, 102, 241, 0.35);
+  --danger: #ff6b6b;
+  --success: #34d399;
+  --warning: #fbbf24;
+
+  /* ===== Radius ===== */
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  /* ===== Shadows ===== */
+  --shadow-1: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-2: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.35),
+    0 10px 40px var(--accent-glow);
+
+  /* ===== Spacing ===== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* ===== Typography ===== */
+  --font-display: 'Space Grotesk', 'Inter', 'Trebuchet MS', sans-serif;
+  --font-body: 'Inter', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --app-font: var(--font-body);
+
+  /* ===== Safe areas ===== */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: dark;
+}

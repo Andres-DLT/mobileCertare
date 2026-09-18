@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
+import { testProviders } from '../../testing/firebase-testing';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -8,7 +9,8 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterComponent]
+      imports: [RegisterComponent],
+      providers: testProviders
     })
     .compileComponents();
 

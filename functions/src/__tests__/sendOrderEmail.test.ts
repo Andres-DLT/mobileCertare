@@ -73,6 +73,7 @@ function createMockOrderData(overrides: Partial<OrderEmailData> = {}): OrderEmai
     totalProducts: 3,
     totalAmount: 109.97,
     paymentDate: "Saturday, April 19, 2026 at 3:00 PM",
+    currency: "MXN",
     ...overrides,
   };
 }
@@ -148,7 +149,7 @@ describe("buildOrderEmailHtml", () => {
   it("should include store branding", () => {
     const data = createMockOrderData();
     const html = buildOrderEmailHtml(data);
-    expect(html).toContain("CLOTH STORE");
+    expect(html).toContain("CERTARE");
     expect(html).toContain("New Order Received");
   });
 });
@@ -284,6 +285,6 @@ describe("sendOrderEmail Cloud Function", () => {
 
     const mailOptions = mockSendMail.mock.calls[0][0];
     expect(mailOptions.from).toContain("test@gmail.com");
-    expect(mailOptions.from).toContain("Cloth Store");
+    expect(mailOptions.from).toContain("Certare");
   });
 });

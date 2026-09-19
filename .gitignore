@@ -52,8 +52,7 @@ functions/.env.*
 # Script de prueba con credenciales
 functions/send-test-email.js
 
-# Ignorar archivos de configuración locales
-src/environments/environment.ts
+# Ignorar archivos de configuración locales (la key privada NUNCA se commitea)
 serviceAccountKey.json
 
 src/environments/environment.prod.ts

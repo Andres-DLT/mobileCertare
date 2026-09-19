@@ -65,3 +65,6 @@ src/environments/environment.prod.ts
 android/
 ios/
 .capacitor/scripts/phoneDevelopers.code-workspace
+
+# Firebase CLI debug logs
+firebase-debug.log

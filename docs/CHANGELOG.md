@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 Todas las versiones notables de este proyecto se documentan en este archivo.
 
@@ -12,7 +12,7 @@ Todas las versiones notables de este proyecto se documentan en este archivo.
 ### Changed
 - NG0205 resuelto en specs usando spies de AngularFire.
 - Tests: Angular 28/28 SUCCESS · Functions 21/21 PASS · `tsc` 0 errores.
-- Workflows CI apuntando al proyecto `smartfoodie-dda14`.
+- Workflows CI apuntando al proyecto `smartfoodie-dda27`.
 
 ### Docs
 - `PROJECT.md`, `SPEC.md`, `DEPLOY.md` (guía completa en `docs/`).

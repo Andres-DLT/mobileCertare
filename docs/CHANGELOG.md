@@ -2,7 +2,7 @@
 
 Todas las versiones notables de este proyecto se documentan en este archivo.
 
-## [1.0.0] - 2026-09-18
+## [1.0.1] - 2026-09-18
 
 ### Added
 - Refactor a precio único en MXN para el catálogo de servicios (sin tiers, tallas ni "Plan").

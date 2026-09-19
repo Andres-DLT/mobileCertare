@@ -1,8 +1,8 @@
 {
   "projects": {
-    "phoneDevelopers": "phonedevelopers",
-    "default": "phonedevelopers-ac8db",
-    "phoneDeveloper": "phonedevelopers-ac8db"
+    "mobileCertare": "smartfoodie-dda14",
+    "default": "smartfoodie-dda14",
+    "phoneDevelopers": "smartfoodie-dda14"
   },
   "targets": {},
   "etags": {}

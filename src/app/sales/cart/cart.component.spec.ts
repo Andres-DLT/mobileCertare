@@ -18,14 +18,14 @@ describe('CartComponent', () => {
     {
       id: '1', title: 'Red Hoodie', price: 45.00,
       description: '', 'image-front': '', 'image-back': '',
-      price_s: 30, price_m: 45, price_l: 60,
-      size_s: 'S', size_m: 'M', size_l: 'L', size: 'M', units: 2
+      units: 2,
+      category: 'Apparel'
     },
     {
       id: '2', title: 'Black Cap', price: 15.00,
       description: '', 'image-front': '', 'image-back': '',
-      price_s: 15, price_m: 20, price_l: 25,
-      size_s: 'S', size_m: 'M', size_l: '', size: 'S', units: 1
+      units: 1,
+      category: 'Apparel'
     }
   ];
 

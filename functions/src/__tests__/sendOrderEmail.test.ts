@@ -57,14 +57,12 @@ function createMockOrderData(overrides: Partial<OrderEmailData> = {}): OrderEmai
     items: [
       {
         name: "Black T-Shirt",
-        size: "M",
         units: 2,
         unitPrice: 29.99,
         subtotal: 59.98,
       },
       {
         name: "Blue Jeans",
-        size: "L",
         units: 1,
         unitPrice: 49.99,
         subtotal: 49.99,
@@ -92,13 +90,6 @@ describe("buildOrderEmailHtml", () => {
     const html = buildOrderEmailHtml(data);
     expect(html).toContain("Black T-Shirt");
     expect(html).toContain("Blue Jeans");
-  });
-
-  it("should include product sizes", () => {
-    const data = createMockOrderData();
-    const html = buildOrderEmailHtml(data);
-    expect(html).toContain(">M<");
-    expect(html).toContain(">L<");
   });
 
   it("should include unit prices formatted to 2 decimals", () => {

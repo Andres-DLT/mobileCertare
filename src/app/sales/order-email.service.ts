@@ -8,7 +8,6 @@ export interface OrderEmailData {
   payerEmail: string;
   items: {
     name: string;
-    size: string;
     units: number;
     unitPrice: number;
     subtotal: number;
@@ -38,7 +37,6 @@ export class OrderEmailService {
       payerEmail: paymentDetails.payer.email_address,
       items: cartItems.map(item => ({
         name: item.title,
-        size: item.size,
         units: item.units,
         unitPrice: item.price,
         subtotal: item.price * item.units

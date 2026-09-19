@@ -69,18 +69,8 @@
           <span class="tag" *ngFor="let tag of service.tags">{{ tag }}</span>
         </div>
 
-        <div class="plan-selector" *ngIf="plansFor(service).length" aria-label="Select plan">
-          <button
-            *ngFor="let plan of plansFor(service)"
-            class="plan-option"
-            [class.active]="(selectedPlans[service.id] || service.size_m) === plan.label"
-            (click)="selectPlan(service, plan.label)">
-            {{ plan.label }}
-          </button>
-        </div>
-
         <div class="service-footer">
-          <span class="price-box">${{ selectedPrice(service).toLocaleString() }} MXN</span>
+          <span class="price-box">${{ service.price.toLocaleString() }} MXN</span>
           <button class="cart-button" (click)="onAddToCart(service)" aria-label="Add to cart">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>

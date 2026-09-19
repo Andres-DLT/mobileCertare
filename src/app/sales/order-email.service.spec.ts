@@ -27,14 +27,8 @@ describe('OrderEmailService', () => {
       description: 'A red hoodie',
       'image-front': 'img1.jpg',
       'image-back': 'img1b.jpg',
-      price_s: 30,
-      price_m: 45,
-      price_l: 60,
-      size_s: 'S',
-      size_m: 'M',
-      size_l: 'L',
-      size: 'M',
-      units: 2
+      units: 2,
+      category: 'Apparel'
     },
     {
       id: '2',
@@ -43,14 +37,8 @@ describe('OrderEmailService', () => {
       description: 'A black cap',
       'image-front': 'img2.jpg',
       'image-back': 'img2b.jpg',
-      price_s: 15,
-      price_m: 20,
-      price_l: 25,
-      size_s: 'S',
-      size_m: 'M',
-      size_l: '',
-      size: 'S',
-      units: 1
+      units: 1,
+      category: 'Apparel'
     }
   ];
 
@@ -90,7 +78,6 @@ describe('OrderEmailService', () => {
   it('should compute correct subtotals for each item', () => {
     const items = mockCartItems.map(item => ({
       name: item.title,
-      size: item.size,
       units: item.units,
       unitPrice: item.price,
       subtotal: item.price * item.units
@@ -103,7 +90,6 @@ describe('OrderEmailService', () => {
   it('should map cart items to order items with correct fields', () => {
     const items = mockCartItems.map(item => ({
       name: item.title,
-      size: item.size,
       units: item.units,
       unitPrice: item.price,
       subtotal: item.price * item.units
@@ -111,7 +97,6 @@ describe('OrderEmailService', () => {
 
     expect(items[0]).toEqual({
       name: 'Red Hoodie',
-      size: 'M',
       units: 2,
       unitPrice: 45.00,
       subtotal: 90.00
@@ -119,7 +104,6 @@ describe('OrderEmailService', () => {
 
     expect(items[1]).toEqual({
       name: 'Black Cap',
-      size: 'S',
       units: 1,
       unitPrice: 15.00,
       subtotal: 15.00

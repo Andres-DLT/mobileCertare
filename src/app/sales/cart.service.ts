@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../products/product-services';
 
 export interface CartItem extends Product {
-  size: string;
   units: number;
 }
 
@@ -16,15 +15,15 @@ export class CartService {
     return this.items$.asObservable();
   }
 
-  /** Agrega un producto al carrito (si ya existe mismo id+plan, suma unidades) */
-  addToCart(p: Product, size: string, planPrice?: number) {
+  /** Agrega un producto al carrito (si ya existe mismo id, suma unidades) */
+  addToCart(p: Product, planPrice?: number) {
     const list = this.items$.value.slice();
-    const idx = list.findIndex(i => i.id === p.id && i.size === size);
+    const idx = list.findIndex(i => i.id === p.id);
     if (idx > -1) {
       list[idx].units += 1;
       if (planPrice != null) list[idx].price = planPrice;
     } else {
-      list.push({ ...p, size, units: 1, price: planPrice ?? p.price });
+      list.push({ ...p, units: 1, price: planPrice ?? p.price });
     }
     this.items$.next(list);
   }
@@ -42,7 +41,7 @@ export class CartService {
   /** Quita una unidad (si llega a 0, lo elimina) */
   removeUnit(item: CartItem) {
     const list = this.items$.value.slice();
-    const idx = list.findIndex(i => i.id === item.id && i.size === item.size);
+    const idx = list.findIndex(i => i.id === item.id);
     if (idx > -1) {
       list[idx].units -= 1;
       if (list[idx].units <= 0) {
@@ -55,7 +54,7 @@ export class CartService {
   /** Agrega una unidad extra */
   addUnit(item: CartItem) {
     const list = this.items$.value.slice();
-    const idx = list.findIndex(i => i.id === item.id && i.size === item.size);
+    const idx = list.findIndex(i => i.id === item.id);
     if (idx > -1) {
       list[idx].units += 1;
       this.items$.next(list);

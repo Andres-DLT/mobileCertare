@@ -10,7 +10,6 @@ export interface OrderEmailData {
   payerEmail: string;
   items: {
     name: string;
-    size: string;
     units: number;
     unitPrice: number;
     subtotal: number;
@@ -31,7 +30,6 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
       (item) => `
       <tr>
         <td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;">${item.name}</td>
-        <td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;">${item.size}</td>
         <td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:center;">${item.units}</td>
         <td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:right;">$${item.unitPrice.toLocaleString('en-US')} ${cur}</td>
         <td style="padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:right;">$${item.subtotal.toLocaleString('en-US')} ${cur}</td>
@@ -53,7 +51,6 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
         <thead>
           <tr style="background:#111a2e;color:#22d3ee;text-align:left;">
             <th style="padding:8px 10px;">Product</th>
-            <th style="padding:8px 10px;">Plan</th>
             <th style="padding:8px 10px;">Qty</th>
             <th style="padding:8px 10px;text-align:right;">Unit</th>
             <th style="padding:8px 10px;text-align:right;">Subtotal</th>

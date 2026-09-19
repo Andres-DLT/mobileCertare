@@ -7,15 +7,9 @@ export interface Product {
   title: string;
   description: string;
   price: number;
-  price_s: number;
-  price_m: number;
-  price_l: number;
   'image-front': string;
   'image-back': string;
-  size_s: string;
-  size_m: string;
-  size_l: string;
-  category?: string;
+  category: string;
   tags?: string[];
 }
 

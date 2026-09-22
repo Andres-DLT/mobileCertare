@@ -60,11 +60,23 @@ describe('CartComponent', () => {
 
     fixture = TestBed.createComponent(CartComponent);
     component = fixture.componentInstance;
+    // The legacy checkout flow is tested explicitly enabled, with a mocked SDK.
+    component.paymentsEnabled = true;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('hides checkout and never loads PayPal when payments are disabled', () => {
+    component.paymentsEnabled = false;
+    component.cartItems = mockCartItems;
+    fixture.detectChanges();
+    component.initPayment();
+    expect(fixture.nativeElement.querySelector('.pay-btn')).toBeNull();
+    expect(component.showPaypal).toBeFalse();
+    expect(paypalServiceSpy.renderButtons).not.toHaveBeenCalled();
   });
 
   it('should subscribe to cart items on init', () => {

@@ -17,7 +17,7 @@ export class CartService {
 
   /** Agrega un producto al carrito (si ya existe mismo id, suma unidades) */
   addToCart(p: Product, planPrice?: number) {
-    const list = this.items$.value.slice();
+    const list = this.snapshot();
     const idx = list.findIndex(i => i.id === p.id);
     if (idx > -1) {
       list[idx].units += 1;
@@ -30,17 +30,17 @@ export class CartService {
 
   /** Snapshot actual del carrito (para undo) */
   snapshot(): CartItem[] {
-    return this.items$.value.slice();
+    return this.items$.value.map(item => ({ ...item }));
   }
 
   /** Restaura un estado anterior del carrito (undo) */
   restore(list: CartItem[]) {
-    this.items$.next(list.slice());
+    this.items$.next(list.map(item => ({ ...item })));
   }
 
   /** Quita una unidad (si llega a 0, lo elimina) */
   removeUnit(item: CartItem) {
-    const list = this.items$.value.slice();
+    const list = this.snapshot();
     const idx = list.findIndex(i => i.id === item.id);
     if (idx > -1) {
       list[idx].units -= 1;
@@ -53,7 +53,7 @@ export class CartService {
 
   /** Agrega una unidad extra */
   addUnit(item: CartItem) {
-    const list = this.items$.value.slice();
+    const list = this.snapshot();
     const idx = list.findIndex(i => i.id === item.id);
     if (idx > -1) {
       list[idx].units += 1;

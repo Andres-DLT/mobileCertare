@@ -46,11 +46,13 @@
       </div>
 
       <button
+        *ngIf="paymentsEnabled"
         class="pay-btn"
         (click)="initPayment()"
         [disabled]="cartItems.length === 0">
         Checkout with PayPal
       </button>
+      <p *ngIf="!paymentsEnabled" class="payment-error">Pagos desactivados temporalmente. El carrito sigue funcionando.</p>
 
       <!-- PayPal Button Container -->
       <div *ngIf="showPaypal" class="paypal-section">

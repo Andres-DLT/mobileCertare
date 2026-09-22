@@ -37,8 +37,8 @@ export class LoginComponent {
 
     this.isLoading = true;
     try {
-      const userCred = await this.authService.login(this.email, this.password);
-      this.router.navigate(['/products']);
+      await this.authService.login(this.email, this.password);
+      await this.router.navigate(['/products']);
     } catch (err: any) {
       const message = err?.message || 'Unable to sign in.';
       this.errorMessage = message;

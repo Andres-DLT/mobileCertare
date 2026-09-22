@@ -4,17 +4,16 @@ Guía de despliegue a producción (Firebase Hosting + Cloud Functions).
 
 ## Requisitos previos
 
-- CLI: ya instalado (`firebase-tools` 15.29.0 en `devDependencies` — usa `npx firebase`).
+- CLI Firebase instalado globalmente en esta máquina; verificar con `firebase --version`.
 - Proyecto Firebase destino: **`smartfoodie-dda27`** (alias `phoneDevelopers`
   en `.firebaserc`). Verificar con `npx firebase projects:list`.
 - Build Angular ya compilado: `dist/phoneDevelopers/browser` (index.html +
   main.*.js + assets) — confirmado en disco en el último build producción.
 - Build functions ya compilado: `functions/` (jest 21/21 PASS + `tsc` 0 errores).
 
-> ⚠️ IMPORTANTE: en esta máquina la sesión Firebase guardada **no tiene acceso
-> al proyecto de producción** (`Failed to get Firebase project
-> smartfoodie-dda27`). Es **obligatorio** iniciar sesión con la cuenta
-> propietaria antes de cualquier deploy.
+La sesión Firebase de esta máquina tiene acceso a `smartfoodie-dda27`.
+Las reglas de `product-store` se desplegaron y verificaron durante la
+[revisión funcional](VERIFICATION-2026-09-21.md).
 
 ## Paso 0 — Autenticación (manual, una vez)
 
@@ -51,8 +50,10 @@ npx firebase deploy --only hosting --project smartfoodie-dda27
 ```
 
 - Sube `dist/phoneDevelopers/browser` (rewrite `**` → `index.html`).
-- Confirma: `✔  Deploy complete!` + `Hosting URL:
-  https://smartfoodie-dda27.web.app` (o dominio custom).
+- URLs: principal `https://certare.web.app`.
+  El sitio legacy `smartfoodie-dda27.web.app` está deshabilitado
+  (`firebase hosting:disable -s smartfoodie-dda27`); `firebase.json` solo
+  despliega `certare` para no reactivarlo.
 
 ### Nota de dominio/identidad
 
@@ -66,22 +67,31 @@ custom domain.
 
 ## Paso 3 — Seed de catálogo en producción (opcional, una vez)
 
-Con el service account de producción (`functions/serviceAccountKey.json`):
+Con el service account de producción (`serviceAccountKey.json` en la raíz):
 
 ```
-npm run seed:services
+node scripts/seed-services.js
 ```
 
-Pobló Firestore `cloth-store` con los 20 servicios MXN (precio único, sin
-tiers ni tallas). ⚠️ NO ejecutar contra el emulador si el objetivo es
-producción (el script usa el Admin SDK con las credenciales reales).
+El script reemplaza el catálogo `product-store` con los datos de ejemplo.
+La migración ya conservó los 20 documentos reales, incluidos precios y textos
+editados en Firebase; no es necesario volver a sembrar el catálogo existente.
 
 ## Paso 4 — Verificación post-deploy
 
 1. Abrir `https://smartfoodie-dda27.web.app` → redirige a `/auth/login`.
 2. Crear cuenta → navbar muestra iniciales e inicia sesión.
-3. Añadir 2-3 servicios al carrito → checkout PayPal (sandbox) → correo de
-   confirmación con tabla precio×cantidad en MXN (**sin** columna "Plan").
+3. Añadir servicios al carrito, cambiar cantidades y comprobar el total en MXN.
+4. Con `paymentsEnabled: false`, el checkout está oculto y no se solicita el SDK PayPal.
+
+## Android
+
+```powershell
+npm run android:sync
+```
+
+Este comando compila Angular y copia el resultado al módulo Android. Después
+ejecutar `app` desde Android Studio o compilar con `android/gradlew.bat -p android assembleDebug`.
 
 ## Rollback
 

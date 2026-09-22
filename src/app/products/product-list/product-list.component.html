@@ -9,7 +9,7 @@
       your CI/CD pipelines.
     </p>
     <div class="hero-stats">
-      <div class="stat"><strong>20</strong><span>Services</span></div>
+      <div class="stat"><strong>{{ loading ? '…' : products.length }}</strong><span>Services</span></div>
       <div class="stat"><strong>6</strong><span>Practice lines</span></div>
       <div class="stat"><strong>100%</strong><span>SLA coverage</span></div>
     </div>
@@ -18,7 +18,7 @@
   <div class="user-header">
     <div>
       <h2>Welcome{{ userLabel ? ',' : '' }}</h2>
-      <h1>{{ userLabel || 'Senior Dev Engineer' }}</h1>
+      <h1>{{ userLabel || 'Your service catalog' }}</h1>
     </div>
     <div class="user-avatar" aria-label="Profile">{{ userLabel ? userLabel.charAt(0).toUpperCase() : 'C' }}</div>
   </div>
@@ -46,8 +46,14 @@
     </div>
   </div>
 
+  <!-- Error state -->
+  <div class="empty-state" *ngIf="!loading && loadError" role="alert">
+    <p>{{ loadError }}</p>
+    <button class="chip active" (click)="retry()">Reintentar</button>
+  </div>
+
   <!-- Empty state -->
-  <div class="empty-state" *ngIf="!loading && filteredProducts.length === 0">
+  <div class="empty-state" *ngIf="!loading && !loadError && filteredProducts.length === 0">
     <p>No services match this filter.</p>
     <button class="chip active" (click)="setFilter('all')">Show all services</button>
   </div>

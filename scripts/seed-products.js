@@ -49,7 +49,7 @@ const newProducts = [
 // 6) Add the products to the collection
 async function seed() {
   try {
-    const prodCollection = db.collection('cloth-store');
+    const prodCollection = db.collection('product-store');
     for (const p of newProducts) {
       const snap = await prodCollection.where('id', '==', p.id).get(); 
       if (snap.empty) {

@@ -7,12 +7,13 @@ precios** (se eliminaron tiers y tallas; precio único en MXN).
 
 Certare es un catálogo móvil de servicios de desarrollo para dispositivos
 móviles (phone developers) con carrito y checkout. El cliente elige
-servicios, los agrega al carrito, finaliza la compra con PayPal y recibe un
-correo de confirmación de pedido.
+servicios y los agrega al carrito. El checkout está temporalmente oculto
+(`paymentsEnabled: false`); la integración PayPal y el correo de pedido se
+conservan para una futura activación.
 
 ## 2. Modelo de negocio (REFACTOR APLICADO)
 
-- Catálogo de **20 servicios** (colección Firestore `cloth-store`).
+- Catálogo de **20 servicios** (colección Firestore `product-store`).
 - **Precio único en MXN** por servicio. Se eliminaron: tiers (Basic /
   Standard / Pro), tallas (S / M / L) y los campos `price_s/price_m/price_l`,
   `size_s/size_m/size_l` y `size`.

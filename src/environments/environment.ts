@@ -1,5 +1,9 @@
 export const environment = {
   production: true,
+  // Checkout remains hidden until a payment provider is configured.
+  paymentsEnabled: false,
+  paypalClientId: '',
+  productsCollection: 'product-store',
   firebaseConfig: {
     apiKey: 'AIzaSyAPuh9YGxn4KA7HPy2yoRuomPuOtDXIfY8',
     authDomain: 'smartfoodie-dda27.firebaseapp.com',

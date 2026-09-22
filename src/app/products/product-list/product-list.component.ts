@@ -1,9 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { Product, ProductService } from '../product-services';
 import { CartService, CartItem } from '../../sales/cart.service';
+import { AuthService } from '../../auth/auth.service';
 
 interface Category {
   key: string;
@@ -17,12 +19,15 @@ interface Category {
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   loading = true;
+  loadError = '';
   userLabel = '';
   filter = 'all';
   private lastSnapshot: CartItem[] = [];
+  private subs = new Subscription();
+  private productsSubscription?: Subscription;
 
   snackbarMessage = '';
   snackbarVisible = false;
@@ -43,27 +48,58 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.productService.getProducts().subscribe((data) => {
-      this.products = data;
-      this.loading = false;
-    });
+    this.loadProducts();
 
-    try {
-      const raw = localStorage.getItem('user');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        const name = parsed?.displayName || parsed?.email?.split('@')[0] || '';
-        this.userLabel = name
-          .replace(/[._-]+/g, ' ')
-          .replace(/\b\w/g, (c: string) => c.toUpperCase());
-      }
-    } catch {
-      this.userLabel = '';
-    }
+    this.subs.add(
+      this.authService.getCurrentUser().subscribe((user) => {
+        this.userLabel = user?.displayName?.trim() || '';
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+    this.productsSubscription?.unsubscribe();
+    if (this.snackbarTimer) clearTimeout(this.snackbarTimer);
+  }
+
+  loadProducts() {
+    this.productsSubscription?.unsubscribe();
+    this.loading = true;
+    this.loadError = '';
+    this.productsSubscription = this.productService.getProducts()
+      .pipe(timeout({ first: 15000 }))
+      .subscribe({
+        next: (data) => {
+          this.products = data ?? [];
+          this.loading = false;
+        },
+        error: (err: unknown) => {
+          this.products = [];
+          this.loading = false;
+          const e = err as { code?: string; message?: string };
+          if (err instanceof TimeoutError) {
+            this.loadError = 'La carga tardó demasiado. Revisa tu conexión e inténtalo de nuevo.';
+          } else if (e?.code === 'permission-denied' || e?.message?.includes('permissions')) {
+            this.loadError =
+              'No se pudo acceder al catálogo. Inténtalo de nuevo más tarde.';
+          } else if (e?.code === 'unavailable' || e?.message?.includes('offline')) {
+            this.loadError = 'Sin conexión con Firestore. Revisa tu red e inténtalo de nuevo.';
+          } else {
+            this.loadError = `No se pudieron cargar los productos (${e?.code || e?.message || 'error desconocido'}).`;
+          }
+          console.error('[ProductList] loadProducts falló:', err);
+        },
+      });
+  }
+
+  retry() {
+    this.loadProducts();
   }
 
   get filteredProducts(): Product[] {
@@ -78,12 +114,17 @@ export class ProductListComponent implements OnInit {
 
   onAddToCart(p: Product): void {
     if (Capacitor.isNativePlatform()) {
-      Haptics.impact({ style: ImpactStyle.Medium });
+      Haptics.impact({ style: ImpactStyle.Medium }).catch(() => { /* Optional feedback. */ });
     }
 
-    this.snackbarMessage = `${p.title} Â· $${p.price.toLocaleString()} MXN added`;
-    this.snackbarVisible = true;
-    this.undoCallback = () => this.cartService.restore(this.lastSnapshot);
+    // Guardar snapshot para Undo y agregar de verdad al carrito
+    this.lastSnapshot = this.cartService.snapshot();
+    this.cartService.addToCart(p);
+
+    this.showSnackbar(
+      `${p.title} · $${p.price.toLocaleString()} MXN added`,
+      () => this.cartService.restore(this.lastSnapshot)
+    );
   }
 
   private showSnackbar(message: string, onUndo: () => void): void {

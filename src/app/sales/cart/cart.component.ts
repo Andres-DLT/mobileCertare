@@ -1,9 +1,11 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService, CartItem } from '../cart.service';
 import { PaypalService } from '../paypal.service';
 import { OrderEmailService } from '../order-email.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart',
@@ -12,13 +14,14 @@ import { OrderEmailService } from '../order-email.service';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-
-export class CartComponent implements OnInit, AfterViewInit {
+export class CartComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   cartItems: CartItem[] = [];
   paymentSuccess = false;
   paymentError = '';
   payerName = '';
   showPaypal = false;
+  paymentsEnabled = !!environment.paymentsEnabled;
 
   constructor(
     private cartService: CartService,
@@ -27,12 +30,10 @@ export class CartComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.cartService.getCartItems().subscribe(items => {
+    this.cartService.getCartItems().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(items => {
       this.cartItems = items;
     });
   }
-
-  ngAfterViewInit() {}
 
   get totalProducts(): number {
     return this.cartService.getTotalUnits();
@@ -52,6 +53,10 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   initPayment() {
     if (this.cartItems.length === 0) return;
+    if (!this.paymentsEnabled) {
+      this.paymentError = 'Pagos desactivados temporalmente. Puedes seguir explorando servicios.';
+      return;
+    }
     this.showPaypal = true;
     this.paymentSuccess = false;
     this.paymentError = '';
@@ -61,8 +66,8 @@ export class CartComponent implements OnInit, AfterViewInit {
         'paypal-button-container',
         this.cartItems,
         this.totalCost,
-        (details) => {
-          this.payerName = details.payer.name.given_name;
+        (details: any) => {
+          this.payerName = details?.payer?.name?.given_name ?? '';
           this.paymentSuccess = true;
           this.showPaypal = false;
           const orderItems = this.cartItems;

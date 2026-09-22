@@ -19,7 +19,7 @@ tallas (S/M/L) del flujo completo (catálogo → carrito → email de pedido).
 | Frontend  | Angular 19 (standalone) + RxJS + AngularFire (`@angular/fire`) |
 | Móvil     | Capacitor 7 (android/ios) + `@capacitor/haptics`, `@capacitor/status-bar` |
 | Backend   | Firebase Authentication, Cloud Firestore, Cloud Functions |
-| Pagos     | PayPal (botones + captura)                              |
+| Pagos     | Checkout desactivado; integración PayPal conservada      |
 | Envío     | Cloud Function `sendOrderEmail` (nodemailer)            |
 | Tests     | Jasmine/Karma (Angular), Jest (funciones)               |
 
@@ -50,6 +50,9 @@ ng serve
 # Build de producción (Angular)
 ng build
 
+# Build y sincronización del contenido Android
+npm run android:sync
+
 # Tests Angular (Karma/Chrome Headless)
 ng test --watch=false --browsers=ChromeHeadless
 
@@ -63,7 +66,7 @@ npx jest
 
 ## Modelo de datos
 
-`Product` (catálogo en Firestore, colección `cloth-store`):
+`Product` (catálogo en Firestore, colección `product-store`):
 
 ```ts
 export interface Product {

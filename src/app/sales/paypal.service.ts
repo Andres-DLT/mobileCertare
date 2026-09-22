@@ -1,77 +1,119 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { CartItem } from './cart.service';
-
-declare var paypal: any;
 
 @Injectable({ providedIn: 'root' })
 export class PaypalService {
+  private sdkLoaded = false;
+  private sdkFailed = false;
+
+  /** Indica si los pagos están habilitados (flag para desactivar sin romper). */
+  isEnabled(): boolean {
+    return !!environment.paymentsEnabled && !!environment.paypalClientId;
+  }
+
+  private loadSdk(): Promise<boolean> {
+    if (this.sdkLoaded) return Promise.resolve(true);
+    if (this.sdkFailed) return Promise.resolve(false);
+    if (!this.isEnabled()) return Promise.resolve(false);
+    if (typeof (window as unknown as { paypal?: unknown }).paypal !== 'undefined') {
+      this.sdkLoaded = true;
+      return Promise.resolve(true);
+    }
+    return new Promise((resolve) => {
+      const s = document.createElement('script');
+      s.src = `https://www.paypal.com/sdk/js?client-id=${environment.paypalClientId}&currency=MXN`;
+      s.async = true;
+      s.onload = () => {
+        this.sdkLoaded = true;
+        resolve(true);
+      };
+      s.onerror = (e) => {
+        console.warn('[PayPal] SDK no se pudo cargar (pagos desactivados):', e);
+        this.sdkFailed = true;
+        resolve(false);
+      };
+      document.head.appendChild(s);
+    });
+  }
 
   /**
    * Renderiza los botones de PayPal dentro del contenedor indicado.
-   * @param containerId  - ID del div donde se montarán los botones
-   * @param items        - Artículos del carrito
-   * @param totalAmount  - Monto total a cobrar
-   * @param onSuccess    - Callback cuando el pago se completa
-   * @param onError      - Callback cuando hay un error
+   * Si los pagos están desactivados, llama onError con mensaje controlado.
    */
   renderButtons(
     containerId: string,
     items: CartItem[],
     totalAmount: number,
-    onSuccess: (details: any) => void,
-    onError: (err: any) => void
+    onSuccess: (details: unknown) => void,
+    onError: (err: unknown) => void
   ): void {
+    if (!this.isEnabled()) {
+      onError(new Error('Pagos desactivados temporalmente.'));
+      return;
+    }
     const container = document.getElementById(containerId);
     if (container) {
       container.innerHTML = '';
     }
 
-    paypal.Buttons({
-      style: {
-        layout: 'vertical',
-        color: 'blue',
-        shape: 'rect',
-        label: 'paypal'
-      },
-
-      // 1. Crear la orden en PayPal
-      createOrder: (_data: any, actions: any) => {
-        return actions.order.create({
-          purchase_units: [{
-            description: 'Certare - Compra',
-            amount: {
-              currency_code: 'MXN',
-              value: totalAmount.toFixed(2),
-              breakdown: {
-                item_total: {
-                  currency_code: 'MXN',
-                  value: totalAmount.toFixed(2)
-                }
-              }
-            },
-            items: items.map(item => ({
-              name: item.title,
-              unit_amount: {
-                currency_code: 'MXN',
-                value: item.price.toFixed(2)
-              },
-              quantity: String(item.units)
-            }))
-          }]
-        });
-      },
-
-      // 2. Capturar el pago cuando el usuario lo aprueba
-      onApprove: (_data: any, actions: any) => {
-        return actions.order.capture().then((details: any) => {
-          onSuccess(details);
-        });
-      },
-
-      // 3. Manejar errores
-      onError: (err: any) => {
-        onError(err);
+    this.loadSdk().then((ok) => {
+      if (!ok) {
+        onError(new Error('PayPal SDK no disponible.'));
+        return;
       }
-    }).render('#' + containerId);
+      const pp = (window as unknown as { paypal?: any }).paypal;
+      if (!pp?.Buttons) {
+        onError(new Error('PayPal SDK incompleto.'));
+        return;
+      }
+      pp.Buttons({
+        style: {
+          layout: 'vertical',
+          color: 'blue',
+          shape: 'rect',
+          label: 'paypal'
+        },
+
+        // 1. Crear la orden en PayPal
+        createOrder: (_data: unknown, actions: any) => {
+          return actions.order.create({
+            purchase_units: [{
+              description: 'Certare - Compra',
+              amount: {
+                currency_code: 'MXN',
+                value: totalAmount.toFixed(2),
+                breakdown: {
+                  item_total: {
+                    currency_code: 'MXN',
+                    value: totalAmount.toFixed(2)
+                  }
+                }
+              },
+              items: items.map(item => ({
+                name: item.title,
+                unit_amount: {
+                  currency_code: 'MXN',
+                  value: item.price.toFixed(2)
+                },
+                quantity: String(item.units)
+              }))
+            }]
+          });
+        },
+
+        // 2. Capturar el pago cuando el usuario lo aprueba
+        onApprove: (_data: unknown, actions: any) => {
+          return actions.order.capture().then((details: unknown) => {
+            onSuccess(details);
+          });
+        },
+
+        // 3. Manejar errores
+        onError: (err: unknown) => {
+          onError(err);
+        }
+      }).render('#' + containerId);
+    });
   }
 }

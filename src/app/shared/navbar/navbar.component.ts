@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   initials = 'S';
   cartCount = 0;
   onAuth = false;
-  private routerSub: Subscription | undefined;
+  private subs = new Subscription();
 
   constructor(
     private router: Router,
@@ -30,52 +30,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onAuth = this.router.url.startsWith('/auth');
-    this.routerSub = this.router.events
+    this.subs.add(this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         this.onAuth = e.urlAfterRedirects.startsWith('/auth');
-      });
+      }));
 
-    this.authService.getCurrentUser().subscribe(user => {
+    this.subs.add(this.authService.getCurrentUser().subscribe(user => {
       this.isLoggedIn = !!user;
       this.hasCheckedLogin = true;
-    });
+      this.initials = this.computeInitials(user?.displayName);
+    }));
 
-    this.cartService.getCartItems().subscribe(items => {
+    this.subs.add(this.cartService.getCartItems().subscribe(items => {
       this.cartCount = items.reduce((acc, i) => acc + i.units, 0);
-    });
-
-    this.initials = this.computeInitials();
+    }));
   }
 
   ngOnDestroy(): void {
-    this.routerSub?.unsubscribe();
+    this.subs.unsubscribe();
   }
 
-  private computeInitials(): string {
-    try {
-      const raw = localStorage.getItem('user');
-      if (!raw) return 'S';
-      const parsed = JSON.parse(raw);
-      const fullName = parsed?.displayName as string | undefined;
-      if (fullName && fullName.trim()) {
-        const nameParts = fullName.trim().split(/\s+/).filter(Boolean);
-        if (nameParts.length >= 2) {
-          return (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase();
-        }
-        return nameParts[0]?.charAt(0).toUpperCase() || 'S';
-      }
-      const email = parsed?.email as string | undefined;
-      if (!email) return 'S';
-      const local = email.split('@')[0];
-      const parts = local.split(/[._-]+/).filter(Boolean);
-      if (parts.length >= 2) {
-        return (parts[0][0] + parts[1][0]).toUpperCase();
-      }
-      return parts[0]?.charAt(0).toUpperCase() || 'S';
-    } catch {
-      return 'S';
-    }
+  private computeInitials(displayName?: string | null): string {
+    const parts = displayName?.trim().split(/\s+/).filter(Boolean) ?? [];
+    if (!parts.length) return 'C';
+    return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
   }
 
   logout(): void {

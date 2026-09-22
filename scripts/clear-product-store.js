@@ -8,7 +8,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 async function clear() {
-  const col = db.collection('cloth-store');
+  const col = db.collection('product-store');
   const snap = await col.listDocuments();
   await Promise.all(snap.map(doc => doc.delete()));
   console.log('🗑️  collection cleared');

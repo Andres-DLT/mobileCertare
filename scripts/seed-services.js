@@ -214,7 +214,7 @@ const services = [
 /** Seed Firestore con el catálogo de 1 precio único por servicio (MXN) */
 async function seed() {
   try {
-    const col = db.collection('cloth-store');
+    const col = db.collection('product-store');
 
     const existing = await col.listDocuments();
     await Promise.all(existing.map((doc) => doc.delete()));

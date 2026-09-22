@@ -12,7 +12,7 @@ import { provideFunctions, getFunctions } from '@angular/fire/functions';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     //Firebase configuration
     provideFirebaseApp(() => initializeApp(firebaseConfig)),

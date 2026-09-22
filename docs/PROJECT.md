@@ -38,7 +38,9 @@ phoneDevelopers/
 │   └── environments/        # config de Firebase por entorno
 ├── functions/               # Cloud Functions + nodemailer (Node/TS)
 │   └── src/__tests__/       # jest: sendOrderEmail.test.ts (21/21 PASS)
-└── scripts/seed-services.js # siembra del catálogo (20 servicios MXN)
+└── scripts/seed-services.js # siembra QA (20 servicios MXN)
+    ├── scripts/seed-dev-services.js # etapas mobile/web (10+10)
+    └── scripts/seed-ai-training-services.js # IA y formación (10+10)
 ```
 
 ## Comandos

@@ -13,7 +13,10 @@ conservan para una futura activación.
 
 ## 2. Modelo de negocio (REFACTOR APLICADO)
 
-- Catálogo de **20 servicios** (colección Firestore `product-store`).
+- Catálogos en Firestore (60 documentos): `product-store` (20 servicios QA),
+  `mobile-services` (10 etapas), `web-services` (10), `ai-services` (10),
+  `training-services` (10). Seeds: `seed-services.js`, `seed-dev-services.js`,
+  `seed-ai-training-services.js`.
 - **Precio único en MXN** por servicio. Se eliminaron: tiers (Basic /
   Standard / Pro), tallas (S / M / L) y los campos `price_s/price_m/price_l`,
   `size_s/size_m/size_l` y `size`.

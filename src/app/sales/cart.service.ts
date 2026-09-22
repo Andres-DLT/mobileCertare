@@ -10,35 +10,34 @@ export interface CartItem extends Product {
 export class CartService {
   private items$ = new BehaviorSubject<CartItem[]>([]);
 
-  /** Observable para suscribirse desde el componente */
+  /** Observable to subscribe from components */
   getCartItems(): Observable<CartItem[]> {
     return this.items$.asObservable();
   }
 
-  /** Agrega un producto al carrito (si ya existe mismo id, suma unidades) */
-  addToCart(p: Product, planPrice?: number) {
+  /** Adds a product to the interest list (same id sums units) */
+  addToCart(p: Product) {
     const list = this.snapshot();
     const idx = list.findIndex(i => i.id === p.id);
     if (idx > -1) {
       list[idx].units += 1;
-      if (planPrice != null) list[idx].price = planPrice;
     } else {
-      list.push({ ...p, units: 1, price: planPrice ?? p.price });
+      list.push({ ...p, units: 1 });
     }
     this.items$.next(list);
   }
 
-  /** Snapshot actual del carrito (para undo) */
+  /** Current snapshot (for undo) */
   snapshot(): CartItem[] {
     return this.items$.value.map(item => ({ ...item }));
   }
 
-  /** Restaura un estado anterior del carrito (undo) */
+  /** Restores a previous state (undo) */
   restore(list: CartItem[]) {
     this.items$.next(list.map(item => ({ ...item })));
   }
 
-  /** Quita una unidad (si llega a 0, lo elimina) */
+  /** Removes one unit (removes the item at 0) */
   removeUnit(item: CartItem) {
     const list = this.snapshot();
     const idx = list.findIndex(i => i.id === item.id);
@@ -51,7 +50,7 @@ export class CartService {
     }
   }
 
-  /** Agrega una unidad extra */
+  /** Adds one extra unit */
   addUnit(item: CartItem) {
     const list = this.snapshot();
     const idx = list.findIndex(i => i.id === item.id);
@@ -61,12 +60,12 @@ export class CartService {
     }
   }
 
-  /** Borra todo el carrito */
+  /** Clears the whole list */
   clearCart() {
     this.items$.next([]);
   }
 
-  /** Calcula totales */
+  /** Totals */
   getTotalUnits(): number {
     return this.items$.value.reduce((sum, i) => sum + i.units, 0);
   }

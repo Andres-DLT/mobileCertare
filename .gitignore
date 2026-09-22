@@ -67,3 +67,4 @@ ios/
 
 # Firebase CLI debug logs
 firebase-debug.log
+.firebase/

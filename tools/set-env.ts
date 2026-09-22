@@ -6,6 +6,8 @@ config(); // Carga variables desde .env
 const envConfig = `
 export const environment = {
   production: false,
+  siteUrl: '${process.env['NG_APP_SITE_URL'] || 'https://certare.web.app'}',
+  scheduleUrl: '${process.env['NG_APP_SCHEDULE_URL'] || ''}',
   paymentsEnabled: false,
   paypalClientId: '${process.env['NG_APP_PAYPAL_CLIENT_ID'] || ''}',
   productsCollection: 'product-store',

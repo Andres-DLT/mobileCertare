@@ -7,6 +7,18 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Discovery call requests: each signed-in user manages only their own.
+    match /discovery-requests/{id} {
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.uid
+        && request.resource.data.keys().hasAll(['uid', 'name', 'email', 'message', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.email is string
+        && request.resource.data.message is string;
+      allow read, update, delete: if request.auth != null
+        && request.auth.uid == resource.data.uid;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

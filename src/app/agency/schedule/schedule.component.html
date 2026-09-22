@@ -1,0 +1,42 @@
+<div class="agency-page">
+  <section class="hero">
+    <span class="hero-chip">DISCOVERY CALL</span>
+    <h1>Schedule a call</h1>
+    <p class="hero-sub">
+      Thirty minutes, no commitment. We review your goals and tell you
+      honestly whether we are a fit — and what the next step would cost.
+    </p>
+  </section>
+
+  <section class="about-section schedule-box" *ngIf="safeScheduleUrl">
+    <h2>Pick a time</h2>
+    <p>Choose a slot in our calendar. A video link is included automatically.</p>
+    <div style="margin: 12px 0">
+      <button class="chip active" (click)="openBooking()">Open booking page</button>
+    </div>
+    <iframe [src]="safeScheduleUrl" title="Schedule a discovery call" loading="lazy"></iframe>
+  </section>
+
+  <section class="about-section schedule-box">
+    <h2>{{ safeScheduleUrl ? 'Prefer writing?' : 'Request a call' }}</h2>
+    <p>Send your context and we reply within one business day to agree on a time.</p>
+    <form class="request-form" (ngSubmit)="sendRequest()">
+      <label for="req-name">NAME</label>
+      <input id="req-name" [(ngModel)]="name" name="name" autocomplete="name" required />
+
+      <label for="req-email">EMAIL</label>
+      <input id="req-email" type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+
+      <label for="req-message">WHAT ARE YOU BUILDING?</label>
+      <textarea id="req-message" [(ngModel)]="message" name="message" rows="4"
+        placeholder="Stack, goal and timeline in a few lines" required></textarea>
+
+      <p class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+      <p class="form-ok" *ngIf="successMessage" role="status">{{ successMessage }}</p>
+
+      <button class="chip active" type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'SENDING…' : 'SEND REQUEST' }}
+      </button>
+    </form>
+  </section>
+</div>

@@ -1,5 +1,10 @@
 export const environment = {
   production: true,
+  // Canonical public URL of the agency site (update when the paid domain lands).
+  siteUrl: 'https://certare.web.app',
+  // Google Calendar Appointment Schedule link for discovery calls.
+  // Create it in Google Calendar: Create -> Appointment schedule -> copy the booking link.
+  scheduleUrl: '',
   // Checkout remains hidden until a payment provider is configured.
   paymentsEnabled: false,
   paypalClientId: '',

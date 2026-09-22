@@ -1,7 +1,8 @@
 <div class="cart-page" *ngIf="!paymentSuccess">
   <header class="page-head">
-    <span class="head-chip">RESUMEN DE COMPRA</span>
-    <h1>Your Cart</h1>
+    <span class="head-chip">YOUR SHORTLIST</span>
+    <h1>Your Interest List</h1>
+    <p class="cart-sub">Shortlist services and bring them to your discovery call — checkout stays hidden until a payment provider is configured.</p>
   </header>
 
   <div class="cart-layout">
@@ -24,14 +25,14 @@
       </div>
 
       <div class="cart-empty" *ngIf="cartItems.length === 0">
-        <p>Your cart is empty.</p>
+        <p>Your shortlist is empty.</p>
         <a class="chip-link" routerLink="/products/list">Browse services</a>
       </div>
     </section>
 
     <!-- Summary -->
-    <aside class="order-summary" aria-label="Order summary">
-      <h2>Order Summary</h2>
+    <aside class="order-summary" aria-label="Shortlist summary">
+      <h2>Shortlist Summary</h2>
       <div class="summary-line">
         <span>Services</span>
         <span>{{ cartItems.length }}</span>
@@ -52,7 +53,8 @@
         [disabled]="cartItems.length === 0">
         Checkout with PayPal
       </button>
-      <p *ngIf="!paymentsEnabled" class="payment-error">Pagos desactivados temporalmente. El carrito sigue funcionando.</p>
+      <p *ngIf="!paymentsEnabled" class="payment-error">Payments are hidden for now. Bring this shortlist to your discovery call.</p>
+      <a *ngIf="!paymentsEnabled && cartItems.length > 0" class="chip-link" routerLink="/agency/schedule">Schedule a call about these services</a>
 
       <!-- PayPal Button Container -->
       <div *ngIf="showPaypal" class="paypal-section">

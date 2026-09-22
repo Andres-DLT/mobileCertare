@@ -1,1 +1,30 @@
-<p>sales-history works!</p>
+<div class="cart-page">
+  <header class="page-head">
+    <span class="head-chip">FOLLOW-UP</span>
+    <h1>My Requests</h1>
+    <p class="cart-sub">Discovery calls you requested and their status. We reply within one business day.</p>
+  </header>
+
+  <div class="cart-empty" *ngIf="loading">
+    <p>Loading your requests…</p>
+  </div>
+
+  <div class="cart-empty" *ngIf="!loading && loadError" role="alert">
+    <p>{{ loadError }}</p>
+  </div>
+
+  <div class="cart-empty" *ngIf="!loading && !loadError && requests.length === 0">
+    <p>No requests yet.</p>
+    <a class="chip-link" routerLink="/agency/schedule">Schedule your first call</a>
+  </div>
+
+  <section class="cart-items" *ngIf="!loading && requests.length">
+    <div class="cart-card" *ngFor="let req of requests">
+      <div class="item-info">
+        <h4>{{ req.message | slice:0:80 }}{{ req.message.length > 80 ? '…' : '' }}</h4>
+        <span class="unit-price">{{ req.name }} · {{ req.email }}</span>
+      </div>
+      <div class="item-total">{{ req.status | uppercase }}</div>
+    </div>
+  </section>
+</div>

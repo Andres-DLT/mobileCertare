@@ -1,0 +1,50 @@
+<div class="agency-page">
+  <section class="hero">
+    <span class="hero-chip">{{ pillar.chip }}</span>
+    <h1>{{ pillar.title }}</h1>
+    <p class="hero-sub">{{ pillar.intro }}</p>
+  </section>
+
+  <section class="about-section">
+    <h2>Scope</h2>
+    <div class="scope-lists">
+      <div class="scope-box">
+        <h3>Included</h3>
+        <ul>
+          <li *ngFor="let item of pillar.included">{{ item }}</li>
+        </ul>
+      </div>
+      <div class="scope-box">
+        <h3>Not included</h3>
+        <ul>
+          <li *ngFor="let item of pillar.excluded">{{ item }}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <h2>Typical timelines</h2>
+    <div class="scope-box" style="margin-top: 16px">
+      <ul>
+        <li *ngFor="let estimate of pillar.estimates">{{ estimate }}</li>
+      </ul>
+    </div>
+    <p style="margin-top: 12px">Final scope and timeline are confirmed in the discovery call.</p>
+    <div *ngIf="pillar.catalogLink" style="margin-top: 12px">
+      <a class="chip active" [routerLink]="pillar.catalogLink">Browse the testing catalog</a>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <h2>Questions we hear often</h2>
+    <div class="faq">
+      <details *ngFor="let faq of pillar.faqs">
+        <summary>{{ faq.q }}</summary>
+        <p>{{ faq.a }}</p>
+      </details>
+    </div>
+  </section>
+
+  <app-schedule-call></app-schedule-call>
+</div>

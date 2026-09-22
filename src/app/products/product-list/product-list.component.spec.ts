@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { BehaviorSubject, NEVER, of, throwError } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { ProductListComponent } from './product-list.component';
-import { ProductService, Product } from '../product-services';
+import { ProductService, CatalogItem } from '../product-services';
 import { CartService } from '../../sales/cart.service';
 import { AuthService } from '../../auth/auth.service';
 
@@ -11,15 +11,19 @@ describe('ProductListComponent', () => {
   let fixture: ComponentFixture<ProductListComponent>;
   let productService: jasmine.SpyObj<ProductService>;
   let user: BehaviorSubject<User | null>;
-  const product: Product = {
+  const testingItem: CatalogItem = {
     id: '1', title: 'API Testing', description: 'Contract tests', price: 100,
-    category: 'api', 'image-front': '', 'image-back': ''
+    group: 'api', sector: 'testing', sectorLabel: 'Testing',
+  };
+  const mobileItem: CatalogItem = {
+    id: '2', title: 'iOS Development', description: 'Native apps', price: 35000,
+    group: 'Development', sector: 'mobile', sectorLabel: 'Mobile',
   };
 
   beforeEach(async () => {
     user = new BehaviorSubject<User | null>(null);
-    productService = jasmine.createSpyObj('ProductService', ['getProducts']);
-    productService.getProducts.and.returnValue(of([product]));
+    productService = jasmine.createSpyObj('ProductService', ['getProducts', 'getCatalog']);
+    productService.getCatalog.and.returnValue(of([testingItem, mobileItem]));
     await TestBed.configureTestingModule({
       imports: [ProductListComponent],
       providers: [
@@ -32,33 +36,44 @@ describe('ProductListComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('replaces the skeleton with Firestore services', () => {
+  it('replaces the skeleton with the unified catalog', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.skeleton')).toBeNull();
     expect(fixture.nativeElement.querySelector('.service-info h4').textContent).toContain('API Testing');
   });
 
+  it('filters by sector and then by group', () => {
+    fixture.detectChanges();
+    component.setSector('mobile');
+    fixture.detectChanges();
+    expect(component.filteredProducts).toEqual([mobileItem]);
+    expect(fixture.nativeElement.querySelector('.service-info h4').textContent).toContain('iOS Development');
+    component.setSector('all');
+    component.setFilter('api');
+    expect(component.filteredProducts).toEqual([testingItem]);
+  });
+
   it('shows a permissions error and recovers when retry succeeds', () => {
     spyOn(console, 'error');
-    productService.getProducts.and.returnValue(throwError(() => ({ code: 'permission-denied' })));
+    productService.getCatalog.and.returnValue(throwError(() => ({ code: 'permission-denied' })));
     fixture.detectChanges();
     expect(component.loading).toBeFalse();
     expect(fixture.nativeElement.querySelector('[role="alert"]')).not.toBeNull();
-    productService.getProducts.and.returnValue(of([product]));
+    productService.getCatalog.and.returnValue(of([testingItem]));
     fixture.nativeElement.querySelector('[role="alert"] button').click();
     fixture.detectChanges();
     expect(component.loadError).toBe('');
-    expect(component.products).toEqual([product]);
+    expect(component.products).toEqual([testingItem]);
   });
 
   it('stops the skeleton if the backend never responds', fakeAsync(() => {
     spyOn(console, 'error');
-    productService.getProducts.and.returnValue(NEVER);
+    productService.getCatalog.and.returnValue(NEVER);
     fixture.detectChanges();
     tick(15000);
     fixture.detectChanges();
     expect(component.loading).toBeFalse();
-    expect(component.loadError).toContain('tardó demasiado');
+    expect(component.loadError).toContain('took too long');
   }));
 
   it('reacts to the actual profile name and never derives it from email', () => {
@@ -73,8 +88,8 @@ describe('ProductListComponent', () => {
   it('undoes a repeated addition without corrupting previous quantities', () => {
     fixture.detectChanges();
     const cart = TestBed.inject(CartService);
-    component.onAddToCart(product);
-    component.onAddToCart(product);
+    component.onAddToCart(testingItem);
+    component.onAddToCart(testingItem);
     expect(cart.getTotalUnits()).toBe(2);
     component.undoLast();
     expect(cart.getTotalUnits()).toBe(1);

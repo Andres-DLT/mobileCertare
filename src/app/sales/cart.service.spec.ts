@@ -1,10 +1,10 @@
 import { CartService } from './cart.service';
-import { Product } from '../products/product-services';
+import { CatalogItem } from '../products/product-services';
 
 describe('CartService', () => {
-  const product: Product = {
+  const product: CatalogItem = {
     id: '1', title: 'API Testing', description: '', price: 100,
-    category: 'api', 'image-front': '', 'image-back': ''
+    group: 'api', sector: 'testing', sectorLabel: 'Testing'
   };
 
   it('keeps undo snapshots independent from subsequent quantity changes', () => {

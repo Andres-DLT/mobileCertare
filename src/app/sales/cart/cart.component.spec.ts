@@ -17,15 +17,15 @@ describe('CartComponent', () => {
   const mockCartItems: CartItem[] = [
     {
       id: '1', title: 'Red Hoodie', price: 45.00,
-      description: '', 'image-front': '', 'image-back': '',
+      description: '',
       units: 2,
-      category: 'Apparel'
+      group: 'Apparel', sector: 'testing', sectorLabel: 'Testing'
     },
     {
       id: '2', title: 'Black Cap', price: 15.00,
-      description: '', 'image-front': '', 'image-back': '',
+      description: '',
       units: 1,
-      category: 'Apparel'
+      group: 'Apparel', sector: 'testing', sectorLabel: 'Testing'
     }
   ];
 

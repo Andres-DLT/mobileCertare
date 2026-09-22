@@ -11,6 +11,7 @@ const db = admin.firestore();
 const mobileServices = [
   {
     id: 'discovery-scoping',
+    price: 12000,
     title: 'Discovery & Scoping',
     description: 'Goals, users, risks and constraints are mapped into a scoped roadmap with milestones and estimates before a line of code is written.',
     phase: 'Discovery',
@@ -20,6 +21,7 @@ const mobileServices = [
   },
   {
     id: 'ux-ui-design',
+    price: 15000,
     title: 'UX & UI Design',
     description: 'User flows, wireframes and interface design validated with prototypes, following platform guidelines for iOS and Android.',
     phase: 'Design',
@@ -29,6 +31,7 @@ const mobileServices = [
   },
   {
     id: 'ios-development',
+    price: 35000,
     title: 'iOS Development',
     description: 'Native iOS applications built with current tooling, versioned releases and automated checks on every change.',
     phase: 'Development',
@@ -38,6 +41,7 @@ const mobileServices = [
   },
   {
     id: 'android-development',
+    price: 35000,
     title: 'Android Development',
     description: 'Native Android applications covering the device range your users actually carry, with staged rollouts.',
     phase: 'Development',
@@ -47,6 +51,7 @@ const mobileServices = [
   },
   {
     id: 'cross-platform',
+    price: 30000,
     title: 'Cross-Platform Development',
     description: 'A single codebase serving both stores when the product fits it, with platform-specific tuning where it matters.',
     phase: 'Development',
@@ -56,6 +61,7 @@ const mobileServices = [
   },
   {
     id: 'backend-integration',
+    price: 22000,
     title: 'Backend & API Integration',
     description: 'Authentication, data sync, push notifications and third-party services integrated with contract-tested APIs.',
     phase: 'Development',
@@ -65,6 +71,7 @@ const mobileServices = [
   },
   {
     id: 'qa-device-farm',
+    price: 14000,
     title: 'QA on Real Devices',
     description: 'Functional, regression and usability testing on a real-device farm across OS versions and screen sizes.',
     phase: 'Quality',
@@ -74,6 +81,7 @@ const mobileServices = [
   },
   {
     id: 'beta-distribution',
+    price: 9000,
     title: 'Beta Distribution',
     description: 'Closed beta tracks with crash reporting and feedback loops before the public launch.',
     phase: 'Release',
@@ -83,6 +91,7 @@ const mobileServices = [
   },
   {
     id: 'store-publishing',
+    price: 8000,
     title: 'Store Publishing',
     description: 'Signing, listings, review handling and release notes for the App Store and Google Play.',
     phase: 'Release',
@@ -92,6 +101,7 @@ const mobileServices = [
   },
   {
     id: 'maintenance-monitoring',
+    price: 12000,
     title: 'Maintenance & Monitoring',
     description: 'Crash monitoring, OS compatibility updates and prioritized fixes after launch, with monthly health reports.',
     phase: 'Care',
@@ -104,6 +114,7 @@ const mobileServices = [
 const webServices = [
   {
     id: 'discovery-scoping',
+    price: 10000,
     title: 'Discovery & Scoping',
     description: 'Audiences, journeys, integrations and risks are mapped into a scoped plan with milestones and estimates.',
     phase: 'Discovery',
@@ -113,6 +124,7 @@ const webServices = [
   },
   {
     id: 'ux-ui-design',
+    price: 13000,
     title: 'UX & UI Design',
     description: 'Responsive interfaces designed around conversion and usability, validated with prototypes before development.',
     phase: 'Design',
@@ -122,6 +134,7 @@ const webServices = [
   },
   {
     id: 'frontend-development',
+    price: 24000,
     title: 'Frontend Development',
     description: 'Fast, accessible interfaces with component architecture, state management and performance budgets.',
     phase: 'Development',
@@ -131,6 +144,7 @@ const webServices = [
   },
   {
     id: 'backend-api-development',
+    price: 24000,
     title: 'Backend & API Development',
     description: 'Services, authentication, data models and integrations built with contract tests from the start.',
     phase: 'Development',
@@ -140,6 +154,7 @@ const webServices = [
   },
   {
     id: 'cms-ecommerce',
+    price: 16000,
     title: 'Content & Commerce',
     description: 'Content management, catalogs and checkout flows your team can operate without developers.',
     phase: 'Development',
@@ -149,6 +164,7 @@ const webServices = [
   },
   {
     id: 'qa-e2e',
+    price: 15000,
     title: 'E2E Quality Assurance',
     description: 'Automated end-to-end suites covering critical journeys, plus exploratory testing for edge cases.',
     phase: 'Quality',
@@ -158,6 +174,7 @@ const webServices = [
   },
   {
     id: 'performance-hardening',
+    price: 18000,
     title: 'Performance Hardening',
     description: 'Load baselines, Core Web Vitals tuning and bottleneck analysis before traffic arrives.',
     phase: 'Quality',
@@ -167,6 +184,7 @@ const webServices = [
   },
   {
     id: 'devops-cicd',
+    price: 20000,
     title: 'DevOps & CI/CD',
     description: 'Pipelines with tests, coverage, lint and security gates on every pull request, plus preview environments.',
     phase: 'Release',
@@ -176,6 +194,7 @@ const webServices = [
   },
   {
     id: 'launch-migration',
+    price: 12000,
     title: 'Launch & Migration',
     description: 'DNS cutover, data migration, rollback plans and launch checklists executed with monitoring on.',
     phase: 'Release',
@@ -185,6 +204,7 @@ const webServices = [
   },
   {
     id: 'maintenance-sla',
+    price: 10000,
     title: 'Maintenance & SLAs',
     description: 'Prioritized fixes, dependency updates and uptime monitoring with monthly reports.',
     phase: 'Care',

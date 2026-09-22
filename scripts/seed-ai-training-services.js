@@ -11,6 +11,7 @@ const db = admin.firestore();
 const aiServices = [
   {
     id: 'ai-opportunity-assessment',
+    price: 14000,
     title: 'AI Opportunity Assessment',
     description: 'Use-case mapping, feasibility and ROI analysis to find where AI actually pays off before investing in build.',
     phase: 'Discovery',
@@ -20,6 +21,7 @@ const aiServices = [
   },
   {
     id: 'llm-integration',
+    price: 28000,
     title: 'LLM Integration',
     description: 'Production integration of large language models into new or existing products, with guardrails from day one.',
     phase: 'Integration',
@@ -29,6 +31,7 @@ const aiServices = [
   },
   {
     id: 'rag-systems',
+    price: 26000,
     title: 'RAG & Knowledge Systems',
     description: 'Retrieval-augmented pipelines over your own documents, with vector stores, grounding and cited answers.',
     phase: 'Integration',
@@ -38,6 +41,7 @@ const aiServices = [
   },
   {
     id: 'ai-agents',
+    price: 30000,
     title: 'AI Agents & Workflows',
     description: 'Agent workflows with tool use and human-in-the-loop checkpoints for multi-step tasks.',
     phase: 'Integration',
@@ -47,6 +51,7 @@ const aiServices = [
   },
   {
     id: 'ml-model-qa',
+    price: 18000,
     title: 'ML Model QA',
     description: 'Accuracy, robustness and fairness benchmarking of machine learning models against labeled datasets.',
     phase: 'AI Testing',
@@ -56,6 +61,7 @@ const aiServices = [
   },
   {
     id: 'llm-evaluation',
+    price: 16000,
     title: 'LLM Evaluation Harnesses',
     description: 'Golden datasets and automated evals that catch regressions every time prompts or models change.',
     phase: 'AI Testing',
@@ -65,6 +71,7 @@ const aiServices = [
   },
   {
     id: 'prompt-testing',
+    price: 12000,
     title: 'Prompt Testing & Versioning',
     description: 'Systematic prompt versioning, A/B comparisons and safety checks across models and releases.',
     phase: 'AI Testing',
@@ -74,6 +81,7 @@ const aiServices = [
   },
   {
     id: 'ai-red-teaming',
+    price: 20000,
     title: 'AI Red Teaming',
     description: 'Adversarial testing — jailbreaks, injections and misuse scenarios — with mitigations for each finding.',
     phase: 'AI Testing',
@@ -83,6 +91,7 @@ const aiServices = [
   },
   {
     id: 'ai-performance',
+    price: 15000,
     title: 'AI Performance & Cost Tuning',
     description: 'Latency reduction and token-budget control through caching, routing and right-sized models.',
     phase: 'AI Testing',
@@ -92,6 +101,7 @@ const aiServices = [
   },
   {
     id: 'ai-governance',
+    price: 18000,
     title: 'AI Governance & Monitoring',
     description: 'Responsible-AI checklists, data-privacy reviews and production monitoring for drift and incidents.',
     phase: 'Governance',
@@ -104,6 +114,7 @@ const aiServices = [
 const trainingServices = [
   {
     id: 'qa-foundations',
+    price: 6000,
     title: 'QA Foundations',
     description: 'Manual testing fundamentals: test design, defect reporting and acceptance criteria for new testers.',
     phase: 'Foundations',
@@ -113,6 +124,7 @@ const trainingServices = [
   },
   {
     id: 'automation-bootcamp',
+    price: 14000,
     title: 'Test Automation Bootcamp',
     description: 'Intensive Playwright and Selenium training: locators, page objects, parallel runs and CI integration.',
     phase: 'Quality',
@@ -122,6 +134,7 @@ const trainingServices = [
   },
   {
     id: 'api-testing-course',
+    price: 8000,
     title: 'API Testing Course',
     description: 'Contract, integration and negative testing for REST and GraphQL services with real tooling.',
     phase: 'Quality',
@@ -131,6 +144,7 @@ const trainingServices = [
   },
   {
     id: 'performance-course',
+    price: 9000,
     title: 'Performance Testing Course',
     description: 'Load, stress and soak testing with k6 and JMeter: scripting, thresholds and result analysis.',
     phase: 'Quality',
@@ -140,6 +154,7 @@ const trainingServices = [
   },
   {
     id: 'certification-prep',
+    price: 5000,
     title: 'Certification Prep',
     description: 'Guided preparation for industry testing certifications, with mock exams and study plans.',
     phase: 'Quality',
@@ -149,6 +164,7 @@ const trainingServices = [
   },
   {
     id: 'mobile-dev-course',
+    price: 10000,
     title: 'Mobile Development Course',
     description: 'iOS and Android fundamentals through cross-platform practice: navigation, state, storage and releases.',
     phase: 'Development',
@@ -158,6 +174,7 @@ const trainingServices = [
   },
   {
     id: 'web-dev-course',
+    price: 10000,
     title: 'Web Development Course',
     description: 'Modern frontend and backend development: components, APIs, auth and deployment basics.',
     phase: 'Development',
@@ -167,6 +184,7 @@ const trainingServices = [
   },
   {
     id: 'devops-course',
+    price: 9000,
     title: 'DevOps Essentials',
     description: 'CI/CD, containers, cloud basics and quality gates for teams shipping for the first time.',
     phase: 'Operations',
@@ -176,6 +194,7 @@ const trainingServices = [
   },
   {
     id: 'sdet-mentoring',
+    price: 12000,
     title: 'SDET Mentoring',
     description: 'One-on-one or small-group mentoring for test engineers growing into automation and delivery ownership.',
     phase: 'Development',
@@ -185,6 +204,7 @@ const trainingServices = [
   },
   {
     id: 'quality-leadership',
+    price: 15000,
     title: 'Quality Leadership Workshop',
     description: 'Test strategy, metrics that matter and quality culture for leads and managers owning delivery risk.',
     phase: 'Leadership',

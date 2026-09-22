@@ -94,7 +94,7 @@ export class PaypalService {
                 name: item.title,
                 unit_amount: {
                   currency_code: 'MXN',
-                  value: item.price.toFixed(2)
+                  value: (item.price ?? 0).toFixed(2)
                 },
                 quantity: String(item.units)
               }))

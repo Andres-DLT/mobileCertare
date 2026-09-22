@@ -13,7 +13,8 @@
         <div class="item-info">
           <h4>{{ item.title }}</h4>
           <div class="item-price-line">
-            <span class="unit-price">${{ item.price }} MXN / unit</span>
+            <span class="unit-price" *ngIf="item.price != null">${{ item.price }} MXN / unit</span>
+            <span class="unit-price" *ngIf="item.price == null">Custom quote</span>
             <div class="stepper">
               <button class="step" (click)="removeUnit(item)" aria-label="Remove one">−</button>
               <span class="step-count">{{ item.units }}</span>
@@ -21,7 +22,8 @@
             </div>
           </div>
         </div>
-        <div class="item-total">${{ (item.price * item.units).toLocaleString() }} MXN</div>
+        <div class="item-total" *ngIf="item.price != null">${{ ((item.price ?? 0) * item.units).toLocaleString() }} MXN</div>
+        <div class="item-total" *ngIf="item.price == null">Custom quote</div>
       </div>
 
       <div class="cart-empty" *ngIf="cartItems.length === 0">

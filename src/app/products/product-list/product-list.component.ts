@@ -3,14 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
-import { Product, ProductService } from '../product-services';
+import { CatalogItem, CatalogSector, CATALOG_SECTORS, ProductService } from '../product-services';
 import { CartService, CartItem } from '../../sales/cart.service';
 import { AuthService } from '../../auth/auth.service';
-
-interface Category {
-  key: string;
-  label: string;
-}
 
 @Component({
   selector: 'app-product-list',
@@ -20,11 +15,13 @@ interface Category {
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  products: Product[] = [];
+  products: CatalogItem[] = [];
   loading = true;
   loadError = '';
   userLabel = '';
+  sector: CatalogSector | 'all' = 'all';
   filter = 'all';
+  sectors = CATALOG_SECTORS;
   private lastSnapshot: CartItem[] = [];
   private subs = new Subscription();
   private productsSubscription?: Subscription;
@@ -33,16 +30,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   snackbarVisible = false;
   private snackbarTimer: number | undefined;
   private undoCallback: (() => void) | undefined;
-
-  categories: Category[] = [
-    { key: 'all', label: 'All' },
-    { key: 'manual', label: 'Manual' },
-    { key: 'automation', label: 'Automation' },
-    { key: 'api', label: 'API' },
-    { key: 'performance', label: 'Performance' },
-    { key: 'cicd', label: 'CI/CD' },
-    { key: 'consulting', label: 'Consulting' },
-  ];
 
   readonly skeletonItems = [0, 1, 2, 3, 4, 5];
 
@@ -72,7 +59,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productsSubscription?.unsubscribe();
     this.loading = true;
     this.loadError = '';
-    this.productsSubscription = this.productService.getProducts()
+    this.productsSubscription = this.productService.getCatalog()
       .pipe(timeout({ first: 15000 }))
       .subscribe({
         next: (data) => {
@@ -84,16 +71,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.loading = false;
           const e = err as { code?: string; message?: string };
           if (err instanceof TimeoutError) {
-            this.loadError = 'La carga tardó demasiado. Revisa tu conexión e inténtalo de nuevo.';
+            this.loadError = 'Loading took too long. Check your connection and retry.';
           } else if (e?.code === 'permission-denied' || e?.message?.includes('permissions')) {
             this.loadError =
-              'No se pudo acceder al catálogo. Inténtalo de nuevo más tarde.';
+              'Could not access the catalog. Try again later.';
           } else if (e?.code === 'unavailable' || e?.message?.includes('offline')) {
-            this.loadError = 'Sin conexión con Firestore. Revisa tu red e inténtalo de nuevo.';
+            this.loadError = 'No connection to Firestore. Check your network and retry.';
           } else {
-            this.loadError = `No se pudieron cargar los productos (${e?.code || e?.message || 'error desconocido'}).`;
+            this.loadError = `Could not load the catalog (${e?.code || e?.message || 'unknown error'}).`;
           }
-          console.error('[ProductList] loadProducts falló:', err);
+          console.error('[ProductList] loadProducts failed:', err);
         },
       });
   }
@@ -102,27 +89,42 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.loadProducts();
   }
 
-  get filteredProducts(): Product[] {
-    if (this.filter === 'all') return this.products;
-    return this.products.filter(p => p.category === this.filter);
+  /** Items in the selected sector (or everything). */
+  get sectorProducts(): CatalogItem[] {
+    if (this.sector === 'all') return this.products;
+    return this.products.filter((p) => p.sector === this.sector);
   }
 
-  categoryLabel(p: Product): string {
-    const cat = this.categories.find(c => c.key === p.category);
-    return cat?.label ?? 'Service';
+  /** Category/phase chips available in the selected sector. */
+  get categories(): { key: string; label: string }[] {
+    const groups = [...new Set(this.sectorProducts.map((p) => p.group))].sort();
+    return [{ key: 'all', label: 'All' }, ...groups.map((g) => ({ key: g, label: g }))];
   }
 
-  onAddToCart(p: Product): void {
+  get filteredProducts(): CatalogItem[] {
+    if (this.filter === 'all') return this.sectorProducts;
+    return this.sectorProducts.filter((p) => p.group === this.filter);
+  }
+
+  categoryLabel(p: CatalogItem): string {
+    return p.group || 'Service';
+  }
+
+  priceLabel(p: CatalogItem): string {
+    return p.price == null ? 'Custom quote' : `$${p.price.toLocaleString()} MXN`;
+  }
+
+  onAddToCart(p: CatalogItem): void {
     if (Capacitor.isNativePlatform()) {
       Haptics.impact({ style: ImpactStyle.Medium }).catch(() => { /* Optional feedback. */ });
     }
 
-    // Guardar snapshot para Undo y agregar de verdad al carrito
+    // Snapshot for Undo, then actually add to the interest list.
     this.lastSnapshot = this.cartService.snapshot();
     this.cartService.addToCart(p);
 
     this.showSnackbar(
-      `${p.title} · $${p.price.toLocaleString()} MXN added`,
+      `${p.title} · ${this.priceLabel(p)} added`,
       () => this.cartService.restore(this.lastSnapshot)
     );
   }
@@ -148,6 +150,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
       clearTimeout(this.snackbarTimer);
       this.snackbarTimer = undefined;
     }
+  }
+
+  setSector(key: CatalogSector | 'all') {
+    this.sector = key;
+    this.filter = 'all';
   }
 
   setFilter(key: string) {

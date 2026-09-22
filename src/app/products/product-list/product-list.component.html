@@ -1,17 +1,17 @@
 <div class="product-page">
   <!-- Hero -->
   <section class="hero">
-    <span class="hero-chip">QUALITY ENGINEERING CONSULTANCY</span>
+    <span class="hero-chip">TECHNOLOGY CONSULTANCY</span>
     <h1>CERTARE</h1>
     <p class="hero-sub">
-      Certainty in software delivery. Disciplined testing, automation and
-      performance engineering — delivered by senior engineers and tied to
-      your CI/CD pipelines.
+      Certainty in software delivery. Mobile, web, testing, AI and
+      training — delivered by senior engineers and tied to
+      your delivery pipelines.
     </p>
     <div class="hero-stats">
       <div class="stat"><strong>{{ loading ? '…' : products.length }}</strong><span>Services</span></div>
-      <div class="stat"><strong>6</strong><span>Practice lines</span></div>
-      <div class="stat"><strong>100%</strong><span>SLA coverage</span></div>
+      <div class="stat"><strong>5</strong><span>Practice lines</span></div>
+      <div class="stat"><strong>{{ loading ? '…' : sectorProducts.length }}</strong><span>In view</span></div>
     </div>
   </section>
 
@@ -23,7 +23,18 @@
     <div class="user-avatar" aria-label="Profile">{{ userLabel ? userLabel.charAt(0).toUpperCase() : 'C' }}</div>
   </div>
 
-  <!-- Filter chips -->
+  <!-- Sector chips -->
+  <div class="filter-bar" *ngIf="!loading && products.length">
+    <button
+      class="chip sector"
+      *ngFor="let s of sectors"
+      [class.active]="sector === s.key"
+      (click)="setSector(s.key)">
+      {{ s.label }}
+    </button>
+  </div>
+
+  <!-- Category / phase chips -->
   <div class="filter-bar" *ngIf="!loading && products.length">
     <button
       class="chip"
@@ -49,7 +60,7 @@
   <!-- Error state -->
   <div class="empty-state" *ngIf="!loading && loadError" role="alert">
     <p>{{ loadError }}</p>
-    <button class="chip active" (click)="retry()">Reintentar</button>
+    <button class="chip active" (click)="retry()">Retry</button>
   </div>
 
   <!-- Empty state -->
@@ -68,6 +79,7 @@
 
       <div class="service-info">
         <span class="plan-tag">{{ categoryLabel(service) }}</span>
+        <span class="sector-tag">{{ service.sectorLabel }}</span>
         <h4>{{ service.title }}</h4>
         <p>{{ service.description }}</p>
 
@@ -76,7 +88,7 @@
         </div>
 
         <div class="service-footer">
-          <span class="price-box">${{ service.price.toLocaleString() }} MXN</span>
+          <span class="price-box">{{ priceLabel(service) }}</span>
           <button class="cart-button" (click)="onAddToCart(service)" aria-label="Add to cart">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>

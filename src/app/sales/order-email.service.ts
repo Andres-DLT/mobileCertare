@@ -38,8 +38,8 @@ export class OrderEmailService {
       items: cartItems.map(item => ({
         name: item.title,
         units: item.units,
-        unitPrice: item.price,
-        subtotal: item.price * item.units
+        unitPrice: item.price ?? 0,
+        subtotal: (item.price ?? 0) * item.units
       })),
       totalProducts: cartItems.reduce((sum, i) => sum + i.units, 0),
       totalAmount,

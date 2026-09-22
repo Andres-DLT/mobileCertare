@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Product } from '../products/product-services';
+import { CatalogItem } from '../products/product-services';
 
-export interface CartItem extends Product {
+export interface CartItem extends CatalogItem {
   units: number;
 }
 
@@ -16,7 +16,7 @@ export class CartService {
   }
 
   /** Adds a product to the interest list (same id sums units) */
-  addToCart(p: Product) {
+  addToCart(p: CatalogItem) {
     const list = this.snapshot();
     const idx = list.findIndex(i => i.id === p.id);
     if (idx > -1) {
@@ -70,6 +70,6 @@ export class CartService {
     return this.items$.value.reduce((sum, i) => sum + i.units, 0);
   }
   getTotalCost(): number {
-    return this.items$.value.reduce((sum, i) => sum + i.units * i.price, 0);
+    return this.items$.value.reduce((sum, i) => sum + i.units * (i.price ?? 0), 0);
   }
 }

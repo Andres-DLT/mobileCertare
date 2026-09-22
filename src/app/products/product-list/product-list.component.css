@@ -173,6 +173,25 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 8px;
+  margin-right: 6px;
+}
+
+.sector-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.chip.sector.active {
+  background: linear-gradient(90deg, #22d3ee, var(--accent));
 }
 
 .service-info h4 {

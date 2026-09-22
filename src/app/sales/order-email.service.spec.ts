@@ -25,20 +25,16 @@ describe('OrderEmailService', () => {
       title: 'Red Hoodie',
       price: 45.00,
       description: 'A red hoodie',
-      'image-front': 'img1.jpg',
-      'image-back': 'img1b.jpg',
       units: 2,
-      category: 'Apparel'
+      group: 'Apparel', sector: 'testing', sectorLabel: 'Testing'
     },
     {
       id: '2',
       title: 'Black Cap',
       price: 15.00,
       description: 'A black cap',
-      'image-front': 'img2.jpg',
-      'image-back': 'img2b.jpg',
       units: 1,
-      category: 'Apparel'
+      group: 'Apparel', sector: 'testing', sectorLabel: 'Testing'
     }
   ];
 
@@ -79,8 +75,8 @@ describe('OrderEmailService', () => {
     const items = mockCartItems.map(item => ({
       name: item.title,
       units: item.units,
-      unitPrice: item.price,
-      subtotal: item.price * item.units
+      unitPrice: item.price ?? 0,
+      subtotal: (item.price ?? 0) * item.units
     }));
 
     expect(items[0].subtotal).toBe(90.00);
@@ -91,8 +87,8 @@ describe('OrderEmailService', () => {
     const items = mockCartItems.map(item => ({
       name: item.title,
       units: item.units,
-      unitPrice: item.price,
-      subtotal: item.price * item.units
+      unitPrice: item.price ?? 0,
+      subtotal: (item.price ?? 0) * item.units
     }));
 
     expect(items[0]).toEqual({

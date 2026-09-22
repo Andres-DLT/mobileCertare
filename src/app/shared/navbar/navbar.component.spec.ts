@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 import { NavbarComponent } from './navbar.component';
@@ -34,5 +35,18 @@ describe('NavbarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('sends the logo home depending on session', () => {
+    const router = TestBed.inject(Router);
+    const navigateSpy = spyOn(router, 'navigate').and.resolveTo(true);
+    component.isLoggedIn = false;
+    component.goHome();
+    expect(navigateSpy).toHaveBeenCalledWith(['/auth/login']);
+    component.isLoggedIn = true;
+    component.menuOpen = true;
+    component.goHome();
+    expect(navigateSpy).toHaveBeenCalledWith(['/products/list']);
+    expect(component.menuOpen).toBeFalse();
   });
 });

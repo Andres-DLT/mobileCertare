@@ -62,6 +62,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.menuOpen = false;
   }
 
+  /** Brand logo always lands somewhere useful, even if a routerLink misfires. */
+  goHome(): void {
+    this.menuOpen = false;
+    const target = this.isLoggedIn ? '/products/list' : '/auth/login';
+    this.router.navigate([target]).catch(() => {
+      window.location.assign(target);
+    });
+  }
+
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }

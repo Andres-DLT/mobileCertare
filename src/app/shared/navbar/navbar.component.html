@@ -1,6 +1,6 @@
 <header class="app-bar" *ngIf="!onAuth">
   <div class="app-bar-inner">
-    <div class="navbar-brand" routerLink="/products/list" (click)="menuOpen = false">
+    <div class="navbar-brand" (click)="goHome()" (keydown.enter)="goHome()" tabindex="0" role="link" aria-label="Go home">
       <span class="brand-mark">C</span>
       <span class="brand-text">Certare</span>
     </div>

@@ -20,6 +20,8 @@ describe('AboutComponent', () => {
     expect(text).toContain('Mobile development');
     expect(text).toContain('Web development');
     expect(text).toContain('Global testing');
+    expect(text).toContain('AI integration');
+    expect(text).toContain('IT education');
   });
 
   it('offers a scheduling call to action', () => {

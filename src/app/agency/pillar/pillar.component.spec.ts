@@ -35,6 +35,13 @@ describe('PillarComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Discovery');
   });
 
+  it('loads lifecycle stages for the AI sector', async () => {
+    const { fixture, devSpy } = await setup('ai', stages);
+    expect(devSpy.getStages).toHaveBeenCalledWith('ai');
+    expect(fixture.componentInstance.stages.length).toBe(2);
+    expect(fixture.nativeElement.textContent).toContain('Lifecycle stages');
+  });
+
   it('skips stages for the testing pillar and links the catalog', async () => {
     const { fixture, devSpy } = await setup('testing', []);
     expect(devSpy.getStages).not.toHaveBeenCalled();

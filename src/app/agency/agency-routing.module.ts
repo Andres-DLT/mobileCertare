@@ -9,6 +9,8 @@ const routes: Routes = [
   { path: 'mobile', component: PillarComponent, data: { pillar: 'mobile' } },
   { path: 'web', component: PillarComponent, data: { pillar: 'web' } },
   { path: 'testing', component: PillarComponent, data: { pillar: 'testing' } },
+  { path: 'ai', component: PillarComponent, data: { pillar: 'ai' } },
+  { path: 'training', component: PillarComponent, data: { pillar: 'training' } },
   { path: 'schedule', component: ScheduleComponent },
   { path: '', redirectTo: 'about', pathMatch: 'full' },
 ];

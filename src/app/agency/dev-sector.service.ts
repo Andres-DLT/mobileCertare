@@ -12,11 +12,13 @@ export interface DevStage {
   tags?: string[];
 }
 
-export type DevSector = 'mobile' | 'web';
+export type DevSector = 'mobile' | 'web' | 'ai' | 'training';
 
 const COLLECTIONS: Record<DevSector, string> = {
   mobile: 'mobile-services',
   web: 'web-services',
+  ai: 'ai-services',
+  training: 'training-services',
 };
 
 @Injectable({ providedIn: 'root' })

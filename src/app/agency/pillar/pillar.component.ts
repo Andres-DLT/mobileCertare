@@ -101,6 +101,58 @@ const PILLARS: Record<string, PillarContent> = {
     ],
     catalogLink: '/products/list',
   },
+  ai: {
+    chip: 'AI INTEGRATION & TESTING',
+    title: 'AI you can trust in production',
+    intro:
+      'Integration of language models, agents and knowledge systems — plus the evaluations, red teaming and governance that keep them safe, fast and affordable.',
+    included: [
+      'LLM integration, RAG pipelines and agent workflows',
+      'Model QA, eval harnesses and prompt testing',
+      'Red teaming, guardrails and cost tuning',
+      'Governance checklists and production monitoring',
+    ],
+    excluded: [
+      'Training foundation models from scratch',
+      'GPU infrastructure billing',
+    ],
+    estimates: [
+      'S — opportunity assessment or single integration: 2–4 weeks',
+      'M — RAG system or agent workflow with evals: 6–10 weeks',
+      'L — AI program with governance: scoped after discovery',
+    ],
+    faqs: [
+      { q: 'How do you prevent hallucinations?', a: 'Grounding over your data, cited answers, guardrails and eval gates on every change.' },
+      { q: 'How is AI quality measured?', a: 'Golden datasets, task success rate, latency and cost per task — tracked continuously.' },
+      { q: 'Who owns the data?', a: 'You do. Reviews cover privacy, retention and model-training opt-outs before anything ships.' },
+    ],
+  },
+  training: {
+    chip: 'IT EDUCATION & TRAINING',
+    title: 'Teams that level up',
+    intro:
+      'Hands-on courses, bootcamps and mentoring across QA, development and IT operations — built around your stack, not generic slides.',
+    included: [
+      'QA, automation, API and performance courses',
+      'Mobile, web and DevOps training with labs',
+      'SDET mentoring and quality leadership workshops',
+      'Material, repositories and certificates your team keeps',
+    ],
+    excluded: [
+      'Official certification exam fees',
+      'Third-party platform licenses',
+    ],
+    estimates: [
+      'S — focused workshop: 1–2 weeks',
+      'M — bootcamp per discipline: 4–8 weeks',
+      'L — enablement program: quarterly engagement',
+    ],
+    faqs: [
+      { q: 'On-site or remote?', a: 'Both. Remote-first with live labs; on-site available for teams.' },
+      { q: 'Is it theory or practice?', a: 'Practice: every module ends with working artifacts in your own repositories.' },
+      { q: 'Do you certify?', a: 'You receive completion certificates plus guided prep for industry certifications.' },
+    ],
+  },
 };
 
 @Component({
@@ -126,7 +178,7 @@ export class PillarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const key = this.route.snapshot.data['pillar'] as string;
     this.pillar = PILLARS[key] ?? PILLARS['mobile'];
-    if (key === 'mobile' || key === 'web') {
+    if (key === 'mobile' || key === 'web' || key === 'ai' || key === 'training') {
       this.sectorKey = key;
       this.loadStages(key);
     }
@@ -161,6 +213,6 @@ export class PillarComponent implements OnInit, OnDestroy {
   }
 
   retryStages() {
-    if (this.sectorKey === 'mobile' || this.sectorKey === 'web') this.loadStages(this.sectorKey);
+    if (this.sectorKey === 'mobile' || this.sectorKey === 'web' || this.sectorKey === 'ai' || this.sectorKey === 'training') this.loadStages(this.sectorKey);
   }
 }

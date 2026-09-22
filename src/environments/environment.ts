@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
+  // Bump on every production deploy so users can confirm the version they see.
+  release: '2026-09-23.1',
   // Canonical public URL of the agency site (update when the paid domain lands).
   siteUrl: 'https://certare.web.app',
   // Google Calendar Appointment Schedule link for discovery calls.

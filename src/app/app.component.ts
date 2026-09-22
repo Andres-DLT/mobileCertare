@@ -4,6 +4,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Subscription, filter } from 'rxjs';
+import { environment } from '../environments/environment';
 
 /** Session flag: a stale cached index.html can reference chunks from a
  *  previous release. Reload once so the browser fetches the fresh shell;
@@ -19,6 +20,7 @@ const CHUNK_RELOAD_KEY = 'certare.chunkReloaded';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'certare';
+  release = environment.release;
   private routerSub?: Subscription;
 
   constructor(private router: Router) {}

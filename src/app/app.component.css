@@ -3,3 +3,11 @@
   min-height: 100vh;
   background: var(--bg);
 }
+
+.build-tag {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 11px;
+  opacity: 0.6;
+  padding: 18px 0 calc(18px + var(--safe-bottom));
+}

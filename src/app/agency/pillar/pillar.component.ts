@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
+import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { ScheduleCallComponent } from '../schedule-call/schedule-call.component';
+import { DevSectorService, DevSector, DevStage } from '../dev-sector.service';
 
 interface PillarContent {
   chip: string;
@@ -108,13 +110,57 @@ const PILLARS: Record<string, PillarContent> = {
   templateUrl: './pillar.component.html',
   styleUrl: '../about/about.component.css'
 })
-export class PillarComponent implements OnInit {
+export class PillarComponent implements OnInit, OnDestroy {
   pillar: PillarContent = PILLARS['mobile'];
+  stages: DevStage[] = [];
+  stagesLoading = false;
+  stagesError = '';
+  sectorKey = '';
+  private sub?: Subscription;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private devSectors: DevSectorService
+  ) {}
 
   ngOnInit() {
     const key = this.route.snapshot.data['pillar'] as string;
     this.pillar = PILLARS[key] ?? PILLARS['mobile'];
+    if (key === 'mobile' || key === 'web') {
+      this.sectorKey = key;
+      this.loadStages(key);
+    }
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
+
+  loadStages(sector: DevSector) {
+    this.sub?.unsubscribe();
+    this.stagesLoading = true;
+    this.stagesError = '';
+    this.sub = this.devSectors
+      .getStages(sector)
+      .pipe(timeout({ first: 15000 }))
+      .subscribe({
+        next: (stages) => {
+          this.stages = stages;
+          this.stagesLoading = false;
+        },
+        error: (err: unknown) => {
+          this.stages = [];
+          this.stagesLoading = false;
+          this.stagesError =
+            err instanceof TimeoutError
+              ? 'Stages took too long to load. Check your connection and retry.'
+              : 'Could not load the lifecycle stages. Try again later.';
+          console.error('[Pillar] loadStages failed:', err);
+        },
+      });
+  }
+
+  retryStages() {
+    if (this.sectorKey === 'mobile' || this.sectorKey === 'web') this.loadStages(this.sectorKey);
   }
 }

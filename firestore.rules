@@ -7,6 +7,17 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Development catalogs (lifecycle stages per sector).
+    match /mobile-services/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /web-services/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Discovery call requests: each signed-in user manages only their own.
     match /discovery-requests/{id} {
       allow create: if request.auth != null

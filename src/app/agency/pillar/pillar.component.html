@@ -36,6 +36,31 @@
     </div>
   </section>
 
+  <section class="about-section" *ngIf="sectorKey">
+    <h2>Lifecycle stages</h2>
+    <p>Every stage of the sector, in order — each with its deliverables.</p>
+
+    <div class="empty-state" *ngIf="stagesLoading">
+      <p>Loading stages…</p>
+    </div>
+
+    <div class="empty-state" *ngIf="!stagesLoading && stagesError" role="alert">
+      <p>{{ stagesError }}</p>
+      <button class="chip active" (click)="retryStages()">Retry</button>
+    </div>
+
+    <div class="process-row" *ngIf="!stagesLoading && !stagesError && stages.length">
+      <div class="process-step" *ngFor="let stage of stages">
+        <span class="step-num">{{ stage.order | number:'2.0' }} · {{ stage.phase | uppercase }}</span>
+        <h3>{{ stage.title }}</h3>
+        <p>{{ stage.description }}</p>
+        <div class="service-tags" *ngIf="stage.deliverables?.length">
+          <span class="tag" *ngFor="let item of stage.deliverables">{{ item }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="about-section">
     <h2>Questions we hear often</h2>
     <div class="faq">

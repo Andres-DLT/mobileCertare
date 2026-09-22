@@ -25,4 +25,12 @@ describe('AboutComponent', () => {
   it('offers a scheduling call to action', () => {
     expect(fixture.nativeElement.querySelector('app-schedule-call')).not.toBeNull();
   });
+
+  it('renders mission, stats, team and contact sections', () => {
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('Mission');
+    expect(text).toContain('By the numbers');
+    expect(text).toContain('Team');
+    expect(text).toContain('Contact');
+  });
 });

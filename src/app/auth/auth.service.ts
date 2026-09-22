@@ -11,10 +11,12 @@ import {
 } from '@angular/fire/auth';
 // AngularFire 19 wraps function arguments as callbacks, which breaks the
 // persistence constructor passed to setPersistence ("cls is not a constructor").
-import { setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CartService } from '../sales/cart.service';
+
+const REMEMBER_ME_KEY = 'certare.rememberMe';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -28,7 +30,8 @@ export class AuthService {
     private cartService: CartService,
     destroyRef: DestroyRef
   ) {
-    this.persistenceReady = setPersistence(this.auth, browserLocalPersistence);
+    // Restore the last "remember me" choice (default: stay signed in).
+    this.persistenceReady = setPersistence(this.auth, this.storedPersistence());
     // Observe the rejection immediately; login/register still propagate it.
     this.persistenceReady.catch(error => console.error('[Auth] Persistence unavailable:', error));
     const unsubscribe = onAuthStateChanged(this.auth, user => {
@@ -37,8 +40,32 @@ export class AuthService {
     destroyRef.onDestroy(unsubscribe);
   }
 
-  async login(email: string, password: string): Promise<UserCredential> {
+  /** Last saved choice: true = stay signed in across restarts. */
+  getRememberMe(): boolean {
+    try {
+      return localStorage.getItem(REMEMBER_ME_KEY) !== '0';
+    } catch {
+      return true;
+    }
+  }
+
+  private storedPersistence() {
+    return this.getRememberMe() ? browserLocalPersistence : browserSessionPersistence;
+  }
+
+  private async applyPersistence(rememberMe: boolean): Promise<void> {
+    try {
+      localStorage.setItem(REMEMBER_ME_KEY, rememberMe ? '1' : '0');
+    } catch {
+      /* storage blocked: persistence choice still applies to this session */
+    }
+    // Must run before sign-in so it applies to the new session.
+    await setPersistence(this.auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+  }
+
+  async login(email: string, password: string, rememberMe = true): Promise<UserCredential> {
     await this.persistenceReady;
+    await this.applyPersistence(rememberMe);
     const credential = await runInInjectionContext(this.injector, () =>
       signInWithEmailAndPassword(this.auth, email.trim(), password)
     );

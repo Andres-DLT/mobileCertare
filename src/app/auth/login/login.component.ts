@@ -14,6 +14,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   email = '';
   password = '';
+  rememberMe = true;
   errorMessage = '';
   isLoading = false;
   showPassword = false;
@@ -21,7 +22,9 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.rememberMe = this.authService.getRememberMe();
+  }
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -37,7 +40,7 @@ export class LoginComponent {
 
     this.isLoading = true;
     try {
-      await this.authService.login(this.email, this.password);
+      await this.authService.login(this.email, this.password, this.rememberMe);
       await this.router.navigate(['/products']);
     } catch (err: any) {
       const message = err?.message || 'Unable to sign in.';

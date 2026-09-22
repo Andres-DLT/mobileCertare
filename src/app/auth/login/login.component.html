@@ -62,6 +62,11 @@
 
       <p class="error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
 
+      <label class="remember">
+        <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
+        <span>Remember me on this device</span>
+      </label>
+
       <button type="submit" [disabled]="isLoading">
         <span *ngIf="isLoading" class="spinner"></span>
         {{ isLoading ? 'SIGNING IN…' : 'SIGN IN' }}

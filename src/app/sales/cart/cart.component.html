@@ -22,7 +22,7 @@
             </div>
           </div>
         </div>
-        <div class="item-total" *ngIf="item.price != null">${{ ((item.price ?? 0) * item.units).toLocaleString() }} MXN</div>
+        <div class="item-total" *ngIf="item.price != null">${{ (item.price * item.units).toLocaleString() }} MXN</div>
         <div class="item-total" *ngIf="item.price == null">Custom quote</div>
       </div>
 

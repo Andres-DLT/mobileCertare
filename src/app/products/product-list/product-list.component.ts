@@ -3,14 +3,35 @@ import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
-import { CatalogItem, CatalogSector, CATALOG_SECTORS, ProductService } from '../product-services';
+import { CatalogItem, CatalogSector, ProductService } from '../product-services';
 import { CartService, CartItem } from '../../sales/cart.service';
 import { AuthService } from '../../auth/auth.service';
+import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
+import { CxCardComponent } from '../../shared/ui/cx-card.component';
+import { CxFilterBarComponent } from '../../shared/ui/cx-filter-bar.component';
+import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component';
+import { CxCtaSectionComponent } from '../../shared/ui/cx-cta-section.component';
+
+type SortKey = 'relevance' | 'price-asc' | 'price-desc' | 'title';
+
+const SORT_OPTIONS = [
+  { key: 'relevance', label: 'Sort: relevance' },
+  { key: 'price-asc', label: 'Price: low to high' },
+  { key: 'price-desc', label: 'Price: high to low' },
+  { key: 'title', label: 'Title: A to Z' },
+];
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    CxHeroComponent,
+    CxCardComponent,
+    CxFilterBarComponent,
+    CxEmptyStateComponent,
+    CxCtaSectionComponent,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -19,9 +40,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   loading = true;
   loadError = '';
   userLabel = '';
-  sector: CatalogSector | 'all' = 'all';
-  filter = 'all';
-  sectors = CATALOG_SECTORS;
+  selection: Record<string, string> = { sector: 'all', group: 'all' };
+  search = '';
+  sort: SortKey = 'relevance';
+  sortOptions = SORT_OPTIONS;
   private lastSnapshot: CartItem[] = [];
   private subs = new Subscription();
   private productsSubscription?: Subscription;
@@ -89,29 +111,101 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.loadProducts();
   }
 
-  /** Items in the selected sector (or everything). */
-  get sectorProducts(): CatalogItem[] {
-    if (this.sector === 'all') return this.products;
-    return this.products.filter((p) => p.sector === this.sector);
+  get sector(): CatalogSector | 'all' {
+    return (this.selection['sector'] as CatalogSector | 'all') ?? 'all';
   }
 
-  /** Category/phase chips available in the selected sector. */
-  get categories(): { key: string; label: string }[] {
-    const groups = [...new Set(this.sectorProducts.map((p) => p.group))].sort();
-    return [{ key: 'all', label: 'All' }, ...groups.map((g) => ({ key: g, label: g }))];
+  get sectorCounts(): Record<string, number> {
+    const counts: Record<string, number> = { all: this.products.length };
+    for (const item of this.products) counts[item.sector] = (counts[item.sector] ?? 0) + 1;
+    return counts;
+  }
+
+  get sectorGroups(): { key: string; label: string; options: { key: string; label: string; count: number }[] }[] {
+    const defs: { key: string; label: string }[] = [
+      { key: 'all', label: 'All' },
+      { key: 'testing', label: 'Testing' },
+      { key: 'ai', label: 'AI' },
+      { key: 'mobile', label: 'Mobile' },
+      { key: 'web', label: 'Web' },
+      { key: 'training', label: 'Training' },
+    ];
+    return [
+      {
+        key: 'sector',
+        label: 'Practice',
+        options: defs.map((d) => ({
+          ...d,
+          count: d.key === 'all' ? this.products.length : this.sectorCounts[d.key] ?? 0,
+        })),
+      },
+    ];
+  }
+
+  get advancedGroups(): { key: string; label: string; options: { key: string; label: string; count: number }[] }[] {
+    const inSector =
+      this.sector === 'all' ? this.products : this.products.filter((p) => p.sector === this.sector);
+    const groups = [...new Set(inSector.map((p) => p.group))].sort();
+    return [
+      {
+        key: 'group',
+        label: this.sector === 'all' ? 'Category' : 'Stage',
+        options: [
+          { key: 'all', label: 'All', count: inSector.length },
+          ...groups.map((g) => ({
+            key: g,
+            label: g,
+            count: inSector.filter((p) => p.group === g).length,
+          })),
+        ],
+      },
+    ];
   }
 
   get filteredProducts(): CatalogItem[] {
-    if (this.filter === 'all') return this.sectorProducts;
-    return this.sectorProducts.filter((p) => p.group === this.filter);
+    const query = this.search.trim().toLowerCase();
+    let items = this.products;
+    if (this.sector !== 'all') items = items.filter((p) => p.sector === this.sector);
+    const group = this.selection['group'] ?? 'all';
+    if (group !== 'all') items = items.filter((p) => p.group === group);
+    if (query) {
+      items = items.filter((p) =>
+        [p.title, p.description, p.group, p.sectorLabel, ...(p.tags ?? [])]
+          .join(' ')
+          .toLowerCase()
+          .includes(query)
+      );
+    }
+    const sorted = [...items];
+    if (this.sort === 'price-asc') sorted.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+    if (this.sort === 'price-desc') sorted.sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
+    if (this.sort === 'title') sorted.sort((a, b) => a.title.localeCompare(b.title));
+    return sorted;
   }
 
-  categoryLabel(p: CatalogItem): string {
-    return p.group || 'Service';
+  get heroStats(): { value: string; label: string }[] {
+    return [
+      { value: this.loading ? '…' : String(this.products.length), label: 'Services' },
+      { value: '5', label: 'Practices' },
+      { value: this.loading ? '…' : String(this.filteredProducts.length), label: 'In view' },
+    ];
   }
 
   priceLabel(p: CatalogItem): string {
     return p.price == null ? 'Custom quote' : `$${p.price.toLocaleString()} MXN`;
+  }
+  onSelectionChange(selection: Record<string, string>): void {
+    const previousSector = this.selection['sector'];
+    this.selection = selection;
+    if (selection['sector'] !== previousSector) {
+      this.selection = { ...selection, group: 'all' };
+    }
+  }
+
+  onSort(value: string): void {
+    if (value === 'price-asc' || value === 'price-desc' || value === 'title' || value === 'relevance') {
+      this.sort = value;
+    }
   }
 
   onAddToCart(p: CatalogItem): void {
@@ -150,14 +244,5 @@ export class ProductListComponent implements OnInit, OnDestroy {
       clearTimeout(this.snackbarTimer);
       this.snackbarTimer = undefined;
     }
-  }
-
-  setSector(key: CatalogSector | 'all') {
-    this.sector = key;
-    this.filter = 'all';
-  }
-
-  setFilter(key: string) {
-    this.filter = key;
   }
 }

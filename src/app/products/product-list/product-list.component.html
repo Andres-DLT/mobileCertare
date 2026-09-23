@@ -1,52 +1,40 @@
 <div class="product-page">
-  <!-- Hero -->
-  <section class="hero">
-    <span class="hero-chip">TECHNOLOGY CONSULTANCY</span>
-    <h1>CERTARE</h1>
-    <p class="hero-sub">
-      Certainty in software delivery. Mobile, web, testing, AI and
-      training — delivered by senior engineers and tied to
-      your delivery pipelines.
-    </p>
-    <div class="hero-stats">
-      <div class="stat"><strong>{{ loading ? '…' : products.length }}</strong><span>Services</span></div>
-      <div class="stat"><strong>5</strong><span>Practice lines</span></div>
-      <div class="stat"><strong>{{ loading ? '…' : sectorProducts.length }}</strong><span>In view</span></div>
-    </div>
-  </section>
+  <cx-hero
+    eyebrow="TECHNOLOGY CONSULTANCY"
+    title="CERTARE"
+    subtitle="Certainty in software delivery. Mobile, web, testing, AI and training — delivered by senior engineers and tied to your delivery pipelines."
+    primaryLabel="Schedule a discovery call"
+    primaryLink="/agency/schedule"
+    secondaryLabel="Who we are"
+    secondaryLink="/agency/about"
+    [stats]="heroStats">
+  </cx-hero>
 
-  <div class="user-header">
+  <div class="user-header" *ngIf="userLabel">
     <div>
-      <h2>Welcome{{ userLabel ? ',' : '' }}</h2>
-      <h1>{{ userLabel || 'Your service catalog' }}</h1>
+      <h2>Welcome,</h2>
+      <h1>{{ userLabel }}</h1>
     </div>
-    <div class="user-avatar" aria-label="Profile">{{ userLabel ? userLabel.charAt(0).toUpperCase() : 'C' }}</div>
+    <div class="user-avatar" role="img" [attr.aria-label]="'Profile of ' + userLabel">{{ userLabel.charAt(0).toUpperCase() }}</div>
   </div>
 
-  <!-- Sector chips -->
-  <div class="filter-bar" *ngIf="!loading && products.length">
-    <button
-      class="chip sector"
-      *ngFor="let s of sectors"
-      [class.active]="sector === s.key"
-      (click)="setSector(s.key)">
-      {{ s.label }}
-    </button>
-  </div>
-
-  <!-- Category / phase chips -->
-  <div class="filter-bar" *ngIf="!loading && products.length">
-    <button
-      class="chip"
-      *ngFor="let cat of categories"
-      [class.active]="filter === cat.key"
-      (click)="setFilter(cat.key)">
-      {{ cat.label }}
-    </button>
-  </div>
+  <!-- Unified filters: search + practice now, stages behind disclosure -->
+  <cx-filter-bar
+    *ngIf="!loading && products.length"
+    [groups]="sectorGroups"
+    [collapsibleGroups]="advancedGroups"
+    [selection]="selection"
+    [search]="search"
+    [searchable]="true"
+    [sort]="sort"
+    [sortOptions]="sortOptions"
+    (selectionChange)="onSelectionChange($event)"
+    (searchChange)="search = $event"
+    (sortChange)="onSort($event)">
+  </cx-filter-bar>
 
   <!-- Skeleton -->
-  <div class="service-list" *ngIf="loading">
+  <div class="service-list" *ngIf="loading" aria-busy="true" aria-label="Loading services">
     <div class="service-card skeleton" *ngFor="let _ of skeletonItems">
       <div class="skeleton-block icon"></div>
       <div class="service-info">
@@ -58,72 +46,46 @@
   </div>
 
   <!-- Error state -->
-  <div class="empty-state" *ngIf="!loading && loadError" role="alert">
-    <p>{{ loadError }}</p>
-    <button class="chip active" (click)="retry()">Retry</button>
-  </div>
+  <cx-empty-state
+    *ngIf="!loading && loadError"
+    [message]="loadError"
+    actionLabel="Retry"
+    (action)="retry()">
+  </cx-empty-state>
 
   <!-- Empty state -->
-  <div class="empty-state" *ngIf="!loading && !loadError && filteredProducts.length === 0">
-    <p>No services match this filter.</p>
-    <button class="chip active" (click)="setFilter('all')">Show all services</button>
-  </div>
+  <cx-empty-state
+    *ngIf="!loading && !loadError && filteredProducts.length === 0"
+    message="No services match these filters."
+    actionLabel="Clear filters"
+    (action)="onSelectionChange({ sector: 'all', group: 'all' }); search = ''">
+  </cx-empty-state>
 
   <!-- Service cards -->
   <div class="service-list" *ngIf="!loading && filteredProducts.length">
-    <div
-      class="service-card"
-      *ngFor="let service of filteredProducts; let i = index"
-      [style.animation-delay]="(i * 70) + 'ms'">
-      <div class="service-icon">{{ service.title.charAt(0) }}</div>
-
-      <div class="service-info">
-        <span class="plan-tag">{{ categoryLabel(service) }}</span>
-        <span class="sector-tag">{{ service.sectorLabel }}</span>
-        <h4>{{ service.title }}</h4>
-        <p>{{ service.description }}</p>
-
-        <div class="service-tags" *ngIf="service.tags?.length">
-          <span class="tag" *ngFor="let tag of service.tags">{{ tag }}</span>
-        </div>
-
-        <div class="service-footer">
-          <span class="price-box">{{ priceLabel(service) }}</span>
-          <button class="cart-button" (click)="onAddToCart(service)" aria-label="Add to cart">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
+    <cx-card
+      *ngFor="let service of filteredProducts"
+      variant="service"
+      [eyebrow]="service.group"
+      [badge]="service.sectorLabel"
+      [title]="service.title"
+      [description]="service.description"
+      [tags]="service.tags ?? []"
+      [priceLabel]="priceLabel(service)"
+      actionLabel="+"
+      [actionAriaLabel]="'Add ' + service.title + ' to shortlist'"
+      (action)="onAddToCart(service)">
+    </cx-card>
   </div>
 
-  <!-- About -->
-  <section id="about" class="about-section">
-    <h2>What Certare does</h2>
-    <p>
-      Certare is a quality engineering consultancy. We embed with your team to
-      design test strategy, build automation that runs in your pipeline, and
-      measure quality as a product — not a milestone. Every engagement follows
-      the same disciplined cycle:
-    </p>
-    <div class="process-row">
-      <div class="process-step">
-        <span class="step-num">01</span>
-        <h3>Discover</h3>
-        <p>Audit your stack, risks and release cadence to define what quality looks like.</p>
-      </div>
-      <div class="process-step">
-        <span class="step-num">02</span>
-        <h3>Plan</h3>
-        <p>Scope the test pyramid, select tooling and wire quality gates into your pipeline.</p>
-      </div>
-      <div class="process-step">
-        <span class="step-num">03</span>
-        <h3>Deliver</h3>
-        <p>Ship automation with evidence: reports, dashboards and defect insights your team can act on.</p>
-      </div>
-    </div>
-  </section>
+  <cx-cta-section
+    title="Not sure where to start?"
+    message="A 30-minute discovery call scopes your goals into a proposal with timeline and estimate."
+    primaryLabel="Schedule a discovery call"
+    primaryLink="/agency/schedule"
+    secondaryLabel="How we work"
+    secondaryLink="/agency/about">
+  </cx-cta-section>
 
   <!-- Snackbar -->
   <div class="snackbar" *ngIf="snackbarVisible" role="status">

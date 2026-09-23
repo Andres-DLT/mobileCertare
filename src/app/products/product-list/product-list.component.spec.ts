@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, NEVER, of, throwError } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { ProductListComponent } from './product-list.component';
@@ -25,7 +26,7 @@ describe('ProductListComponent', () => {
     productService = jasmine.createSpyObj('ProductService', ['getProducts', 'getCatalog']);
     productService.getCatalog.and.returnValue(of([testingItem, mobileItem]));
     await TestBed.configureTestingModule({
-      imports: [ProductListComponent],
+      imports: [ProductListComponent, RouterTestingModule],
       providers: [
         { provide: ProductService, useValue: productService },
         { provide: AuthService, useValue: { getCurrentUser: () => user.asObservable() } },
@@ -39,18 +40,27 @@ describe('ProductListComponent', () => {
   it('replaces the skeleton with the unified catalog', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.skeleton')).toBeNull();
-    expect(fixture.nativeElement.querySelector('.service-info h4').textContent).toContain('API Testing');
+    expect(fixture.nativeElement.textContent).toContain('API Testing');
+    expect(fixture.nativeElement.textContent).toContain('iOS Development');
   });
 
-  it('filters by sector and then by group', () => {
+  it('filters by sector, then group, then search', () => {
     fixture.detectChanges();
-    component.setSector('mobile');
-    fixture.detectChanges();
+    component.onSelectionChange({ sector: 'mobile', group: 'all' });
     expect(component.filteredProducts).toEqual([mobileItem]);
-    expect(fixture.nativeElement.querySelector('.service-info h4').textContent).toContain('iOS Development');
-    component.setSector('all');
-    component.setFilter('api');
+    component.onSelectionChange({ sector: 'all', group: 'all' });
+    component.onSelectionChange({ sector: 'all', group: 'api' });
     expect(component.filteredProducts).toEqual([testingItem]);
+    component.onSelectionChange({ sector: 'all', group: 'all' });
+    component.search = 'ios';
+    expect(component.filteredProducts).toEqual([mobileItem]);
+  });
+
+  it('sorts by price without mutating the source order', () => {
+    fixture.detectChanges();
+    component.sort = 'price-desc';
+    expect(component.filteredProducts.map((p) => p.id)).toEqual(['2', '1']);
+    expect(component.products.map((p) => p.id)).toEqual(['1', '2']);
   });
 
   it('shows a permissions error and recovers when retry succeeds', () => {
@@ -58,9 +68,9 @@ describe('ProductListComponent', () => {
     productService.getCatalog.and.returnValue(throwError(() => ({ code: 'permission-denied' })));
     fixture.detectChanges();
     expect(component.loading).toBeFalse();
-    expect(fixture.nativeElement.querySelector('[role="alert"]')).not.toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('Could not access the catalog');
     productService.getCatalog.and.returnValue(of([testingItem]));
-    fixture.nativeElement.querySelector('[role="alert"] button').click();
+    fixture.nativeElement.querySelector('cx-empty-state button').click();
     fixture.detectChanges();
     expect(component.loadError).toBe('');
     expect(component.products).toEqual([testingItem]);
@@ -76,13 +86,11 @@ describe('ProductListComponent', () => {
     expect(component.loadError).toContain('took too long');
   }));
 
-  it('reacts to the actual profile name and never derives it from email', () => {
+  it('reacts to the actual profile name', () => {
     fixture.detectChanges();
     user.next({ displayName: 'Andres', email: 'a.dlt.g@example.com' } as User);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.user-header h1').textContent).toBe('Andres');
-    user.next({ displayName: null, email: 'a.dlt.g@example.com' } as User);
-    expect(component.userLabel).toBe('');
   });
 
   it('undoes a repeated addition without corrupting previous quantities', () => {

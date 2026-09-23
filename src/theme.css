@@ -45,6 +45,24 @@
   --font-body: 'Inter', 'Trebuchet MS', 'Segoe UI', sans-serif;
   --app-font: var(--font-body);
 
+  /* ===== Typography scale ===== */
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-md: 14px;
+  --text-lg: 15px;
+  --text-xl: 17px;
+  --text-2xl: 20px;
+  --text-3xl: 24px;
+  --text-4xl: 32px;
+  --text-display: clamp(34px, 6vw, 60px);
+
+  /* ===== Motion ===== */
+  --motion-fast: 0.15s ease;
+  --motion-base: 0.2s ease;
+
+  /* ===== Touch ===== */
+  --touch-min: 44px;
+
   /* ===== Safe areas ===== */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);

@@ -30,6 +30,12 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Published insights (industry context, sourced).
+    match /insights/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Discovery call requests: each signed-in user manages only their own.
     match /discovery-requests/{id} {
       allow create: if request.auth != null

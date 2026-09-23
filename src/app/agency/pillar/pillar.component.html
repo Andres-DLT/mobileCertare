@@ -1,11 +1,15 @@
 <div class="agency-page">
-  <section class="hero">
-    <span class="hero-chip">{{ pillar.chip }}</span>
-    <h1>{{ pillar.title }}</h1>
-    <p class="hero-sub">{{ pillar.intro }}</p>
-  </section>
+  <cx-hero
+    [eyebrow]="pillar.chip"
+    [title]="pillar.title"
+    [subtitle]="pillar.intro"
+    primaryLabel="Schedule a discovery call"
+    primaryLink="/agency/schedule"
+    secondaryLabel="All services"
+    secondaryLink="/products/list">
+  </cx-hero>
 
-  <section class="about-section">
+  <section class="about-section" aria-label="Scope">
     <h2>Scope</h2>
     <div class="scope-lists">
       <div class="scope-box">
@@ -23,7 +27,7 @@
     </div>
   </section>
 
-  <section class="about-section">
+  <section class="about-section" aria-label="Typical timelines">
     <h2>Typical timelines</h2>
     <div class="scope-box" style="margin-top: 16px">
       <ul>
@@ -36,32 +40,35 @@
     </div>
   </section>
 
-  <section class="about-section" *ngIf="sectorKey">
+  <section class="about-section" *ngIf="sectorKey" aria-label="Lifecycle stages">
     <h2>Lifecycle stages</h2>
     <p>Every stage of the sector, in order — each with its deliverables.</p>
 
-    <div class="empty-state" *ngIf="stagesLoading">
+    <div class="empty-state" *ngIf="stagesLoading" aria-busy="true">
       <p>Loading stages…</p>
     </div>
 
-    <div class="empty-state" *ngIf="!stagesLoading && stagesError" role="alert">
-      <p>{{ stagesError }}</p>
-      <button class="chip active" (click)="retryStages()">Retry</button>
-    </div>
+    <cx-empty-state
+      *ngIf="!stagesLoading && stagesError"
+      [message]="stagesError"
+      actionLabel="Retry"
+      (action)="retryStages()">
+    </cx-empty-state>
 
-    <div class="process-row" *ngIf="!stagesLoading && !stagesError && stages.length">
-      <div class="process-step" *ngFor="let stage of stages">
-        <span class="step-num">{{ stage.order | number:'2.0' }} · {{ stage.phase | uppercase }}</span>
-        <h3>{{ stage.title }}</h3>
-        <p>{{ stage.description }}</p>
-        <div class="service-tags" *ngIf="stage.deliverables?.length">
-          <span class="tag" *ngFor="let item of stage.deliverables">{{ item }}</span>
-        </div>
-      </div>
+    <div class="service-list" *ngIf="!stagesLoading && !stagesError && stages.length">
+      <cx-card
+        *ngFor="let stage of stages"
+        variant="stage"
+        [eyebrow]="stage.phase"
+        [badge]="'Stage ' + stage.order"
+        [title]="stage.title"
+        [description]="stage.description"
+        [tags]="stage.deliverables ?? []">
+      </cx-card>
     </div>
   </section>
 
-  <section class="about-section">
+  <section class="about-section" aria-label="Frequently asked questions">
     <h2>Questions we hear often</h2>
     <div class="faq">
       <details *ngFor="let faq of pillar.faqs">
@@ -71,5 +78,12 @@
     </div>
   </section>
 
-  <app-schedule-call></app-schedule-call>
+  <cx-cta-section
+    title="Scope your project in one call"
+    message="Thirty minutes to turn your goals into a proposal with timeline and estimate."
+    primaryLabel="Schedule a discovery call"
+    primaryLink="/agency/schedule"
+    secondaryLabel="Who we are"
+    secondaryLink="/agency/about">
+  </cx-cta-section>
 </div>

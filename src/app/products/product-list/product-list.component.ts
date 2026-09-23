@@ -6,6 +6,7 @@ import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { CatalogItem, CatalogSector, ProductService } from '../product-services';
 import { CartService, CartItem } from '../../sales/cart.service';
 import { AuthService } from '../../auth/auth.service';
+import { SeoService } from '../../shared/seo.service';
 import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
 import { CxCardComponent } from '../../shared/ui/cx-card.component';
 import { CxFilterBarComponent } from '../../shared/ui/cx-filter-bar.component';
@@ -58,10 +59,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private seo: SeoService
   ) {}
 
   ngOnInit() {
+    this.seo.setPage({
+      title: 'Services',
+      description: 'Browse 60 services across testing, mobile, web, AI and training. Filter by practice, search and shortlist for a discovery call.',
+      path: '/products/list',
+    });
     this.loadProducts();
 
     this.subs.add(
@@ -192,7 +199,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   priceLabel(p: CatalogItem): string {
-    return p.price == null ? 'Custom quote' : `$${p.price.toLocaleString()} MXN`;
+    return p.price == null ? 'Custom quote' : `From $${p.price.toLocaleString()} MXN`;
   }
   onSelectionChange(selection: Record<string, string>): void {
     const previousSector = this.selection['sector'];

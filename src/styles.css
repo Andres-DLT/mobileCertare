@@ -153,14 +153,14 @@ button[type="submit"]:disabled {
   align-items: center;
 }
 
-.user-header h2 {
+.user-header .welcome-kicker {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
   color: var(--text-muted);
 }
 
-.user-header h1 {
+.user-header h2 {
   margin: 0;
   font-size: 28px;
   font-weight: 800;

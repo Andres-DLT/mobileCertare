@@ -1,15 +1,13 @@
 <div class="agency-page">
-  <section class="hero">
-    <span class="hero-chip">WHO WE ARE</span>
-    <h1>Certare</h1>
-    <p class="hero-sub">
-      Certare is a technology consultancy across five practices:
-      mobile development, web development, global testing,
-      AI integration & testing, and IT education.
-      Senior engineers join your team, follow a disciplined process
-      and back every release with evidence.
-    </p>
-  </section>
+  <cx-hero
+    eyebrow="WHO WE ARE"
+    title="Certare"
+    subtitle="Certare is a technology consultancy across five practices: mobile development, web development, global testing, AI integration & testing, and IT education. Senior engineers join your team, follow a disciplined process and back every release with evidence."
+    primaryLabel="Schedule a discovery call"
+    primaryLink="/agency/schedule"
+    secondaryLabel="Browse services"
+    secondaryLink="/products/list">
+  </cx-hero>
 
   <section class="pillars">
     <a class="pillar-card" routerLink="/agency/mobile">
@@ -155,5 +153,27 @@
     </div>
   </section>
 
-  <app-schedule-call></app-schedule-call>
+  <section class="about-section" aria-label="Industry insights" *ngIf="insights.length">
+    <h2>Industry context</h2>
+    <p>What is changing in software delivery — and why it matters for your roadmap.</p>
+    <div class="service-list" style="margin-top: 16px">
+      <cx-card
+        *ngFor="let insight of insights"
+        variant="insight"
+        [badge]="insight.readingTime + ' min read'"
+        [title]="insight.title"
+        [description]="insight.excerpt"
+        [tags]="insight.tags ?? []">
+      </cx-card>
+    </div>
+  </section>
+
+  <cx-cta-section
+    title="Start with a conversation"
+    message="Tell us your goals in a 30-minute discovery call and receive a scoped proposal with timeline and estimate."
+    primaryLabel="Schedule a discovery call"
+    primaryLink="/agency/schedule"
+    secondaryLabel="Browse services"
+    secondaryLink="/products/list">
+  </cx-cta-section>
 </div>

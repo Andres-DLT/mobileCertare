@@ -2,10 +2,8 @@ import { DestroyRef, Injectable, EnvironmentInjector, runInInjectionContext } fr
 import {
   Auth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   onAuthStateChanged,
-  updateProfile,
   User,
   UserCredential,
 } from '@angular/fire/auth';
@@ -73,18 +71,12 @@ export class AuthService {
     return credential;
   }
 
-  async register(email: string, password: string, fullName?: string): Promise<UserCredential> {
-    await this.persistenceReady;
-    const credential = await runInInjectionContext(this.injector, () =>
-      createUserWithEmailAndPassword(this.auth, email.trim(), password)
-    );
-    if (fullName?.trim()) {
-      await runInInjectionContext(this.injector, () =>
-        updateProfile(credential.user, { displayName: fullName.trim() })
-      );
-    }
-    this.currentUser.next(credential.user);
-    return credential;
+  async register(_email: string, _password: string, _fullName?: string): Promise<UserCredential> {
+    // Public registration is disabled while the app is in development.
+    // Managed accounts are created directly in the Firebase console.
+    // To re-enable: restore createUserWithEmailAndPassword + updateProfile
+    // flow, the /auth/register route and the login signup link.
+    return Promise.reject(new Error('Account registration is currently disabled.'));
   }
 
   async logout(): Promise<void> {

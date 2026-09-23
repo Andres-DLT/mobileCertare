@@ -12,8 +12,8 @@
 
   <div class="user-header" *ngIf="userLabel">
     <div>
-      <h2>Welcome,</h2>
-      <h1>{{ userLabel }}</h1>
+      <p class="welcome-kicker">Welcome,</p>
+      <h2>{{ userLabel }}</h2>
     </div>
     <div class="user-avatar" role="img" [attr.aria-label]="'Profile of ' + userLabel">{{ userLabel.charAt(0).toUpperCase() }}</div>
   </div>

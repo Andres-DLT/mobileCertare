@@ -18,7 +18,7 @@ describe('PillarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PillarComponent, RouterTestingModule],
       providers: [
-        { provide: ActivatedRoute, useValue: { snapshot: { data: { pillar } } } },
+        { provide: ActivatedRoute, useValue: { snapshot: { data: { pillar }, url: [] } } },
         { provide: DevSectorService, useValue: devSpy },
       ]
     }).compileComponents();

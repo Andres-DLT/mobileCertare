@@ -1,14 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 import { AboutComponent } from './about.component';
+import { InsightService } from '../insight.service';
 
 describe('AboutComponent', () => {
   let fixture: ComponentFixture<AboutComponent>;
 
   beforeEach(async () => {
+    const insightsSpy = jasmine.createSpyObj('InsightService', ['getInsights']);
+    insightsSpy.getInsights.and.returnValue(of([]));
     await TestBed.configureTestingModule({
-      imports: [AboutComponent, RouterTestingModule]
+      imports: [AboutComponent, RouterTestingModule],
+      providers: [{ provide: InsightService, useValue: insightsSpy }]
     }).compileComponents();
     fixture = TestBed.createComponent(AboutComponent);
     fixture.detectChanges();
@@ -25,7 +30,7 @@ describe('AboutComponent', () => {
   });
 
   it('offers a scheduling call to action', () => {
-    expect(fixture.nativeElement.querySelector('app-schedule-call')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('cx-cta-section')).not.toBeNull();
   });
 
   it('renders mission, stats, team and contact sections', () => {

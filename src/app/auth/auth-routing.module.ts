@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  // Public registration is disabled while the app is in development.
+  // Direct visits fall back to login.
+  { path: 'register', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -16,5 +17,5 @@ export class AuthRoutingModule { }
 
 export const AUTH_ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', redirectTo: 'login', pathMatch: 'full' }
 ];

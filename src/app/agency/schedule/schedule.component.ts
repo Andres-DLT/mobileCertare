@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Auth } from '@angular/fire/auth';
 import { DiscoveryService } from '../discovery.service';
+import { SeoService } from '../../shared/seo.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -27,10 +28,16 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private auth: Auth,
-    private discovery: DiscoveryService
+    private discovery: DiscoveryService,
+    private seo: SeoService
   ) {}
 
   ngOnInit() {
+    this.seo.setPage({
+      title: 'Schedule a discovery call',
+      description: 'Book a 30-minute discovery call with Certare, or send a written request. We reply within one business day.',
+      path: '/agency/schedule',
+    });
     if (this.scheduleUrl) {
       this.safeScheduleUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.scheduleUrl);
     }

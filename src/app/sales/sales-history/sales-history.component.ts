@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DiscoveryService, DiscoveryRequest } from '../../agency/discovery.service';
+import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component';
 
 @Component({
   selector: 'app-sales-history',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CxEmptyStateComponent],
   templateUrl: './sales-history.component.html',
   styleUrl: './sales-history.component.css'
 })
@@ -17,7 +18,14 @@ export class SalesHistoryComponent implements OnInit, OnDestroy {
   loadError = '';
   private sub?: Subscription;
 
-  constructor(private discovery: DiscoveryService) {}
+  constructor(
+    private discovery: DiscoveryService,
+    private router: Router
+  ) {}
+
+  goSchedule() {
+    this.router.navigate(['/agency/schedule']);
+  }
 
   ngOnInit() {
     this.sub = this.discovery.listMyRequests().subscribe({

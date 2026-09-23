@@ -1,16 +1,17 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService, CartItem } from '../cart.service';
 import { PaypalService } from '../paypal.service';
 import { OrderEmailService } from '../order-email.service';
+import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CxEmptyStateComponent],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -26,8 +27,13 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private paypalService: PaypalService,
-    private orderEmailService: OrderEmailService
+    private orderEmailService: OrderEmailService,
+    private router: Router
   ) {}
+
+  browseServices() {
+    this.router.navigate(['/products/list']);
+  }
 
   ngOnInit() {
     this.cartService.getCartItems().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(items => {

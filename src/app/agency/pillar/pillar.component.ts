@@ -4,6 +4,11 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { ScheduleCallComponent } from '../schedule-call/schedule-call.component';
 import { DevSectorService, DevSector, DevStage } from '../dev-sector.service';
+import { SeoService } from '../../shared/seo.service';
+import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
+import { CxCardComponent } from '../../shared/ui/cx-card.component';
+import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component';
+import { CxCtaSectionComponent } from '../../shared/ui/cx-cta-section.component';
 
 interface PillarContent {
   chip: string;
@@ -158,7 +163,15 @@ const PILLARS: Record<string, PillarContent> = {
 @Component({
   selector: 'app-pillar',
   standalone: true,
-  imports: [CommonModule, RouterModule, ScheduleCallComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ScheduleCallComponent,
+    CxHeroComponent,
+    CxCardComponent,
+    CxEmptyStateComponent,
+    CxCtaSectionComponent,
+  ],
   templateUrl: './pillar.component.html',
   styleUrl: '../about/about.component.css'
 })
@@ -172,12 +185,18 @@ export class PillarComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private devSectors: DevSectorService
+    private devSectors: DevSectorService,
+    private seo: SeoService
   ) {}
 
   ngOnInit() {
     const key = this.route.snapshot.data['pillar'] as string;
     this.pillar = PILLARS[key] ?? PILLARS['mobile'];
+    this.seo.setPage({
+      title: this.pillar.title,
+      description: this.pillar.intro,
+      path: this.route.snapshot.url.map((s) => '/' + s.path).join('') || '/agency',
+    });
     if (key === 'mobile' || key === 'web' || key === 'ai' || key === 'training') {
       this.sectorKey = key;
       this.loadStages(key);

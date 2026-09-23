@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
+import { SeoService } from '../../shared/seo.service';
 
 @Component({
   standalone: true,
@@ -11,7 +12,7 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email = '';
   password = '';
   rememberMe = true;
@@ -21,9 +22,18 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private seo: SeoService
   ) {
     this.rememberMe = this.authService.getRememberMe();
+  }
+
+  ngOnInit() {
+    this.seo.setPage({
+      title: 'Sign in',
+      description: 'Sign in to Certare to browse services, shortlist them and schedule a discovery call.',
+      path: '/auth/login',
+    });
   }
 
   togglePassword(): void {

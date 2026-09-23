@@ -90,7 +90,7 @@ describe('ProductListComponent', () => {
     fixture.detectChanges();
     user.next({ displayName: 'Andres', email: 'a.dlt.g@example.com' } as User);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.user-header h1').textContent).toBe('Andres');
+    expect(fixture.nativeElement.querySelector('.user-header h2').textContent).toBe('Andres');
   });
 
   it('undoes a repeated addition without corrupting previous quantities', () => {

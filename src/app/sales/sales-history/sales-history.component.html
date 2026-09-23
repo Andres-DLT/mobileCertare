@@ -5,23 +5,26 @@
     <p class="cart-sub">Discovery calls you requested and their status. We reply within one business day.</p>
   </header>
 
-  <div class="cart-empty" *ngIf="loading">
+  <div class="cart-empty" *ngIf="loading" aria-busy="true">
     <p>Loading your requests…</p>
   </div>
 
-  <div class="cart-empty" *ngIf="!loading && loadError" role="alert">
-    <p>{{ loadError }}</p>
-  </div>
+  <cx-empty-state
+    *ngIf="!loading && loadError"
+    [message]="loadError">
+  </cx-empty-state>
 
-  <div class="cart-empty" *ngIf="!loading && !loadError && requests.length === 0">
-    <p>No requests yet.</p>
-    <a class="chip-link" routerLink="/agency/schedule">Schedule your first call</a>
-  </div>
+  <cx-empty-state
+    *ngIf="!loading && !loadError && requests.length === 0"
+    message="No requests yet."
+    actionLabel="Schedule your first call"
+    (action)="goSchedule()">
+  </cx-empty-state>
 
-  <section class="cart-items" *ngIf="!loading && requests.length">
+  <section class="cart-items" *ngIf="!loading && requests.length" aria-label="My requests">
     <div class="cart-card" *ngFor="let req of requests">
       <div class="item-info">
-        <h4>{{ req.message | slice:0:80 }}{{ req.message.length > 80 ? '…' : '' }}</h4>
+        <h2 class="item-title">{{ req.message | slice:0:80 }}{{ req.message.length > 80 ? '…' : '' }}</h2>
         <span class="unit-price">{{ req.name }} · {{ req.email }}</span>
       </div>
       <div class="item-total">{{ req.status | uppercase }}</div>

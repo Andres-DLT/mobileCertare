@@ -82,7 +82,7 @@
   flex: 1;
 }
 
-.item-info h4 {
+.item-title {
   font-family: var(--font-display);
   font-size: 16px;
   color: var(--text);

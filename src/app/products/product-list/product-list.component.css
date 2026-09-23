@@ -194,14 +194,6 @@
   background: linear-gradient(90deg, #22d3ee, var(--accent));
 }
 
-.service-info h4 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 6px;
-}
-
 .service-info p {
   font-size: 14px;
   line-height: 1.55;

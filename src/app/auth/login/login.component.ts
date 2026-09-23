@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.seo.setPage({
       title: 'Sign in',
-      description: 'Sign in to Certare to browse services, shortlist them and schedule a discovery call.',
+      description: 'Existing Certare members can sign in to follow up on their requests. The public catalog and contact form are open to visitors.',
       path: '/auth/login',
     });
   }

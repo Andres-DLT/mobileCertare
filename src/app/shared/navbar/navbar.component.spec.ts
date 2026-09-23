@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 import { NavbarComponent } from './navbar.component';
@@ -37,16 +36,17 @@ describe('NavbarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('sends the logo home depending on session', () => {
-    const router = TestBed.inject(Router);
-    const navigateSpy = spyOn(router, 'navigate').and.resolveTo(true);
-    component.isLoggedIn = false;
-    component.goHome();
-    expect(navigateSpy).toHaveBeenCalledWith(['/auth/login']);
-    component.isLoggedIn = true;
-    component.menuOpen = true;
-    component.goHome();
-    expect(navigateSpy).toHaveBeenCalledWith(['/products/list']);
-    expect(component.menuOpen).toBeFalse();
+  it('keeps the public navigation available without an account', () => {
+    const brand: HTMLAnchorElement = fixture.nativeElement.querySelector('.navbar-brand');
+    expect(brand.getAttribute('href')).toBe('/');
+    const routes = [...fixture.nativeElement.querySelectorAll('#primary-navigation a')]
+      .map((link: HTMLAnchorElement) => link.getAttribute('href'));
+    expect(routes).toContain('/products/list');
+    expect(routes).toContain('/agency/schedule');
+    expect(routes).not.toContain('/sales/history');
+    fixture.nativeElement.querySelector('.public-menu-trigger').click();
+    fixture.detectChanges();
+    expect(component.publicMenuOpen).toBeTrue();
+    expect(fixture.nativeElement.querySelector('.public-menu-trigger').getAttribute('aria-expanded')).toBe('true');
   });
 });

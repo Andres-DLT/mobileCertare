@@ -1,16 +1,16 @@
-<div class="agency-page">
+<main class="agency-page" id="main-content">
   <section class="hero">
     <span class="hero-chip">DISCOVERY CALL</span>
-    <h1>Schedule a call</h1>
+    <h1>Start a conversation</h1>
     <p class="hero-sub">
-      Thirty minutes, no commitment. We review your goals and tell you
-      honestly whether we are a fit — and what the next step would cost.
+      Tell us what you are building or what needs to improve. We will use your
+      context to discuss scope, dependencies and the right next step.
     </p>
   </section>
 
   <section class="about-section schedule-box" *ngIf="safeScheduleUrl">
     <h2>Pick a time</h2>
-    <p>Choose a slot in our calendar. A video link is included automatically.</p>
+    <p>Choose a slot from the available appointments.</p>
     <div style="margin: 12px 0">
       <button class="chip active" (click)="openBooking()">Open booking page</button>
     </div>
@@ -19,7 +19,7 @@
 
   <section class="about-section schedule-box">
     <h2>{{ safeScheduleUrl ? 'Prefer writing?' : 'Request a call' }}</h2>
-    <p>Send your context and we reply within one business day to agree on a time.</p>
+    <p>Send your context without creating an account. We will use your contact details only to reply about this request.</p>
     <form class="request-form" (ngSubmit)="sendRequest()">
       <label for="req-name">NAME</label>
       <input id="req-name" [(ngModel)]="name" name="name" autocomplete="name" required />
@@ -28,8 +28,9 @@
       <input id="req-email" type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
 
       <label for="req-message">WHAT ARE YOU BUILDING?</label>
-      <textarea id="req-message" [(ngModel)]="message" name="message" rows="4"
+      <textarea id="req-message" [(ngModel)]="message" name="message" rows="4" minlength="15" maxlength="1500"
         placeholder="Stack, goal and timeline in a few lines" required></textarea>
+      <div class="honeypot" aria-hidden="true"><label for="request-website">Website</label><input id="request-website" type="text" name="website" [(ngModel)]="website" tabindex="-1" autocomplete="off"></div>
 
       <p class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
       <p class="form-ok" *ngIf="successMessage" role="status">{{ successMessage }}</p>
@@ -39,4 +40,4 @@
       </button>
     </form>
   </section>
-</div>
+</main>

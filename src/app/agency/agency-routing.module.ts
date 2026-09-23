@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { PillarComponent } from './pillar/pillar.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { InsightDetailComponent } from './insight-detail/insight-detail.component';
 
 const routes: Routes = [
   { path: 'about', component: AboutComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'ai', component: PillarComponent, data: { pillar: 'ai' } },
   { path: 'training', component: PillarComponent, data: { pillar: 'training' } },
   { path: 'schedule', component: ScheduleComponent },
+  { path: 'insights/:id', component: InsightDetailComponent },
   { path: '', redirectTo: 'about', pathMatch: 'full' },
 ];
 

@@ -54,15 +54,21 @@ describe('Shared UI components', () => {
       { key: 'ai', label: 'AI' },
     ]}];
     component.selection = { sector: 'ai' };
+    component.collapsibleGroups = [{ key: 'group', label: 'Category', options: [{ key: 'all', label: 'All' }] }];
     spyOn(component.selectionChange, 'emit');
     spyOn(component.searchChange, 'emit');
     fixture.detectChanges();
     const active = fixture.nativeElement.querySelector('.cx-chip.active') as HTMLButtonElement;
     expect(active.getAttribute('aria-pressed')).toBe('true');
     expect(active.textContent).toContain('AI');
-    fixture.nativeElement.querySelector('.cx-clear').click();
+    fixture.nativeElement.querySelector('.cx-filter-trigger').click();
+    fixture.detectChanges();
+    expect(component.isOpen).toBeTrue();
+    expect(fixture.nativeElement.querySelector('.cx-filter-trigger').getAttribute('aria-expanded')).toBe('true');
+    fixture.nativeElement.querySelector('.cx-panel-reset').click();
     expect(component.selectionChange.emit).toHaveBeenCalledWith({ sector: 'all' });
     expect(component.searchChange.emit).toHaveBeenCalledWith('');
+    component.closeFilters();
   });
 
   it('emits empty-state actions', () => {

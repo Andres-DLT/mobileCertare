@@ -1,0 +1,71 @@
+<main class="home-page" id="main-content">
+  <header class="home-hero">
+    <div class="home-hero-copy">
+      <p class="eyebrow">Engineering · Quality · Intelligence</p>
+      <h1>Software delivery with the risks in plain sight.</h1>
+      <p class="lead">Certare brings development and quality engineering into the same conversation. Scope what matters, build deliberately, and verify before release.</p>
+      <div class="home-actions">
+        <a class="primary-action" routerLink="/agency/schedule">Start a conversation</a>
+        <a class="secondary-action" routerLink="/products/list">Explore services</a>
+      </div>
+    </div>
+    <div class="delivery-map" aria-label="Our approach: scope, build, verify, release" role="img">
+      <div class="map-heading">DELIVERY / SYSTEM</div>
+      <div class="map-step"><span>01</span><strong>Scope</strong><small>Goals + constraints</small></div>
+      <div class="map-step"><span>02</span><strong>Build</strong><small>Product + platform</small></div>
+      <div class="map-step"><span>03</span><strong>Verify</strong><small>Signals + evidence</small></div>
+      <div class="map-step"><span>04</span><strong>Release</strong><small>Visibility + handover</small></div>
+    </div>
+  </header>
+
+  <section class="home-section" aria-labelledby="practices-heading">
+    <div class="section-heading">
+      <p class="eyebrow">Where we work</p>
+      <h2 id="practices-heading">Five connected practices</h2>
+      <p>Follow a discipline end to end, or assemble the capabilities your delivery team needs.</p>
+    </div>
+    <div class="practice-grid">
+      <a *ngFor="let practice of practices; let i = index" class="practice-link" [attr.data-sector]="practice.key" [routerLink]="practice.route">
+        <span class="practice-index">0{{ i + 1 }} / {{ practice.label }}</span>
+        <h3>{{ practice.label }}</h3>
+        <p>{{ practice.intro }}</p>
+        <span class="practice-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-section method-section" aria-labelledby="method-heading">
+    <div class="section-heading">
+      <p class="eyebrow">How engagement starts</p>
+      <h2 id="method-heading">From an open question to a scoped plan</h2>
+      <p>A discovery conversation identifies the product, integration and delivery risks worth addressing first.</p>
+    </div>
+    <ol class="method-list">
+      <li><span>01 / Discover</span><p>Describe the goal, the existing stack and the constraints that cannot move.</p></li>
+      <li><span>02 / Plan</span><p>Define the work, dependencies and ways to validate progress before a delivery begins.</p></li>
+      <li><span>03 / Deliver</span><p>Build and test with visible outputs your team can inspect and maintain.</p></li>
+    </ol>
+    <a class="text-link" routerLink="/agency/about">How Certare works <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="home-section" *ngIf="insights.length" aria-labelledby="insights-heading">
+    <div class="section-heading">
+      <p class="eyebrow">Technical perspective</p>
+      <h2 id="insights-heading">Current questions in delivery</h2>
+      <p>Selected reading on quality, continuous validation and operating AI systems.</p>
+    </div>
+    <div class="insight-grid">
+      <cx-card *ngFor="let insight of insights" variant="insight" [title]="insight.title"
+        [description]="insight.excerpt" [badge]="insight.readingTime + ' min read'"
+        [detailLink]="'/agency/insights/' + insight.id">
+      </cx-card>
+    </div>
+  </section>
+
+  <section class="home-close" aria-labelledby="home-close-heading">
+    <p class="eyebrow">Next step</p>
+    <h2 id="home-close-heading">Tell us what needs to work.</h2>
+    <p>Share the context, the risks and the outcome you need. We can start with a discovery request—no account required.</p>
+    <a class="primary-action" routerLink="/agency/schedule">Start a conversation</a>
+  </section>
+</main>

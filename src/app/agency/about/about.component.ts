@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ScheduleCallComponent } from '../schedule-call/schedule-call.component';
 import { SeoService } from '../../shared/seo.service';
 import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
 import { CxCtaSectionComponent } from '../../shared/ui/cx-cta-section.component';
@@ -12,7 +11,7 @@ import { InsightService, Insight } from '../insight.service';
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterModule, ScheduleCallComponent, CxHeroComponent, CxCtaSectionComponent, CxCardComponent],
+  imports: [CommonModule, RouterModule, CxHeroComponent, CxCtaSectionComponent, CxCardComponent],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })

@@ -1,9 +1,9 @@
-<div class="agency-page">
+<main class="agency-page" id="main-content">
   <cx-hero
     [eyebrow]="pillar.chip"
     [title]="pillar.title"
     [subtitle]="pillar.intro"
-    primaryLabel="Schedule a discovery call"
+    primaryLabel="Start a conversation"
     primaryLink="/agency/schedule"
     secondaryLabel="All services"
     secondaryLink="/products/list">
@@ -63,7 +63,7 @@
         [badge]="'Stage ' + stage.order"
         [title]="stage.title"
         [description]="stage.description"
-        [tags]="stage.deliverables ?? []">
+        [tags]="stage.deliverables">
       </cx-card>
     </div>
   </section>
@@ -79,11 +79,11 @@
   </section>
 
   <cx-cta-section
-    title="Scope your project in one call"
-    message="Thirty minutes to turn your goals into a proposal with timeline and estimate."
-    primaryLabel="Schedule a discovery call"
+    title="Bring your project into focus"
+    message="Share the systems, constraints and questions behind your project. The discovery request needs no account."
+    primaryLabel="Start a conversation"
     primaryLink="/agency/schedule"
     secondaryLabel="Who we are"
     secondaryLink="/agency/about">
   </cx-cta-section>
-</div>
+</main>

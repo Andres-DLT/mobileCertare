@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
-import { ScheduleCallComponent } from '../schedule-call/schedule-call.component';
 import { DevSectorService, DevSector, DevStage } from '../dev-sector.service';
 import { SeoService } from '../../shared/seo.service';
 import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
@@ -166,7 +165,6 @@ const PILLARS: Record<string, PillarContent> = {
   imports: [
     CommonModule,
     RouterModule,
-    ScheduleCallComponent,
     CxHeroComponent,
     CxCardComponent,
     CxEmptyStateComponent,

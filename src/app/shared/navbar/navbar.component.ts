@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   hasCheckedLogin = false;
   menuOpen = false;
+  publicMenuOpen = false;
   initials = 'S';
   cartCount = 0;
   onAuth = false;
@@ -34,6 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         this.onAuth = e.urlAfterRedirects.startsWith('/auth');
+        this.publicMenuOpen = false;
       }));
 
     this.subs.add(this.authService.getCurrentUser().subscribe(user => {
@@ -60,15 +62,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout();
     this.menuOpen = false;
-  }
-
-  /** Brand logo always lands somewhere useful, even if a routerLink misfires. */
-  goHome(): void {
-    this.menuOpen = false;
-    const target = this.isLoggedIn ? '/products/list' : '/auth/login';
-    this.router.navigate([target]).catch(() => {
-      window.location.assign(target);
-    });
   }
 
   toggleMenu(): void {

@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
     .cx-empty p { margin: 0 0 16px; color: var(--text-muted); }
     .cx-chip-active {
       min-height: var(--touch-min); padding: 8px 16px; border-radius: var(--radius-full);
-      background: linear-gradient(90deg, var(--accent), #7c6cf6); color: #fff;
+      background: var(--accent-action); color: #fff;
       border: none; font-weight: 600; cursor: pointer;
     }
   `]

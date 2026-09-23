@@ -19,7 +19,7 @@ describe('AboutComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create and present the three practices', () => {
+  it('presents the five practices without requiring a member account', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(fixture.nativeElement.querySelector('h1').textContent).toContain('Certare');
     expect(text).toContain('Mobile development');
@@ -33,11 +33,12 @@ describe('AboutComponent', () => {
     expect(fixture.nativeElement.querySelector('cx-cta-section')).not.toBeNull();
   });
 
-  it('renders mission, stats, team and contact sections', () => {
+  it('describes the approach without publishing invented team or business figures', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Mission');
-    expect(text).toContain('By the numbers');
-    expect(text).toContain('Team');
-    expect(text).toContain('Contact');
+    expect(text).toContain('Working with Certare');
+    expect(text).not.toContain('Replace with the real number');
+    expect(text).not.toContain('Name — Mobile');
+    expect(text).not.toContain('Email: pending');
   });
 });

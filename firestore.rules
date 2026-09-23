@@ -2,6 +2,11 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isMember() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/access-allowlist/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/access-allowlist/$(request.auth.uid)).data.enabled == true;
+    }
     match /product-store/{id} {
       allow read: if true;
       allow write: if false;
@@ -36,16 +41,37 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Discovery call requests: each signed-in user manages only their own.
+    // Only the account owner can check their membership. Admin SDK provisions
+    // this allowlist; clients cannot add themselves or read other accounts.
+    match /access-allowlist/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+
+    // Visitors may send a short request without an account. They cannot read it.
+    // The Admin SDK handles follow-up and status changes.
     match /discovery-requests/{id} {
-      allow create: if request.auth != null
-        && request.auth.uid == request.resource.data.uid
-        && request.resource.data.keys().hasAll(['uid', 'name', 'email', 'message', 'createdAt'])
+      allow create: if request.resource.data.keys().hasOnly(['uid', 'name', 'email', 'message', 'status', 'createdAt'])
+        && request.resource.data.keys().hasAll(['name', 'email', 'message', 'status', 'createdAt'])
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time
         && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 100
         && request.resource.data.email is string
-        && request.resource.data.message is string;
-      allow read, update, delete: if request.auth != null
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.email.matches('^[^@ ]+@[^@ ]+\\.[^@ ]+$')
+        && request.resource.data.message is string
+        && request.resource.data.message.size() >= 15
+        && request.resource.data.message.size() <= 1500
+        && (
+          (!('uid' in request.resource.data) && request.auth == null) ||
+          (isMember() && request.resource.data.uid == request.auth.uid)
+        );
+      allow get, list: if isMember()
+        && 'uid' in resource.data
         && request.auth.uid == resource.data.uid;
+      allow update, delete: if false;
     }
 
     match /{document=**} {

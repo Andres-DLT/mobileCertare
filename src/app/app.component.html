@@ -1,3 +1,8 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<footer class="build-tag">Certare · release {{ release }}</footer>
+<footer class="app-footer">
+  <div><strong>Certare</strong><span>Engineering, quality and clear decisions.</span></div>
+  <nav aria-label="Footer"><a routerLink="/">Home</a><a routerLink="/products/list">Services</a><a routerLink="/agency/about">Approach</a><a routerLink="/agency/schedule">Contact</a></nav>
+  <small>Release {{ release }}</small>
+</footer>

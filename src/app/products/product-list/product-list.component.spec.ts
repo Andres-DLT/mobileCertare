@@ -23,7 +23,7 @@ describe('ProductListComponent', () => {
 
   beforeEach(async () => {
     user = new BehaviorSubject<User | null>(null);
-    productService = jasmine.createSpyObj('ProductService', ['getProducts', 'getCatalog']);
+    productService = jasmine.createSpyObj('ProductService', ['getCatalog']);
     productService.getCatalog.and.returnValue(of([testingItem, mobileItem]));
     await TestBed.configureTestingModule({
       imports: [ProductListComponent, RouterTestingModule],

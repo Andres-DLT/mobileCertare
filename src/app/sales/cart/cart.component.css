@@ -1,6 +1,7 @@
 .cart-page {
   padding-top: calc(72px + var(--safe-top));
 }
+.scope-note { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.6; }
 
 /* ===== Page head ===== */
 .page-head h1 {

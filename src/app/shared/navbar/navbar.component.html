@@ -1,36 +1,40 @@
 <header class="app-bar" *ngIf="!onAuth">
   <div class="app-bar-inner">
-    <div class="navbar-brand" (click)="goHome()" (keydown.enter)="goHome()" tabindex="0" role="link" aria-label="Go home">
+    <a class="navbar-brand" routerLink="/" aria-label="Certare home">
       <span class="brand-mark">C</span>
       <span class="brand-text">Certare</span>
-    </div>
+    </a>
 
-    <nav class="nav-links" *ngIf="isLoggedIn" aria-label="Primary">
+    <nav id="primary-navigation" class="nav-links" [class.open]="publicMenuOpen" aria-label="Primary">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
       <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Services</a>
-      <a [routerLink]="['/products/list']" [fragment]="'about'">About</a>
       <a routerLink="/agency/about" routerLinkActive="active">Agency</a>
-      <a routerLink="/agency/schedule" routerLinkActive="active">Schedule</a>
-      <a routerLink="/sales/cart" routerLinkActive="active">
+      <a routerLink="/agency/schedule" routerLinkActive="active">Talk to us</a>
+      <a *ngIf="isLoggedIn" routerLink="/sales/cart" routerLinkActive="active">
         List
         <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
       </a>
+      <a *ngIf="isLoggedIn" routerLink="/sales/history" routerLinkActive="active">My requests</a>
     </nav>
 
     <div class="app-bar-right">
+      <button *ngIf="!isLoggedIn" class="public-menu-trigger" type="button" aria-label="Open navigation"
+        aria-controls="primary-navigation" [attr.aria-expanded]="publicMenuOpen"
+        (click)="publicMenuOpen = !publicMenuOpen">{{ publicMenuOpen ? 'Close' : 'Menu' }}</button>
       <ng-container *ngIf="hasCheckedLogin">
         <ng-container *ngIf="isLoggedIn; else loggedOut">
           <div class="avatar-menu">
-            <button class="avatar-btn" (click)="toggleMenu()" aria-label="Account menu" aria-haspopup="true" [attr.aria-expanded]="menuOpen">
+            <button class="avatar-btn" (click)="toggleMenu()" aria-label="Account menu" aria-controls="account-menu" aria-haspopup="true" [attr.aria-expanded]="menuOpen">
               {{ initials }}
             </button>
-            <ul class="menu" [class.open]="menuOpen">
+            <ul id="account-menu" class="menu" [class.open]="menuOpen">
               <li><button type="button" class="menu-link" (click)="logout()">Log Out</button></li>
             </ul>
           </div>
         </ng-container>
 
         <ng-template #loggedOut>
-          <a class="btn-login" routerLink="/auth/login">Login</a>
+          <a class="btn-login" routerLink="/auth/login">Member sign in</a>
         </ng-template>
       </ng-container>
     </div>
@@ -38,6 +42,7 @@
 </header>
 
 <nav class="bottom-nav" *ngIf="isLoggedIn && !onAuth" aria-label="Bottom">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
   <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
     <span class="nav-icon">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -55,12 +60,6 @@
     <span class="nav-icon">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     </span>
-    Schedule
+    Talk
   </a>
-  <button type="button" class="bottom-link" (click)="logout()" aria-label="Log out">
-    <span class="nav-icon">
-      <svg aria-hidden="true" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-    </span>
-    Log Out
-  </button>
 </nav>

@@ -1,97 +1,71 @@
-# Projecto Certare (phoneDevelopers)
+# Certare — project overview
 
-## Visión general
+Certare is an Angular 19 + Capacitor 7 application backed by Firebase. The
+public site introduces five connected practices and lets visitors browse the
+catalog without an account. A separate, private member area serves existing
+accounts. Checkout and PayPal remain disabled.
 
-Aplicación web progresiva de comercio de servicios de desarrollo móvil
-("Certare" / `com.certare.app`). Desarrollada con **Angular 19** (componentes
-standalone), **Capacitor 7** para empaquetado móvil (Android/iOS) y
-**Firebase** (Authentication + Firestore + Cloud Functions + Hosting) como
-backend.
+## Routes and visitor flow
 
-Modelo comercial simplificado (refactor aprobado): cada servicio tiene **un
-único precio en MXN** — se eliminaron los tiers (Basic/Standard/Pro) y las
-tallas (S/M/L) del flujo completo (catálogo → carrito → email de pedido).
+- `/`: public editorial landing page with practices, delivery approach and
+  links to discovery, catalog and published insights.
+- `/products/list`: 60 services in a data-driven directory with search,
+  practice filters and a native mobile filter dialog.
+- `/products/:sector/:id`: individual service details (scope, documented
+  deliverables when available, indicative price, related services and
+  shortlist). Detail uses a single Firestore document read plus one related
+  collection listener, not five catalog listeners.
+- `/agency/about`, `/agency/mobile|web|testing|ai|training`: approach and
+  practice pages. `/agency/insights/:id` is the reader for the three published
+  articles; `/agency/schedule` accepts a public discovery request.
+- `/sales/cart`: in-memory shortlist; signed-in existing members can see
+  their requests at `/sales/history`.
+- `/auth/login`: existing managed accounts only. `/auth/register` redirects
+  to login; Firebase's email/password API can still create accounts directly,
+  but the `access-allowlist` prevents those accounts from using private data.
+  See `SECURITY.md` for the distinction and the server-side follow-up.
 
-## Stack
+## Data model and collections
 
-| Capa      | Tecnología                                              |
-|-----------|---------------------------------------------------------|
-| Frontend  | Angular 19 (standalone) + RxJS + AngularFire (`@angular/fire`) |
-| Móvil     | Capacitor 7 (android/ios) + `@capacitor/haptics`, `@capacitor/status-bar` |
-| Backend   | Firebase Authentication, Cloud Firestore, Cloud Functions |
-| Pagos     | Checkout desactivado; integración PayPal conservada      |
-| Envío     | Cloud Function `sendOrderEmail` (nodemailer)            |
-| Tests     | Jasmine/Karma (Angular), Jest (funciones)               |
+`src/app/collections/collection-config.ts` owns the five practice definitions:
 
-## Estructura del proyecto
+| Firestore collection | Public documents | Role |
+| --- | ---: | --- |
+| `product-store` | 20 | Quality/testing services |
+| `mobile-services` | 10 | Mobile lifecycle stages |
+| `web-services` | 10 | Web lifecycle stages |
+| `ai-services` | 10 | AI integration, evaluation and governance |
+| `training-services` | 10 | Technical education and enablement |
+| `insights` | 3 | Referenced industry reading |
 
-```
-phoneDevelopers/
-├── src/
-│   ├── app/
-│   │   ├── auth/            # auth.module: login, register, AuthService
-│   │   ├── products/        # products.module: product-list, ProductService
-│   │   ├── sales/           # sales.module: cart, sales-history, CartService,
-│   │   │                    #   OrderEmailService, PaypalService
-│   │   ├── shared/          # navbar
-│   │   └── testing/         # helpers de testing/firebase-testing
-│   └── environments/        # config de Firebase por entorno
-├── functions/               # Cloud Functions + nodemailer (Node/TS)
-│   └── src/__tests__/       # jest: sendOrderEmail.test.ts (21/21 PASS)
-└── scripts/seed-services.js # siembra QA (20 servicios MXN)
-    ├── scripts/seed-dev-services.js # etapas mobile/web (10+10)
-    └── scripts/seed-ai-training-services.js # IA y formación (10+10)
-```
+`discovery-requests`: visitor-created, private-contact messages; optional
+`uid` is included when an authorized member submits. Only Admin SDK can
+change statuses. `access-allowlist/{uid}`: read-own, Admin-write membership
+used by `AuthService` and Firestore security rules.
 
-## Comandos
+The catalog is loaded by `ProductService` and normalized to `CatalogItem`
+(`sector + document ID` is the stable route; starting prices are indicative).
+Client-side state handles search, filters and sort across the small catalog.
+
+## Local commands
 
 ```powershell
-# Desarrollo
-ng serve
-
-# Build de producción (Angular)
-ng build
-
-# Build y sincronización del contenido Android
+npm ci
+npm start
+npm test -- --watch=false --browsers=ChromeHeadless
+npm run build
 npm run android:sync
-
-# Tests Angular (Karma/Chrome Headless)
-ng test --watch=false --browsers=ChromeHeadless
-
-# Typecheck estricto de la suite de tests Angular
-npx tsc -p tsconfig.spec.json --noEmit
-
-# Test de Cloud Functions (jest)
-cd functions
-npx jest
+firebase deploy --only hosting,firestore --project smartfoodie-dda27 --non-interactive
 ```
 
-## Modelo de datos
+`npm run android:sync` rebuilds Angular assets before copying them into the
+native wrapper. Signing and publishing an Android release is a separate task.
 
-`Product` (catálogo en Firestore, colección `product-store`):
+## Decisions and operations
 
-```ts
-export interface Product {
-  id: string;
-  title: string;
-  description: string;
-  price: number;          // único, MXN
-  'image-front': string;
-  'image-back': string;
-  category: string;
-  tags?: string[];
-}
-```
-
-`CartItem` (en `cart.service.ts`) = `Product` + `units: number` (sin `size`).
-
-## Testing
-
-- **Functions**: `functions/src/__tests__/sendOrderEmail.test.ts` — 21 tests
-  PASS (mock de nodemailer, envío exitoso y errores).
-- **Angular**: specs por componente. Nota de referencia: los specs de
-  componentes que inyectan `AuthService`/`CartService`/Firestore **reales**
-  pueden disparar `NG0205: Injector has already been destroyed` en Karma
-  cuando el listener de Firebase sobrevive al teardown del `TestBed`; la
-  estrategia correcta es proveer spies (`jasmine.createSpyObj`) o mocks
-  locales en cada spec (mismo patrón que `product-list`).
+- `DESIGN-SYSTEM.md`: visual, UX, content and collection decisions.
+- `SECURITY.md`: public form, membership, registration/API limitation and
+  current risks.
+- `DOMAIN.md` and `DEPLOY.md`: paid domain and Firebase Hosting operations.
+- `BRAND.md`: current SVG mark and pending exports.
+- `QUALITY.md`: code standards and maintenance backlog.

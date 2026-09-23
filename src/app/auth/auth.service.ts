@@ -11,6 +11,7 @@ import {
 // persistence constructor passed to setPersistence ("cls is not a constructor").
 import { setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
 import { Router } from '@angular/router';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CartService } from '../sales/cart.service';
 
@@ -26,6 +27,7 @@ export class AuthService {
     private router: Router,
     private injector: EnvironmentInjector,
     private cartService: CartService,
+    private firestore: Firestore,
     destroyRef: DestroyRef
   ) {
     // Restore the last "remember me" choice (default: stay signed in).
@@ -33,7 +35,15 @@ export class AuthService {
     // Observe the rejection immediately; login/register still propagate it.
     this.persistenceReady.catch(error => console.error('[Auth] Persistence unavailable:', error));
     const unsubscribe = onAuthStateChanged(this.auth, user => {
-      this.currentUser.next(user);
+      if (!user) {
+        this.currentUser.next(null);
+        return;
+      }
+      this.isAllowed(user).then(allowed => {
+        if (this.auth.currentUser?.uid !== user.uid) return;
+        if (allowed) this.currentUser.next(user);
+        else this.rejectUnauthorizedSession().catch(error => console.error('[Auth] Could not close unauthorized session:', error));
+      });
     });
     destroyRef.onDestroy(unsubscribe);
   }
@@ -67,8 +77,29 @@ export class AuthService {
     const credential = await runInInjectionContext(this.injector, () =>
       signInWithEmailAndPassword(this.auth, email.trim(), password)
     );
+    if (!(await this.isAllowed(credential.user))) {
+      await this.rejectUnauthorizedSession();
+      throw new Error('This account does not have access. Please contact Certare.');
+    }
     this.currentUser.next(credential.user);
     return credential;
+  }
+
+  private async isAllowed(user: User): Promise<boolean> {
+    try {
+      const entry = await runInInjectionContext(this.injector, () =>
+        getDoc(doc(this.firestore, 'access-allowlist', user.uid))
+      );
+      return entry.exists() && entry.data()['enabled'] === true;
+    } catch (error) {
+      console.warn('[Auth] Could not verify membership:', error);
+      return false;
+    }
+  }
+
+  private async rejectUnauthorizedSession(): Promise<void> {
+    this.currentUser.next(null);
+    await runInInjectionContext(this.injector, () => firebaseSignOut(this.auth));
   }
 
   async register(_email: string, _password: string, _fullName?: string): Promise<UserCredential> {

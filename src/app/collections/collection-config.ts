@@ -1,4 +1,4 @@
-import { CatalogSector } from '../products/product-services';
+import type { CatalogSector } from '../products/product-services';
 
 export interface CollectionConfig {
   key: CatalogSector;

@@ -30,7 +30,7 @@ import { RouterModule } from '@angular/router';
       padding: 0 var(--space-5); border-radius: var(--radius); font-weight: 700;
       font-size: var(--text-md); text-decoration: none;
     }
-    .cx-btn-primary { background: linear-gradient(90deg, var(--accent), #7c6cf6); color: #fff; }
+    .cx-btn-primary { background: var(--accent-action); color: #fff; }
     .cx-btn-secondary { border: 1px solid var(--border); color: var(--text); }
   `]
 })

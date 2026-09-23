@@ -32,6 +32,23 @@ describe('ScheduleComponent', () => {
   it('requires name, email and message before sending', async () => {
     const component = fixture.componentInstance;
     await component.sendRequest();
-    expect(component.errorMessage).toContain('required');
+    expect(component.errorMessage).toContain('valid email');
+  });
+
+  it('accepts a valid visitor request without a signed-in user', async () => {
+    const discovery = TestBed.inject(DiscoveryService) as jasmine.SpyObj<DiscoveryService>;
+    discovery.createRequest.and.resolveTo({} as never);
+    localStorage.removeItem('certare.lastRequest');
+    const component = fixture.componentInstance;
+    component.name = 'Visitor Example';
+    component.email = 'visitor@example.com';
+    const message = 'We need an iOS application with a test strategy.';
+    component.message = message;
+    await component.sendRequest();
+    expect(discovery.createRequest).toHaveBeenCalledWith({
+      name: 'Visitor Example', email: 'visitor@example.com', message,
+    });
+    expect(component.successMessage).toContain('Request received');
+    localStorage.removeItem('certare.lastRequest');
   });
 });

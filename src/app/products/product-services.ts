@@ -1,18 +1,7 @@
 import { Injectable, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { Observable, combineLatest, map } from 'rxjs';
-import { environment } from '../../environments/environment';
-
-export interface Product {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  'image-front': string;
-  'image-back': string;
-  category: string;
-  tags?: string[];
-}
+import { Firestore, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { Observable, combineLatest, from, map, of } from 'rxjs';
+import { COLLECTIONS, CollectionConfig } from '../collections/collection-config';
 
 export type CatalogSector = 'testing' | 'mobile' | 'web' | 'ai' | 'training';
 
@@ -27,24 +16,8 @@ export interface CatalogItem {
   sector: CatalogSector;
   sectorLabel: string;
   tags?: string[];
+  deliverables?: string[];
 }
-
-export const CATALOG_SECTORS: { key: CatalogSector | 'all'; label: string }[] = [
-  { key: 'all', label: 'All' },
-  { key: 'testing', label: 'Testing' },
-  { key: 'mobile', label: 'Mobile' },
-  { key: 'web', label: 'Web' },
-  { key: 'ai', label: 'AI' },
-  { key: 'training', label: 'Training' },
-];
-
-const SECTOR_COLLECTIONS: { sector: CatalogSector; label: string; collection: string }[] = [
-  { sector: 'testing', label: 'Testing', collection: 'product-store' },
-  { sector: 'mobile', label: 'Mobile', collection: 'mobile-services' },
-  { sector: 'web', label: 'Web', collection: 'web-services' },
-  { sector: 'ai', label: 'AI', collection: 'ai-services' },
-  { sector: 'training', label: 'Training', collection: 'training-services' },
-];
 
 interface RawDoc {
   docId?: string;
@@ -55,45 +28,52 @@ interface RawDoc {
   category?: string;
   phase?: string;
   tags?: string[];
+  deliverables?: string[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private readonly collectionName = environment.productsCollection;
-
   constructor(
     private firestore: Firestore,
     private injector: EnvironmentInjector
   ) {}
 
-  getProducts(): Observable<Product[]> {
-    return runInInjectionContext(this.injector, () => {
-      const ref = collection(this.firestore, this.collectionName);
-      return collectionData(ref, { idField: 'id' }) as Observable<Product[]>;
-    });
-  }
-
   /** Unified catalog across all five Firestore collections. */
   getCatalog(): Observable<CatalogItem[]> {
-    const streams = SECTOR_COLLECTIONS.map(({ sector, label, collection: name }) =>
-      runInInjectionContext(this.injector, () => {
-        const ref = collection(this.firestore, name);
-        return collectionData(ref, { idField: 'docId' }) as Observable<RawDoc[]>;
-      }).pipe(
-        map((docs) =>
-          (docs ?? []).map((d) => ({
-            id: d.docId ?? d.id ?? '',
-            title: d.title,
-            description: d.description,
-            price: typeof d.price === 'number' ? d.price : null,
-            group: d.category ?? d.phase ?? 'Service',
-            sector,
-            sectorLabel: label,
-            tags: d.tags,
-          }) as CatalogItem)
-        )
-      )
-    );
-    return combineLatest(streams).pipe(map((groups) => groups.flat()));
+    return combineLatest(COLLECTIONS.map(config => this.getCollection(config.key)))
+      .pipe(map(groups => groups.flat()));
+  }
+
+  /** One Firestore listener for the requested discipline. */
+  getCollection(sector: CatalogSector): Observable<CatalogItem[]> {
+    const config = COLLECTIONS.find(item => item.key === sector);
+    if (!config) return of([]);
+    return runInInjectionContext(this.injector, () =>
+      collectionData(collection(this.firestore, config.collection), { idField: 'docId' }) as Observable<RawDoc[]>
+    ).pipe(map(docs => (docs ?? []).map(raw => this.normalize(raw, config))));
+  }
+
+  getService(sector: CatalogSector, id: string): Observable<CatalogItem | null> {
+    const config = COLLECTIONS.find(item => item.key === sector);
+    if (!config) return of(null);
+    return from(runInInjectionContext(this.injector, () =>
+      getDoc(doc(this.firestore, config.collection, id))
+    )).pipe(map(snapshot => snapshot.exists()
+      ? this.normalize({ ...(snapshot.data() as RawDoc), docId: snapshot.id }, config)
+      : null));
+  }
+
+  private normalize(raw: RawDoc, config: CollectionConfig): CatalogItem {
+    return {
+      id: raw.docId ?? raw.id ?? '',
+      title: raw.title,
+      description: raw.description,
+      price: typeof raw.price === 'number' ? raw.price : null,
+      group: raw.category ?? raw.phase ?? 'Service',
+      sector: config.key,
+      sectorLabel: config.label,
+      tags: raw.tags,
+      deliverables: raw.deliverables,
+    };
   }
 }

@@ -1,16 +1,16 @@
 <div class="auth-shell">
   <aside class="brand-panel">
     <div class="brand-glow"></div>
-    <div class="brand-top">
-      <div class="brand-mark">C</div>
+    <a class="brand-top" routerLink="/" aria-label="Certare home">
+      <span class="brand-mark">C</span>
       <span class="brand-name">Certare</span>
-    </div>
+    </a>
     <div class="brand-copy">
       <h1>CERTARE</h1>
       <p class="tagline">Certainty in software delivery</p>
       <p class="blurb">
-        Quality engineering consultancy. We help teams ship reliable software
-        through disciplined testing, automation and continuous quality gates.
+        Explore mobile, web, software quality, AI evaluation and training.
+        Member access is reserved for accounts managed by Certare.
       </p>
       <ul class="brand-points">
         <li><span class="dot"></span> Test engineering &amp; automation</li>
@@ -20,10 +20,10 @@
     </div>
   </aside>
 
-  <main class="auth-main">
+  <main class="auth-main" id="main-content">
     <form class="auth-card" (ngSubmit)="login()" aria-label="Sign in">
       <h2>Welcome back</h2>
-      <p class="sub">Authenticate to access your services</p>
+      <p class="sub">Private access for existing Certare members.</p>
 
       <div class="form-group">
         <label for="email">EMAIL</label>

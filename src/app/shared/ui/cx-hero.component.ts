@@ -12,7 +12,7 @@ export interface HeroStat {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <section class="cx-hero">
+    <section class="cx-hero" [class.cx-hero-compact]="compact">
       <span class="cx-eyebrow" *ngIf="eyebrow">{{ eyebrow }}</span>
       <h1 class="cx-display">{{ title }}</h1>
       <p class="cx-lead" *ngIf="subtitle">{{ subtitle }}</p>
@@ -30,7 +30,10 @@ export interface HeroStat {
     </section>
   `,
   styles: [`
-    .cx-hero { text-align: center; padding: var(--space-7) var(--space-2) var(--space-3); }
+    .cx-hero { text-align: center; padding: var(--space-6) var(--space-2) var(--space-5); }
+    .cx-hero.cx-hero-compact { padding-top: var(--space-4); }
+    .cx-hero-compact .cx-display { font-size: clamp(2rem, 4vw, 3rem); }
+    .cx-hero-compact .cx-hero-stats { margin-top: var(--space-4); }
     .cx-eyebrow {
       display: inline-block; padding: 6px 14px; border-radius: var(--radius-full);
       background: var(--accent-soft); border: 1px solid var(--border); color: var(--accent-2);
@@ -48,7 +51,7 @@ export interface HeroStat {
       padding: 0 var(--space-5); border-radius: var(--radius); font-weight: 700;
       font-size: var(--text-md); text-decoration: none;
     }
-    .cx-btn-primary { background: linear-gradient(90deg, var(--accent), #7c6cf6); color: #fff; }
+    .cx-btn-primary { background: var(--accent-action); color: #fff; }
     .cx-btn-secondary { border: 1px solid var(--border); color: var(--text); }
     .cx-hero-stats { display: flex; justify-content: center; gap: var(--space-6); margin: 28px 0 0; padding: 0; flex-wrap: wrap; }
     .cx-stat { display: flex; flex-direction: column; align-items: center; }
@@ -65,4 +68,5 @@ export class CxHeroComponent {
   @Input() secondaryLabel = '';
   @Input() secondaryLink: string | unknown[] = '/';
   @Input() stats: HeroStat[] = [];
+  @Input() compact = false;
 }

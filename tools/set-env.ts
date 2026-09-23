@@ -11,7 +11,6 @@ export const environment = {
   scheduleUrl: '${process.env['NG_APP_SCHEDULE_URL'] || ''}',
   paymentsEnabled: false,
   paypalClientId: '${process.env['NG_APP_PAYPAL_CLIENT_ID'] || ''}',
-  productsCollection: 'product-store',
   firebaseConfig: {
     apiKey: '${process.env['NG_APP_FIREBASE_API_KEY']}',
     authDomain: '${process.env['NG_APP_FIREBASE_AUTH_DOMAIN']}',

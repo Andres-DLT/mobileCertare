@@ -102,7 +102,7 @@ input::placeholder {
 button[type="submit"] {
   width: 100%;
   padding: 15px;
-  background: linear-gradient(90deg, var(--accent), #7c6cf6);
+  background: var(--accent-action);
   color: #fff;
   font-weight: 700;
   font-size: 15px;
@@ -222,7 +222,7 @@ button[type="submit"]:disabled {
 }
 
 .segment.active {
-  background: linear-gradient(90deg, var(--accent), #7c6cf6);
+  background: var(--accent-action);
   color: #fff;
   box-shadow: 0 4px 16px var(--accent-glow);
 }
@@ -277,7 +277,7 @@ button[type="submit"]:disabled {
 }
 
 .cart-button {
-  background: linear-gradient(90deg, var(--accent), #7c6cf6);
+  background: var(--accent-action);
   color: #fff;
   border: none;
   padding: 0.7rem 1rem;

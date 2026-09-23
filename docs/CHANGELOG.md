@@ -2,6 +2,19 @@
 
 Todas las versiones notables de este proyecto se documentan en este archivo.
 
+## [Unreleased] - 2026-09-23
+
+- Public editorial home and navigation, including mobile guest menu; service
+  directory with adaptive filters and per-service pages from existing data.
+- Insights now open in a reader; removed unverified numbers, people and
+  contact placeholders from the public About page.
+- Public discovery requests can be submitted without a member account; the
+  Firestore rules validate and bound new messages while denying guest reads.
+- Private account access backed by the Admin-managed `access-allowlist`.
+  Direct Firebase Auth account creation is still possible; see `SECURITY.md`.
+- Responsive screenshots, browser flows and live rules are verified in the
+  release checklist documented in `docs/UX-RELEASE-2026-09-23.md`.
+
 ## [Unreleased] - 2026-09-21
 
 - Migración verificada de 20 documentos desde `cloth-store` a `product-store`,

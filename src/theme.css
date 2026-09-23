@@ -12,6 +12,8 @@
 
   /* ===== Brand / accents ===== */
   --accent: #6366f1;
+  /* White action text meets WCAG AA on this surface (contrast > 5:1). */
+  --accent-action: #5155dc;
   --accent-2: #22d3ee;
   --accent-soft: rgba(99, 102, 241, 0.16);
   --accent-glow: rgba(99, 102, 241, 0.35);

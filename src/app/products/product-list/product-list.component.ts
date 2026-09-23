@@ -12,6 +12,7 @@ import { CxCardComponent } from '../../shared/ui/cx-card.component';
 import { CxFilterBarComponent } from '../../shared/ui/cx-filter-bar.component';
 import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component';
 import { CxCtaSectionComponent } from '../../shared/ui/cx-cta-section.component';
+import { COLLECTIONS } from '../../collections/collection-config';
 
 type SortKey = 'relevance' | 'price-asc' | 'price-desc' | 'title';
 
@@ -129,14 +130,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   get sectorGroups(): { key: string; label: string; options: { key: string; label: string; count: number }[] }[] {
-    const defs: { key: string; label: string }[] = [
-      { key: 'all', label: 'All' },
-      { key: 'testing', label: 'Testing' },
-      { key: 'ai', label: 'AI' },
-      { key: 'mobile', label: 'Mobile' },
-      { key: 'web', label: 'Web' },
-      { key: 'training', label: 'Training' },
-    ];
+    const defs = [{ key: 'all', label: 'All' }, ...COLLECTIONS.map(({ key, label }) => ({ key, label }))];
     return [
       {
         key: 'sector',
@@ -166,6 +160,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
           })),
         ],
       },
+      {
+        key: 'price',
+        label: 'Indicative starting price',
+        options: [
+          { key: 'all', label: 'Any price', count: inSector.length },
+          { key: 'under-10000', label: 'Under $10k MXN', count: inSector.filter(p => p.price != null && p.price < 10000).length },
+          { key: '10000-25000', label: '$10k–$25k MXN', count: inSector.filter(p => p.price != null && p.price >= 10000 && p.price <= 25000).length },
+          { key: 'over-25000', label: 'Over $25k MXN', count: inSector.filter(p => p.price != null && p.price > 25000).length },
+        ],
+      },
     ];
   }
 
@@ -175,6 +179,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     if (this.sector !== 'all') items = items.filter((p) => p.sector === this.sector);
     const group = this.selection['group'] ?? 'all';
     if (group !== 'all') items = items.filter((p) => p.group === group);
+    const price = this.selection['price'] ?? 'all';
+    if (price === 'under-10000') items = items.filter(p => p.price != null && p.price < 10000);
+    if (price === '10000-25000') items = items.filter(p => p.price != null && p.price >= 10000 && p.price <= 25000);
+    if (price === 'over-25000') items = items.filter(p => p.price != null && p.price > 25000);
     if (query) {
       items = items.filter((p) =>
         [p.title, p.description, p.group, p.sectorLabel, ...(p.tags ?? [])]
@@ -193,13 +201,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
   get heroStats(): { value: string; label: string }[] {
     return [
       { value: this.loading ? '…' : String(this.products.length), label: 'Services' },
-      { value: '5', label: 'Practices' },
-      { value: this.loading ? '…' : String(this.filteredProducts.length), label: 'In view' },
+      { value: String(COLLECTIONS.length), label: 'Practices' },
     ];
   }
 
   priceLabel(p: CatalogItem): string {
-    return p.price == null ? 'Custom quote' : `From $${p.price.toLocaleString()} MXN`;
+    return p.price == null ? 'Custom quote' : `From $${p.price.toLocaleString('en-US')} MXN`;
   }
   onSelectionChange(selection: Record<string, string>): void {
     const previousSector = this.selection['sector'];
@@ -207,6 +214,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
     if (selection['sector'] !== previousSector) {
       this.selection = { ...selection, group: 'all' };
     }
+  }
+
+  clearFilters(): void {
+    this.selection = { sector: 'all', group: 'all', price: 'all' };
+    this.search = '';
+    this.sort = 'relevance';
+  }
+
+  serviceLink(item: CatalogItem): string {
+    return `/products/${item.sector}/${encodeURIComponent(item.id)}`;
   }
 
   onSort(value: string): void {

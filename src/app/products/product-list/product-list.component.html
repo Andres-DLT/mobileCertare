@@ -1,11 +1,12 @@
-<div class="product-page">
+<main class="product-page" id="main-content">
   <cx-hero
-    eyebrow="TECHNOLOGY CONSULTANCY"
-    title="CERTARE"
-    subtitle="Certainty in software delivery. Mobile, web, testing, AI and training — delivered by senior engineers and tied to your delivery pipelines."
-    primaryLabel="Schedule a discovery call"
+    eyebrow="THE SERVICE DIRECTORY"
+    title="Find the right capability"
+    subtitle="Compare development, quality engineering, AI evaluation and training. Open a service for scope and deliverables, then discuss the fit for your project."
+    [compact]="true"
+    primaryLabel="Start a conversation"
     primaryLink="/agency/schedule"
-    secondaryLabel="Who we are"
+    secondaryLabel="How we work"
     secondaryLink="/agency/about"
     [stats]="heroStats">
   </cx-hero>
@@ -28,16 +29,19 @@
     [searchable]="true"
     [sort]="sort"
     [sortOptions]="sortOptions"
+    [resultCount]="filteredProducts.length"
     (selectionChange)="onSelectionChange($event)"
     (searchChange)="search = $event"
     (sortChange)="onSort($event)">
   </cx-filter-bar>
 
+  <h2 class="catalog-heading" *ngIf="!loading && products.length">Available services</h2>
+
   <!-- Skeleton -->
   <div class="service-list" *ngIf="loading" aria-busy="true" aria-label="Loading services">
     <div class="service-card skeleton" *ngFor="let _ of skeletonItems">
       <div class="skeleton-block icon"></div>
-      <div class="service-info">
+      <div class="skeleton-info">
         <div class="skeleton-block line w60"></div>
         <div class="skeleton-block line w90"></div>
         <div class="skeleton-block line w40"></div>
@@ -58,11 +62,11 @@
     *ngIf="!loading && !loadError && filteredProducts.length === 0"
     message="No services match these filters."
     actionLabel="Clear filters"
-    (action)="onSelectionChange({ sector: 'all', group: 'all' }); search = ''">
+    (action)="clearFilters()">
   </cx-empty-state>
 
   <!-- Service cards -->
-  <div class="service-list" *ngIf="!loading && filteredProducts.length">
+  <div class="service-list" *ngIf="!loading && filteredProducts.length" aria-label="Available services">
     <cx-card
       *ngFor="let service of filteredProducts"
       variant="service"
@@ -72,7 +76,9 @@
       [description]="service.description"
       [tags]="service.tags ?? []"
       [priceLabel]="priceLabel(service)"
-      actionLabel="+"
+      [sector]="service.sector"
+      [detailLink]="serviceLink(service)"
+      actionLabel="Shortlist"
       [actionAriaLabel]="'Add ' + service.title + ' to shortlist'"
       (action)="onAddToCart(service)">
     </cx-card>
@@ -80,8 +86,8 @@
 
   <cx-cta-section
     title="Not sure where to start?"
-    message="A 30-minute discovery call scopes your goals into a proposal with timeline and estimate."
-    primaryLabel="Schedule a discovery call"
+    message="Share the outcome you need and the constraints that matter. You can contact Certare without registering."
+    primaryLabel="Start a conversation"
     primaryLink="/agency/schedule"
     secondaryLabel="How we work"
     secondaryLink="/agency/about">
@@ -92,4 +98,4 @@
     <span>{{ snackbarMessage }}</span>
     <button id="snackbar-undo" (click)="undoLast()">Undo</button>
   </div>
-</div>
+</main>

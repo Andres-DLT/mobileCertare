@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, RouterOutlet, NavigationError } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, NavigationError } from '@angular/router';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -14,7 +14,7 @@ const CHUNK_RELOAD_KEY = 'certare.chunkReloaded';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, RouterLink, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

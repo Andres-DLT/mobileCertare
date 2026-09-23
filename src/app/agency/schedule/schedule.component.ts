@@ -6,6 +6,7 @@ import { Auth } from '@angular/fire/auth';
 import { DiscoveryService } from '../discovery.service';
 import { SeoService } from '../../shared/seo.service';
 import { environment } from '../../../environments/environment';
+import { CartService } from '../../sales/cart.service';
 
 @Component({
   selector: 'app-schedule',
@@ -24,22 +25,28 @@ export class ScheduleComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   isLoading = false;
+  website = '';
 
   constructor(
     private sanitizer: DomSanitizer,
     private auth: Auth,
     private discovery: DiscoveryService,
-    private seo: SeoService
+    private seo: SeoService,
+    private shortlist: CartService
   ) {}
 
   ngOnInit() {
     this.seo.setPage({
-      title: 'Schedule a discovery call',
-      description: 'Book a 30-minute discovery call with Certare, or send a written request. We reply within one business day.',
+      title: 'Start a conversation',
+      description: 'Share your project context with Certare. A visitor can request a discovery conversation without opening an account.',
       path: '/agency/schedule',
     });
     if (this.scheduleUrl) {
       this.safeScheduleUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.scheduleUrl);
+    }
+    const selected = this.shortlist.snapshot();
+    if (selected.length && !this.message) {
+      this.message = `I would like to discuss: ${selected.map(item => item.title).join(', ')}. My project context is: `;
     }
     const user = this.auth.currentUser;
     if (user) {
@@ -55,10 +62,22 @@ export class ScheduleComponent implements OnInit {
   async sendRequest() {
     this.errorMessage = '';
     this.successMessage = '';
-    if (!this.name.trim() || !this.email.trim() || !this.message.trim()) {
-      this.errorMessage = 'Name, email and a short message are required.';
+    if (this.website) return;
+    if (this.name.trim().length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email.trim()) || this.message.trim().length < 15) {
+      this.errorMessage = 'Enter your name, a valid email and at least 15 characters about your project.';
       return;
     }
+    if (this.message.length > 1500 || this.name.length > 100) {
+      this.errorMessage = 'Please shorten the message or name before sending.';
+      return;
+    }
+    try {
+      const last = Number(localStorage.getItem('certare.lastRequest') ?? 0);
+      if (Date.now() - last < 60_000) {
+        this.errorMessage = 'Please wait a minute before sending another request.';
+        return;
+      }
+    } catch { /* Storage is optional; Firestore still validates payload. */ }
     this.isLoading = true;
     try {
       await this.discovery.createRequest({
@@ -66,7 +85,8 @@ export class ScheduleComponent implements OnInit {
         email: this.email,
         message: this.message,
       });
-      this.successMessage = 'Request sent. We reply within one business day.';
+      this.successMessage = 'Request received. Certare can review the context you shared.';
+      try { localStorage.setItem('certare.lastRequest', String(Date.now())); } catch { /* Optional throttle. */ }
       this.message = '';
     } catch (err: unknown) {
       const e = err as Error;

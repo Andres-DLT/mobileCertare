@@ -1,4 +1,4 @@
-<div class="cart-page" *ngIf="!paymentSuccess">
+<main class="cart-page" *ngIf="!paymentSuccess" id="main-content">
   <header class="page-head">
     <span class="head-chip">YOUR SHORTLIST</span>
     <h1>Your Interest List</h1>
@@ -35,7 +35,7 @@
     </section>
 
     <!-- Summary -->
-    <aside class="order-summary" aria-label="Shortlist summary">
+    <aside class="order-summary" *ngIf="cartItems.length" aria-label="Shortlist summary">
       <h2>Shortlist Summary</h2>
       <div class="summary-line">
         <span>Services</span>
@@ -57,8 +57,8 @@
         [disabled]="cartItems.length === 0">
         Checkout with PayPal
       </button>
-      <p *ngIf="!paymentsEnabled" class="payment-error">Payments are hidden for now. Bring this shortlist to your discovery call.</p>
-      <a *ngIf="!paymentsEnabled && cartItems.length > 0" class="chip-link" routerLink="/agency/schedule">Schedule a call about these services</a>
+      <p *ngIf="!paymentsEnabled" class="scope-note">These are indicative starting prices. Final scope and price are discussed with you.</p>
+      <a *ngIf="!paymentsEnabled" class="chip-link" routerLink="/agency/schedule">Discuss this shortlist</a>
 
       <!-- PayPal Button Container -->
       <div *ngIf="showPaypal" class="paypal-section">
@@ -69,7 +69,7 @@
       <p *ngIf="paymentError" class="payment-error">{{ paymentError }}</p>
     </aside>
   </div>
-</div>
+</main>
 
 <!-- Success screen -->
 <div class="success-screen" *ngIf="paymentSuccess">

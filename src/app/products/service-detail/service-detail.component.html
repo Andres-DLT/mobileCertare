@@ -1,0 +1,46 @@
+<main class="detail-page" id="main-content">
+  <nav aria-label="Breadcrumb" class="breadcrumbs"><a routerLink="/">Home</a><span aria-hidden="true">/</span><a routerLink="/products/list">Services</a><span aria-hidden="true">/</span><span>{{ service?.title || 'Service' }}</span></nav>
+  <p *ngIf="loading" role="status">Loading service…</p>
+  <section *ngIf="error" role="alert" class="detail-error"><h1>Service unavailable</h1><p>{{ error }}</p><a routerLink="/products/list">Explore all services</a></section>
+
+  <ng-container *ngIf="service as item">
+    <header class="detail-header" [attr.data-sector]="item.sector">
+      <div>
+        <p class="eyebrow">{{ item.sectorLabel }} / {{ item.group }}</p>
+        <h1>{{ item.title }}</h1>
+        <p class="detail-lead">{{ item.description }}</p>
+        <div class="detail-tags" *ngIf="item.tags?.length"><span *ngFor="let tag of item.tags">{{ tag }}</span></div>
+      </div>
+      <aside class="detail-quote" aria-label="Pricing and next steps">
+        <span class="quote-label">Indicative starting point</span>
+        <strong>{{ priceLabel }}</strong>
+        <p *ngIf="item.price != null">Scope and final price are confirmed after discovery. This is not a checkout price.</p>
+        <button class="detail-add" type="button" (click)="shortlist()">Add to shortlist</button>
+        <a routerLink="/agency/schedule">Discuss this service <span aria-hidden="true">↗</span></a>
+        <p role="status" *ngIf="added">Added. <a routerLink="/sales/cart">View shortlist</a></p>
+      </aside>
+    </header>
+
+    <section class="detail-section" aria-labelledby="detail-scope">
+      <div><p class="eyebrow">The capability</p><h2 id="detail-scope">Where it fits</h2></div>
+      <p>{{ practiceIntro }} We confirm dependencies, scope and acceptance criteria before work begins.</p>
+    </section>
+
+    <section class="detail-section" *ngIf="item.deliverables?.length" aria-labelledby="detail-deliverables">
+      <div><p class="eyebrow">Working outputs</p><h2 id="detail-deliverables">Indicative deliverables</h2></div>
+      <ul class="deliverables"><li *ngFor="let deliverable of item.deliverables">{{ deliverable }}</li></ul>
+    </section>
+
+    <section class="detail-section" aria-labelledby="detail-questions">
+      <div><p class="eyebrow">Discovery</p><h2 id="detail-questions">What we need to establish</h2></div>
+      <ul class="questions"><li>Which business or delivery risk needs to change?</li><li>What systems, people and deadlines define the constraints?</li><li>What evidence would make the outcome acceptable to your team?</li></ul>
+    </section>
+
+    <section class="detail-related" *ngIf="related.length" aria-labelledby="related-title">
+      <h2 id="related-title">Continue exploring {{ item.sectorLabel }}</h2>
+      <div class="related-grid"><cx-card *ngFor="let other of related" variant="service" [sector]="other.sector" [eyebrow]="other.group" [title]="other.title" [description]="other.description" [detailLink]="serviceLink(other)"></cx-card></div>
+    </section>
+
+    <section class="detail-end"><h2>Have a project in mind?</h2><p>Bring the context to a discovery conversation. You can also shortlist services to discuss together.</p><a routerLink="/agency/schedule">Start a conversation</a></section>
+  </ng-container>
+</main>

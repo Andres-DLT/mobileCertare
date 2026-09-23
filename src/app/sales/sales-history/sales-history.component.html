@@ -1,8 +1,8 @@
-<div class="cart-page">
+<main class="cart-page" id="main-content">
   <header class="page-head">
     <span class="head-chip">FOLLOW-UP</span>
     <h1>My Requests</h1>
-    <p class="cart-sub">Discovery calls you requested and their status. We reply within one business day.</p>
+    <p class="cart-sub">Requests submitted from this member account and their current status.</p>
   </header>
 
   <div class="cart-empty" *ngIf="loading" aria-busy="true">
@@ -30,4 +30,4 @@
       <div class="item-total">{{ req.status | uppercase }}</div>
     </div>
   </section>
-</div>
+</main>

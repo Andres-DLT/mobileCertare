@@ -1,15 +1,16 @@
-<div class="agency-page">
+<main class="agency-page" id="main-content">
   <cx-hero
     eyebrow="WHO WE ARE"
     title="Certare"
-    subtitle="Certare is a technology consultancy across five practices: mobile development, web development, global testing, AI integration & testing, and IT education. Senior engineers join your team, follow a disciplined process and back every release with evidence."
-    primaryLabel="Schedule a discovery call"
+    subtitle="Explore mobile and web development, quality engineering, AI evaluation and practical training. Find the work that fits your challenge, then define scope together."
+    primaryLabel="Start a conversation"
     primaryLink="/agency/schedule"
     secondaryLabel="Browse services"
     secondaryLink="/products/list">
   </cx-hero>
 
-  <section class="pillars">
+  <section class="pillars" aria-labelledby="about-practices-title">
+    <h2 id="about-practices-title" class="pillars-heading">The practices</h2>
     <a class="pillar-card" routerLink="/agency/mobile">
       <h3>Mobile development</h3>
       <p>Apps for iOS and Android, tested on real devices, published to the stores without surprises.</p>
@@ -54,20 +55,13 @@
   </section>
 
   <section class="about-section">
-    <h2>What you can expect</h2>
-    <p>
-      Direct communication with the engineers doing the work. No handoffs to
-      juniors, no black boxes: every engagement produces artifacts you own —
-      repositories, suites, reports and documentation.
-    </p>
+    <h2>What a useful proposal contains</h2>
+    <p>A good starting plan identifies the systems involved, dependencies, acceptance criteria and what can be verified at each stage. Explore a capability or tell us about your own constraints.</p>
   </section>
 
   <section class="about-section">
     <h2>Mission & values</h2>
-    <p data-placeholder="mission-copy">
-      Our mission is certainty in software delivery: senior engineers,
-      a disciplined process and evidence behind every release.
-    </p>
+    <p>Clear scope, visible decisions and validation are useful across development, testing and AI work. Those principles guide how we frame each conversation.</p>
     <div class="process-row">
       <div class="process-step">
         <span class="step-num">01</span>
@@ -77,80 +71,20 @@
       <div class="process-step">
         <span class="step-num">02</span>
         <h3>Evidence</h3>
-        <p>Reports, suites and dashboards you keep. Every claim we make comes with artifacts.</p>
+        <p>Define observable outputs and acceptance criteria rather than relying on a polished presentation.</p>
       </div>
       <div class="process-step">
         <span class="step-num">03</span>
         <h3>Directness</h3>
-        <p>You talk to the engineers doing the work. Straight answers on scope, risk and timelines.</p>
+        <p>Surface dependencies and uncertainty early, before they become delivery surprises.</p>
       </div>
     </div>
   </section>
 
   <section class="about-section">
-    <h2>By the numbers</h2>
-    <p>Key figures about the agency.</p>
-    <div class="process-row" data-placeholder="agency-stats">
-      <div class="process-step">
-        <span class="step-num">–</span>
-        <h3>Years operating</h3>
-        <p>Replace with the real number.</p>
-      </div>
-      <div class="process-step">
-        <span class="step-num">–</span>
-        <h3>Projects delivered</h3>
-        <p>Replace with the real number.</p>
-      </div>
-      <div class="process-step">
-        <span class="step-num">–</span>
-        <h3>Engineers on the team</h3>
-        <p>Replace with the real number.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="about-section">
-    <h2>Team</h2>
-    <p>Senior engineers across mobile, web, testing, AI and training. Full profiles with photos coming soon.</p>
-    <div class="process-row" data-placeholder="team-profiles">
-      <div class="process-step">
-        <span class="step-num">?</span>
-        <h3>Name — Mobile</h3>
-        <p>Role and short bio pending.</p>
-      </div>
-      <div class="process-step">
-        <span class="step-num">?</span>
-        <h3>Name — Web</h3>
-        <p>Role and short bio pending.</p>
-      </div>
-      <div class="process-step">
-        <span class="step-num">?</span>
-        <h3>Name — Testing</h3>
-        <p>Role and short bio pending.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="about-section">
-    <h2>Contact</h2>
-    <p>Start with a discovery call, or send a written request and we reply within one business day.</p>
-    <div class="scope-lists" data-placeholder="contact-channels">
-      <div class="scope-box">
-        <h3>Direct channels</h3>
-        <ul>
-          <li>Email: pending</li>
-          <li>Phone / WhatsApp: pending</li>
-          <li>Location: pending</li>
-        </ul>
-      </div>
-      <div class="scope-box">
-        <h3>In the app</h3>
-        <ul>
-          <li><a routerLink="/agency/schedule">Schedule a discovery call</a></li>
-          <li><a routerLink="/sales/history">Review my requests</a></li>
-        </ul>
-      </div>
-    </div>
+    <h2>Working with Certare</h2>
+    <p>Start by describing the system and the decision you need to make. We use that context to discuss the appropriate scope, dependencies and validation approach. There is no account requirement to send a discovery request.</p>
+    <a class="about-text-link" routerLink="/agency/schedule">Share your project context <span aria-hidden="true">→</span></a>
   </section>
 
   <section class="about-section" aria-label="Industry insights" *ngIf="insights.length">
@@ -163,17 +97,18 @@
         [badge]="insight.readingTime + ' min read'"
         [title]="insight.title"
         [description]="insight.excerpt"
-        [tags]="insight.tags ?? []">
+        [tags]="insight.tags"
+        [detailLink]="'/agency/insights/' + insight.id">
       </cx-card>
     </div>
   </section>
 
   <cx-cta-section
     title="Start with a conversation"
-    message="Tell us your goals in a 30-minute discovery call and receive a scoped proposal with timeline and estimate."
-    primaryLabel="Schedule a discovery call"
+    message="Share your constraints and the outcome you need. The discovery request requires no account."
+    primaryLabel="Start a conversation"
     primaryLink="/agency/schedule"
     secondaryLabel="Browse services"
     secondaryLink="/products/list">
   </cx-cta-section>
-</div>
+</main>

@@ -6,11 +6,11 @@
     </a>
 
     <nav id="primary-navigation" class="nav-links" [class.open]="publicMenuOpen" aria-label="Primary">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Services</a>
-      <a routerLink="/agency/about" routerLinkActive="active">Agency</a>
-      <a routerLink="/agency/schedule" routerLinkActive="active">Talk to us</a>
-      <a *ngIf="isLoggedIn" routerLink="/sales/cart" routerLinkActive="active">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Home</a>
+      <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Services</a>
+      <a routerLink="/agency/about" routerLinkActive="active" ariaCurrentWhenActive="page">Agency</a>
+      <a routerLink="/agency/schedule" routerLinkActive="active" ariaCurrentWhenActive="page">Contact</a>
+      <a *ngIf="isLoggedIn" routerLink="/sales/cart" routerLinkActive="active" ariaCurrentWhenActive="page">
         List
         <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
       </a>
@@ -18,31 +18,34 @@
     </nav>
 
     <div class="app-bar-right">
+      <a class="btn-cta" routerLink="/agency/schedule">
+        <span class="cta-long">Start a conversation</span>
+        <span class="cta-short">Talk</span>
+      </a>
       <button *ngIf="!isLoggedIn" class="public-menu-trigger" type="button" aria-label="Open navigation"
         aria-controls="primary-navigation" [attr.aria-expanded]="publicMenuOpen"
         (click)="publicMenuOpen = !publicMenuOpen">{{ publicMenuOpen ? 'Close' : 'Menu' }}</button>
-      <ng-container *ngIf="hasCheckedLogin">
-        <ng-container *ngIf="isLoggedIn; else loggedOut">
-          <div class="avatar-menu">
-            <button class="avatar-btn" (click)="toggleMenu()" aria-label="Account menu" aria-controls="account-menu" aria-haspopup="true" [attr.aria-expanded]="menuOpen">
-              {{ initials }}
-            </button>
-            <ul id="account-menu" class="menu" [class.open]="menuOpen">
-              <li><button type="button" class="menu-link" (click)="logout()">Log Out</button></li>
-            </ul>
-          </div>
-        </ng-container>
-
-        <ng-template #loggedOut>
-          <a class="btn-login" routerLink="/auth/login">Member sign in</a>
-        </ng-template>
+      <ng-container *ngIf="hasCheckedLogin && isLoggedIn">
+        <div class="avatar-menu">
+          <button class="avatar-btn" (click)="toggleMenu()" aria-label="Account menu" aria-controls="account-menu" aria-haspopup="true" [attr.aria-expanded]="menuOpen">
+            {{ initials }}
+          </button>
+          <ul id="account-menu" class="menu" [class.open]="menuOpen">
+            <li><button type="button" class="menu-link" (click)="logout()">Log Out</button></li>
+          </ul>
+        </div>
       </ng-container>
     </div>
   </div>
 </header>
 
-<nav class="bottom-nav" *ngIf="isLoggedIn && !onAuth" aria-label="Bottom">
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+<nav class="bottom-nav" *ngIf="!onAuth" aria-label="Bottom">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">
+    <span class="nav-icon">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+    </span>
+    Home
+  </a>
   <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
     <span class="nav-icon">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>

@@ -1,7 +1,15 @@
 <main class="detail-page" id="main-content">
   <nav aria-label="Breadcrumb" class="breadcrumbs"><a routerLink="/">Home</a><span aria-hidden="true">/</span><a routerLink="/products/list">Services</a><span aria-hidden="true">/</span><span>{{ service?.title || 'Service' }}</span></nav>
   <p *ngIf="loading" role="status">Loading service…</p>
-  <section *ngIf="error" role="alert" class="detail-error"><h1>Service unavailable</h1><p>{{ error }}</p><a routerLink="/products/list">Explore all services</a></section>
+  <section *ngIf="error" role="alert" class="detail-error">
+    <p class="eyebrow">SERVICE NOT FOUND</p>
+    <h1>That service isn't available</h1>
+    <p>{{ error }}</p>
+    <div class="detail-error-actions">
+      <a class="primary" routerLink="/products/list">Browse all services</a>
+      <a routerLink="/agency/schedule">Tell us what you need</a>
+    </div>
+  </section>
 
   <ng-container *ngIf="service as item">
     <header class="detail-header" [attr.data-sector]="item.sector">

@@ -220,14 +220,57 @@
 }
 
 .request-form input,
-.request-form textarea {
+.request-form textarea,
+.request-form select {
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
   padding: 10px 12px;
-  font-size: 14px;
+  min-height: var(--touch-min);
+  font-size: 16px;
   font-family: var(--font-body);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-field {
+  display: grid;
+  gap: 6px;
+}
+
+.next-steps {
+  text-align: left;
+  max-width: 640px;
+  margin: 18px auto 0;
+  padding-left: 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.next-steps li {
+  margin-bottom: 6px;
+}
+
+.next-steps strong {
+  color: var(--text);
+}
+
+.form-privacy {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.form-privacy a {
+  color: var(--accent-2);
+  font-weight: 600;
 }
 
 .request-form button {
@@ -310,7 +353,8 @@
 @media (max-width: 600px) {
   .pillars,
   .process-row,
-  .scope-lists {
+  .scope-lists,
+  .form-row {
     grid-template-columns: 1fr;
   }
 }

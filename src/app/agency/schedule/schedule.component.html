@@ -19,17 +19,69 @@
 
   <section class="about-section schedule-box">
     <h2>{{ safeScheduleUrl ? 'Prefer writing?' : 'Request a call' }}</h2>
-    <p>Send your context without creating an account. We will use your contact details only to reply about this request.</p>
+    <p>Send your context without creating an account. The more specific the context, the more useful our reply.</p>
+    <ol class="next-steps">
+      <li><strong>We read the context.</strong> No sales sequence, no account required.</li>
+      <li><strong>We reply by email.</strong> We confirm whether the request fits how we work.</li>
+      <li><strong>We agree on the next step.</strong> A call, a scoped proposal, or a clear referral.</li>
+    </ol>
     <form class="request-form" (ngSubmit)="sendRequest()">
-      <label for="req-name">NAME</label>
-      <input id="req-name" [(ngModel)]="name" name="name" autocomplete="name" required />
+      <div class="form-row">
+        <div class="form-field">
+          <label for="req-name">NAME</label>
+          <input id="req-name" [(ngModel)]="name" name="name" autocomplete="name" maxlength="100" required />
+        </div>
+        <div class="form-field">
+          <label for="req-email">EMAIL</label>
+          <input id="req-email" type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+        </div>
+      </div>
 
-      <label for="req-email">EMAIL</label>
-      <input id="req-email" type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+      <div class="form-row">
+        <div class="form-field">
+          <label for="req-company">COMPANY</label>
+          <input id="req-company" [(ngModel)]="company" name="company" autocomplete="organization" maxlength="100" />
+        </div>
+        <div class="form-field">
+          <label for="req-role">YOUR ROLE</label>
+          <input id="req-role" [(ngModel)]="role" name="role" autocomplete="organization-title" maxlength="100" />
+        </div>
+      </div>
 
-      <label for="req-message">WHAT ARE YOU BUILDING?</label>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="req-country">COUNTRY</label>
+          <input id="req-country" [(ngModel)]="country" name="country" autocomplete="country-name" maxlength="100" />
+        </div>
+        <div class="form-field">
+          <label for="req-service">SERVICE INTEREST</label>
+          <select id="req-service" [(ngModel)]="service" name="service">
+            <option value="">Select a service</option>
+            <option *ngFor="let option of services" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="req-timeline">TIMELINE</label>
+          <select id="req-timeline" [(ngModel)]="timeline" name="timeline">
+            <option value="">Select a timeline</option>
+            <option *ngFor="let option of timelines" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="req-budget">BUDGET RANGE</label>
+          <select id="req-budget" [(ngModel)]="budget" name="budget">
+            <option value="">Select a range</option>
+            <option *ngFor="let option of budgets" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="req-message">WHAT NEEDS TO CHANGE?</label>
       <textarea id="req-message" [(ngModel)]="message" name="message" rows="4" minlength="15" maxlength="1500"
-        placeholder="Stack, goal and timeline in a few lines" required></textarea>
+        placeholder="Current stack, the problem, and what a good outcome looks like." required></textarea>
       <div class="honeypot" aria-hidden="true"><label for="request-website">Website</label><input id="request-website" type="text" name="website" [(ngModel)]="website" tabindex="-1" autocomplete="off"></div>
 
       <p class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
@@ -38,6 +90,10 @@
       <button class="chip active" type="submit" [disabled]="isLoading">
         {{ isLoading ? 'SENDING…' : 'SEND REQUEST' }}
       </button>
+      <p class="form-privacy">
+        We use these details only to reply about this request.
+        <ng-container *ngIf="legalReady"> Read the <a routerLink="/legal/privacy">privacy notice</a>.</ng-container>
+      </p>
     </form>
   </section>
 </main>

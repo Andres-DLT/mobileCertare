@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Auth } from '@angular/fire/auth';
 import { DiscoveryService } from '../discovery.service';
@@ -11,7 +12,7 @@ import { CartService } from '../../sales/cart.service';
 @Component({
   selector: 'app-schedule',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './schedule.component.html',
   styleUrl: '../about/about.component.css'
 })
@@ -19,13 +20,28 @@ export class ScheduleComponent implements OnInit {
   scheduleUrl = environment.scheduleUrl;
   safeScheduleUrl: SafeResourceUrl | null = null;
 
+  readonly services = ['Development', 'Quality engineering', 'AI evaluation', 'Training', 'Not sure yet'];
+  readonly timelines = ['As soon as possible', 'In 1–3 months', 'In 3–6 months', 'Exploring options'];
+  readonly budgets = ['Under MX$25k', 'MX$25k–50k', 'MX$50k–100k', 'Over MX$100k', 'Not sure yet'];
+
   name = '';
   email = '';
+  company = '';
+  role = '';
+  country = '';
+  service = '';
+  timeline = '';
+  budget = '';
   message = '';
   errorMessage = '';
   successMessage = '';
   isLoading = false;
   website = '';
+
+  get legalReady(): boolean {
+    const legal = environment.legal;
+    return Boolean(legal.entityName && legal.address && legal.email);
+  }
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -67,7 +83,16 @@ export class ScheduleComponent implements OnInit {
       this.errorMessage = 'Enter your name, a valid email and at least 15 characters about your project.';
       return;
     }
-    if (this.message.length > 1500 || this.name.length > 100) {
+    const context = [
+      this.company.trim() && `Company: ${this.company.trim()}`,
+      this.role.trim() && `Role: ${this.role.trim()}`,
+      this.country.trim() && `Country: ${this.country.trim()}`,
+      this.service && `Service interest: ${this.service}`,
+      this.timeline && `Timeline: ${this.timeline}`,
+      this.budget && `Budget: ${this.budget}`,
+    ].filter(Boolean).join('\n');
+    const payloadMessage = `${context}${context ? '\n\n' : ''}${this.message.trim()}`;
+    if (payloadMessage.length > 1500 || this.name.length > 100) {
       this.errorMessage = 'Please shorten the message or name before sending.';
       return;
     }
@@ -83,9 +108,9 @@ export class ScheduleComponent implements OnInit {
       await this.discovery.createRequest({
         name: this.name,
         email: this.email,
-        message: this.message,
+        message: payloadMessage,
       });
-      this.successMessage = 'Request received. Certare can review the context you shared.';
+      this.successMessage = 'Request received. We will reply by email to arrange a call and agree on the next step.';
       try { localStorage.setItem('certare.lastRequest', String(Date.now())); } catch { /* Optional throttle. */ }
       this.message = '';
     } catch (err: unknown) {

@@ -2,13 +2,10 @@
   <cx-hero
     eyebrow="THE SERVICE DIRECTORY"
     title="Find the right capability"
-    subtitle="Compare development, quality engineering, AI evaluation and training. Open a service for scope and deliverables, then discuss the fit for your project."
+    subtitle="Compare development, quality engineering, AI evaluation and training. Open a service for scope and deliverables."
     [compact]="true"
     primaryLabel="Start a conversation"
-    primaryLink="/agency/schedule"
-    secondaryLabel="How we work"
-    secondaryLink="/agency/about"
-    [stats]="heroStats">
+    primaryLink="/agency/schedule">
   </cx-hero>
 
   <div class="user-header" *ngIf="userLabel">
@@ -34,8 +31,6 @@
     (searchChange)="search = $event"
     (sortChange)="onSort($event)">
   </cx-filter-bar>
-
-  <h2 class="catalog-heading" *ngIf="!loading && products.length">Available services</h2>
 
   <!-- Skeleton -->
   <div class="service-list" *ngIf="loading" aria-busy="true" aria-label="Loading services">

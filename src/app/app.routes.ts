@@ -27,6 +27,11 @@ export const routes: Routes = [
       import('./sales/sales.module').then((m) => m.SalesModule),
   },
   {
+    path: 'legal/privacy',
+    loadComponent: () =>
+      import('./legal/privacy.component').then((m) => m.PrivacyComponent),
+  },
+  {
     path: '**',
     redirectTo: '/',
   },

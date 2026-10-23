@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, RouterLink, NavigationError } from '@angular/router';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { Capacitor } from '@capacitor/core';
@@ -14,16 +15,30 @@ const CHUNK_RELOAD_KEY = 'certare.chunkReloaded';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NavbarComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'certare';
   release = environment.release;
+  readonly contact = environment.contact;
+  readonly year = new Date().getFullYear();
   private routerSub?: Subscription;
 
   constructor(private router: Router) {}
+
+  get legalReady(): boolean {
+    const legal = environment.legal;
+    return Boolean(legal.entityName && legal.address && legal.email);
+  }
+
+  get whatsappLink(): string {
+    const digits = this.contact.whatsapp.replace(/\D/g, '');
+    if (!digits) return '';
+    const text = encodeURIComponent('Hi Certare, I would like to discuss a project.');
+    return `https://wa.me/${digits}?text=${text}`;
+  }
 
   async ngOnInit() {
     this.routerSub = this.router.events

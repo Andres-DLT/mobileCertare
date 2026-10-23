@@ -2,7 +2,27 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
 <footer class="app-footer">
-  <div><strong>Certare</strong><span>Engineering, quality and clear decisions.</span></div>
-  <nav aria-label="Footer"><a routerLink="/">Home</a><a routerLink="/products/list">Services</a><a routerLink="/agency/about">Approach</a><a routerLink="/agency/schedule">Contact</a></nav>
-  <small>Release {{ release }}</small>
+  <div class="footer-brand">
+    <strong>Certare</strong>
+    <span>Engineering, quality and clear decisions.</span>
+    <span class="footer-location">{{ contact.location }}</span>
+  </div>
+
+  <div class="footer-contact" *ngIf="contact.email || contact.phone || contact.whatsapp || contact.linkedin">
+    <a *ngIf="contact.email" [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+    <a *ngIf="contact.phone" [href]="'tel:' + contact.phone">{{ contact.phone }}</a>
+    <a *ngIf="contact.whatsapp" [href]="whatsappLink" target="_blank" rel="noopener">WhatsApp</a>
+    <a *ngIf="contact.linkedin" [href]="contact.linkedin" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+
+  <nav aria-label="Footer">
+    <a routerLink="/">Home</a>
+    <a routerLink="/products/list">Services</a>
+    <a routerLink="/agency/about">Approach</a>
+    <a routerLink="/agency/schedule">Contact</a>
+    <a routerLink="/auth/login">Client portal</a>
+    <a *ngIf="legalReady" routerLink="/legal/privacy">Privacy</a>
+  </nav>
+
+  <small>© {{ year }} Certare · Release {{ release }}</small>
 </footer>

@@ -9,6 +9,19 @@ export const environment = {
   release: 'dev',
   siteUrl: '${process.env['NG_APP_SITE_URL'] || 'https://certare.web.app'}',
   scheduleUrl: '${process.env['NG_APP_SCHEDULE_URL'] || ''}',
+  contact: {
+    email: ${JSON.stringify(process.env['NG_APP_CONTACT_EMAIL'] || '')},
+    phone: ${JSON.stringify(process.env['NG_APP_CONTACT_PHONE'] || '')},
+    whatsapp: ${JSON.stringify(process.env['NG_APP_WHATSAPP'] || '')},
+    linkedin: ${JSON.stringify(process.env['NG_APP_LINKEDIN'] || '')},
+    location: ${JSON.stringify(process.env['NG_APP_LOCATION'] || 'Mexico · working with teams across LATAM, US and Europe')},
+  },
+  legal: {
+    entityName: ${JSON.stringify(process.env['NG_APP_LEGAL_ENTITY'] || '')},
+    address: ${JSON.stringify(process.env['NG_APP_LEGAL_ADDRESS'] || '')},
+    email: ${JSON.stringify(process.env['NG_APP_LEGAL_EMAIL'] || '')},
+    lastUpdated: ${JSON.stringify(process.env['NG_APP_LEGAL_UPDATED'] || '2026-10-22')},
+  },
   paymentsEnabled: false,
   paypalClientId: '${process.env['NG_APP_PAYPAL_CLIENT_ID'] || ''}',
   firebaseConfig: {

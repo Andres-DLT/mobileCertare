@@ -29,8 +29,9 @@ Live demo: <https://certare.web.app>
   operator or book a calendar slot. The Google Appointment Schedules link
   (`scheduleUrl`) is empty in the environment configuration, and the intake
   path implemented here wires no operator notification.
-- **Legacy order email.** The order-email Cloud Function in `functions/` is
-  not an enabled public feature.
+- **Legacy order email.** The `sendOrderEmail` callable remains in `functions/`
+  for the legacy checkout path. Checkout is disabled in the app configuration,
+  so the current public catalog and discovery intake do not invoke it.
 - **Self-service registration.** `/auth/register` redirects to login. The
   Firebase email/password API can still create an Auth record directly, but
   the `access-allowlist` keeps such accounts out of private data. See

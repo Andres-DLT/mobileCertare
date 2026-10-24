@@ -1,0 +1,49 @@
+# Secrets-free quality verification: unit tests with coverage, the environment
+# generator regression test, and both production builds. Read-only permissions;
+# no secrets and no Firebase operations. Coverage is measured, not gated on an
+# arbitrary threshold.
+name: Quality
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            functions/package-lock.json
+      - name: Install root dependencies
+        run: npm ci
+      - name: Install Functions dependencies
+        run: npm ci
+        working-directory: functions
+      - name: Verify (tests with coverage, tools gate, production builds)
+        run: npm run verify
+      - name: Upload coverage and build reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: quality-reports
+          path: |
+            coverage/
+            functions/coverage/
+            dist/
+          retention-days: 7

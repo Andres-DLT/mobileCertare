@@ -82,14 +82,14 @@ runner, Node 22.23.4 and GitHub Actions on Ubuntu 24.04.
 **Files/targets:** intended branch diff, generated code graph, PR #3 body and repo
 About metadata. Local coordination notes record execution evidence separately.
 
-- [ ] Read every changed file; run diagnostics, tests and both builds again.
-- [ ] Run the mandatory code-only Graphify update; retain appropriate versioned
+- [x] Read every changed file; run diagnostics, tests and both builds again.
+- [x] Run the mandatory code-only Graphify update; retain appropriate versioned
   graph outputs, not transient cache files.
-- [ ] Review scope and privacy; create atomic commits and push only the feature branch.
-- [ ] Open one PR; verify real quality jobs for its exact revision without merge.
-- [ ] Preserve PR #3 body except `Cambia 30 archivos` to `Cambia 37 archivos`.
-- [ ] Set the verified repository description, homepage and factual topics.
-- [ ] Check the original cache/live workflow, branch states and production boundary.
+- [x] Review scope and privacy; create atomic commits and push only the feature branch.
+- [x] Open one PR; verify real quality jobs for its exact revision without merge.
+- [x] Preserve PR #3 body except `Cambia 30 archivos` to `Cambia 37 archivos`.
+- [x] Set the verified repository description, homepage and factual topics.
+- [x] Check the original cache/live workflow, branch states and production boundary.
 
 ## Execution Notes
 

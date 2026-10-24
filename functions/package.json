@@ -6,7 +6,9 @@
     "serve": "npm run build && firebase emulators:start --only functions",
     "deploy": "firebase deploy --only functions",
     "test": "jest --forceExit --detectOpenHandles",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --runInBand --coverage",
+    "verify": "npm run test:ci && npm run build"
   },
   "engines": {
     "node": "18"

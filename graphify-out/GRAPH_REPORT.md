@@ -1,17 +1,17 @@
-# Graph Report - mobileCertare  (2026-10-23)
+# Graph Report - mobileCertare-sdet-foundation  (2026-10-23)
 
 ## Corpus Check
-- 194 files · ~204,704 words
+- 200 files · ~208,510 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 57 file(s) not represented in the graph (top: .ttf 19, .css 12, .log 10)
+- Unclassified: 57 file(s) not represented in the graph (top: .ttf 19, .css 12, .log 8)
 
 ## Summary
-- 1642 nodes · 2144 edges · 126 communities (109 shown, 17 thin omitted)
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 58 edges (avg confidence: 0.88)
+- 1697 nodes · 2209 edges · 131 communities (118 shown, 13 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 59 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `15fcc3c7`
+- Built from commit: `94e62621`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -35,9 +35,9 @@
 - Security Reference
 - package.json
 - Firebase Crashlytics iOS Setup Guide
-- @angular/core
-- @angular/common
-- DiscoveryService
+- cart.service.ts
+- app.config.ts
+- rxjs
 - Configuración de Firebase
 - Schema Reference
 - shared-ui.spec.ts
@@ -60,7 +60,7 @@
 - Firebase SQL Connect
 - Writing Data
 - Instalación de GitHub CLI y Git en macOS
-- Examples
+- Native SQL Examples
 - Cloud Functions Integration Reference
 - Realtime Reference
 - iOS SDK
@@ -93,10 +93,10 @@
 - Firebase AI Logic on Android (Kotlin)
 - Basic Checks
 - Alternative: Manual MCP Configuration (Project Scope)
-- Native SQL Examples
+- SeoService
 - Manual Initialization
 - scripts
-- auth-routing.module.ts
+- @angular/core
 - Flutter Setup for Firebase AI Logic
 - Firebase AI Logic Basics
 - Core Capabilities
@@ -106,9 +106,9 @@
 - Manual Initialization
 - 1. Instance Selection and Edition Detection
 - Assessment: Security Validator (Red Team Edition)
-- OrderEmailService
-- Certare Design Decisions (living log)
-- CartComponent
+- auth.service.ts
+- Certare
+- CartService
 - App Check Debug Tokens for Local Development & CI/CD
 - Workflow
 - Firebase Local Environment Setup
@@ -116,8 +116,9 @@
 - Recommended: Global Setup
 - Firebase Web Setup Guide
 - 1. Local Prototyping: Data Seeding
-- [1.0.1] - 2026-09-18
-- ScheduleComponent
+- CHANGELOG.md
+- Certare Quality Foundation
+- Testing: Certare verification guide
 - Antigravity Setup
 - Recommended Method: Using Plugins
 - Cursor Setup
@@ -126,15 +127,20 @@
 - SECURITY — Certare
 - SPEC — Certare (aplicación de servicios móviles)
 - Public experience release — verification record
-- PaypalService
+- Core Directives
 - Android Studio Setup
 - DOMAIN — connecting a paid domain
 - overrides
 - dotenv
+- NavbarComponent
 - capacitor.config.ts
 - Package.swift
 - 4-angular2ios-migration.md
 - 5-angular2androi-migration.md
+- Contributing to Certare
+- Certare UX implementation: interrupted-session checkpoint
+- Migración y verificación funcional — 21 de septiembre de 2026
+- Emulator
 
 ## God Nodes (most connected - your core abstractions)
 1. `@angular/core` - 53 edges
@@ -151,19 +157,19 @@
 ## Surprising Connections (you probably didn't know these)
 - `5. Robust `AuthService` Boilerplate` --references--> `AuthService`  [INFERRED]
   .agents/skills/firebase-auth-basics/references/flutter_setup.md → src/app/auth/auth.service.ts
-- `Collection Standard v1` --references--> `CollectionConfig`  [INFERRED]
-  docs/DESIGN-SYSTEM.md → src/app/collections/collection-config.ts
+- `Task 2: Implement Quality CI` --references--> `verify()`  [INFERRED]
+  docs/superpowers/plans/2026-10-23-certare-quality-foundation.md → scripts/migrate-product-store.js
 - `Open improvements (not yet done)` --references--> `DiscoveryService`  [INFERRED]
   docs/QUALITY.md → src/app/agency/discovery.service.ts
-- `Open improvements (not yet done)` --references--> `PillarComponent`  [INFERRED]
-  docs/QUALITY.md → src/app/agency/pillar/pillar.component.ts
 - `Data model and collections` --references--> `AuthService`  [INFERRED]
   docs/PROJECT.md → src/app/auth/auth.service.ts
+- `Collection Standard v1` --references--> `CollectionConfig`  [INFERRED]
+  docs/DESIGN-SYSTEM.md → src/app/collections/collection-config.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (126 total, 17 thin omitted)
+## Communities (131 total, 13 thin omitted)
 
 ### Community 0 - "ref_firebase_admin"
 Cohesion: 0.05
@@ -171,35 +177,35 @@ Nodes (30): admin, app, key, admin, db, serviceAccount, admin, serviceAccount (+
 
 ### Community 1 - "functions/package.json"
 Cohesion: 0.05
-Nodes (41): dependencies, cors, firebase-admin, firebase-functions, nodemailer, description, devDependencies, jest (+33 more)
+Nodes (43): dependencies, cors, firebase-admin, firebase-functions, nodemailer, description, devDependencies, jest (+35 more)
 
 ### Community 2 - "options"
 Cohesion: 0.05
 Nodes (44): build, extract-i18n, serve, test, builder, configurations, defaultConfiguration, options (+36 more)
 
 ### Community 3 - "product-list.component.ts"
-Cohesion: 0.13
-Nodes (12): Data model and collections, CollectionConfig, COLLECTIONS, SORT_OPTIONS, SortKey, CatalogItem, CatalogSector, ProductService (+4 more)
+Cohesion: 0.23
+Nodes (7): @angular/common, COLLECTIONS, SORT_OPTIONS, SortKey, PageSeo, CxCardComponent, CxCardVariant
 
 ### Community 4 - "ProductListComponent"
-Cohesion: 0.07
-Nodes (6): Common Property Translations, Conventions, Open improvements (not yet done), QUALITY — Certare code standards, Removed legacy (2026-09-22 cleanup), ProductListComponent
+Cohesion: 0.05
+Nodes (14): Common Property Translations, Certare Design Decisions (living log), Collection Standard v1, Discarded, Tokens (`theme.css`), Data model and collections, CollectionConfig, ProductListComponent (+6 more)
 
 ### Community 5 - "App Hosting CLI Commands"
 Cohesion: 0.06
 Nodes (30): App Hosting CLI Commands, Automated deployment via GitHub (CI/CD), Backend Management, Initialization, `npx -y firebase-tools@latest apphosting:backends:create`, `npx -y firebase-tools@latest apphosting:backends:delete <backend-id>`, `npx -y firebase-tools@latest apphosting:backends:get <backend-id>`, `npx -y firebase-tools@latest apphosting:backends:list` (+22 more)
 
 ### Community 6 - "AuthService"
-Cohesion: 0.12
-Nodes (6): @angular/forms, firebase, AuthService, LoginComponent, RegisterComponent, testProviders
+Cohesion: 0.14
+Nodes (3): AuthService, LoginComponent, RegisterComponent
 
 ### Community 7 - "pillar.component.ts"
-Cohesion: 0.09
-Nodes (9): COLLECTIONS, DevSector, DevSectorService, DevStage, InsightDetailComponent, PillarComponent, PillarContent, PILLARS (+1 more)
+Cohesion: 0.13
+Nodes (11): Conventions, Open improvements (not yet done), QUALITY — Certare code standards, Removed legacy (2026-09-22 cleanup), COLLECTIONS, DevSector, DevSectorService, DevStage (+3 more)
 
 ### Community 8 - "migrate-product-store.js"
-Cohesion: 0.09
-Nodes (18): admin, db, destination(), encode(), equal(), fs, { isDeepStrictEqual }, main() (+10 more)
+Cohesion: 0.07
+Nodes (26): Certare Quality Foundation Implementation Plan, Execution Notes, Global Constraints, Review Focus, Task 1: Preserve and Verify the Baseline, Task 2: Implement Quality CI, Task 3: Document the Product and Verification Contract, Task 4: Review and Publish the Authorized GitHub Changes (+18 more)
 
 ### Community 9 - "Deterministic Rules for Migration"
 Cohesion: 0.07
@@ -214,8 +220,8 @@ Cohesion: 0.07
 Nodes (27): Agregar cambios al área de preparación, Agregar directorio seguro (si es necesario), Automatizaciones de Github (Avanzado), Comandos Básicos de Git (Los Más Comunes), Configuración de GitHub, Configuración de Usuario en Git, Configurar directorio seguro, Configurar tu Aplicación como Proyecto de Github (+19 more)
 
 ### Community 12 - "@angular/router"
-Cohesion: 0.16
-Nodes (9): @angular/router, rxjs, AboutComponent, routes, Insight, InsightService, HomeComponent, SeoService (+1 more)
+Cohesion: 0.19
+Nodes (6): @angular/router, AboutComponent, routes, InsightDetailComponent, Insight, InsightService
 
 ### Community 13 - "Mutations"
 Cohesion: 0.07
@@ -226,8 +232,8 @@ Cohesion: 0.08
 Nodes (23): `cleanUrls` (Optional), Full Example, `headers` (Optional), Hosting Configuration (`firebase.json`), `ignore` (Optional), Key Attributes, `public` (Required), `redirects` (Optional) (+15 more)
 
 ### Community 15 - "Configuration Reference"
-Cohesion: 0.08
-Nodes (24): Breaking Changes, CI/CD Integration, Cloud SQL Configuration, Configuration Reference, Connect from SDK, connector.yaml, Contents, dataconnect.yaml (+16 more)
+Cohesion: 0.10
+Nodes (19): Breaking Changes, CI/CD Integration, Cloud SQL Configuration, Configuration Reference, connector.yaml, Contents, dataconnect.yaml, Deploy Workflow (+11 more)
 
 ### Community 16 - "Security Reference"
 Cohesion: 0.08
@@ -235,35 +241,35 @@ Nodes (24): Access Levels, Anti-Patterns, @auth Directive, auth.token Fields, Au
 
 ### Community 17 - "package.json"
 Cohesion: 0.08
-Nodes (24): firebase-admin, typescript, name, private, version, @angular/cli, @angular/compiler, @angular/compiler-cli (+16 more)
+Nodes (25): firebase-admin, typescript, name, private, version, @angular/cli, @angular/compiler, @angular/compiler-cli (+17 more)
 
 ### Community 18 - "Firebase Crashlytics iOS Setup Guide"
 Cohesion: 0.08
 Nodes (21): Add Dependencies to Gradle Build, App-level `build.gradle.kts` (`<project>/<app-module>/build.gradle.kts`), Firebase Crashlytics Android Setup Guide, Follow up Steps, Optional: Add custom debugging information, Optional: Install the NDK SDK to capture native crashes, Project and App Setup, Project-level `build.gradle.kts` (`<project>/build.gradle.kts`) (+13 more)
 
-### Community 19 - "@angular/core"
-Cohesion: 0.21
-Nodes (10): @angular/core, @angular/fire, @angular/platform-browser, appConfig, routes, CartItem, OrderEmailData, PageSeo (+2 more)
+### Community 19 - "cart.service.ts"
+Cohesion: 0.25
+Nodes (4): CartItem, OrderEmailData, OrderEmailService, PaypalService
 
-### Community 20 - "@angular/common"
-Cohesion: 0.09
-Nodes (9): @angular/common, @capacitor/core, AgencyModule, AgencyRoutingModule, ProductsModule, ProductsRoutingModule, NavbarComponent, FilterGroup (+1 more)
+### Community 20 - "app.config.ts"
+Cohesion: 0.16
+Nodes (6): @angular/platform-browser, AgencyModule, AgencyRoutingModule, appConfig, routes, SalesModule
 
-### Community 21 - "DiscoveryService"
-Cohesion: 0.13
-Nodes (7): DiscoveryRequest, DiscoveryService, NewDiscoveryRequest, SalesHistoryComponent, SalesModule, routes, SalesRoutingModule
+### Community 21 - "rxjs"
+Cohesion: 0.12
+Nodes (7): @angular/fire, rxjs, DiscoveryRequest, DiscoveryService, NewDiscoveryRequest, ScheduleComponent, SalesHistoryComponent
 
 ### Community 22 - "Configuración de Firebase"
 Cohesion: 0.09
 Nodes (21): Archivo 1: Configuración de la App Web (firebase-config.ts), Archivo 2: Cuenta de Servicio (serviceAccountKey.json), Archivo 3: Variables de Entorno (.env), Configuración de Firebase, Crear un Proyecto en Firebase, Despliegue de la Aplicación a Firebase Hosting, Flujo Completo de Despliegue, Paso 1: Acceder a Cuentas de Servicio (+13 more)
 
 ### Community 23 - "Schema Reference"
-Cohesion: 0.10
-Nodes (20): @col, Contents, Core Directives, Customizing Tables, Data Types, @default, Defining Types, Enumerations (+12 more)
+Cohesion: 0.14
+Nodes (13): Contents, Customizing Tables, Data Types, Defining Types, Enumerations, Many-to-Many, One-to-Many (Implicit Foreign Key), One-to-One (+5 more)
 
 ### Community 24 - "shared-ui.spec.ts"
-Cohesion: 0.13
-Nodes (6): Shared UI (`src/app/shared/ui/`, standalone, `@Input` variants), CxCardComponent, CxCtaSectionComponent, CxEmptyStateComponent, CxHeroComponent, HeroStat
+Cohesion: 0.17
+Nodes (5): Shared UI (`src/app/shared/ui/`, standalone, `@Input` variants), CxCtaSectionComponent, CxEmptyStateComponent, CxHeroComponent, HeroStat
 
 ### Community 25 - "firebase-basics/SKILL.md"
 Cohesion: 0.11
@@ -298,8 +304,8 @@ Cohesion: 0.12
 Nodes (17): devDependencies, @angular/cli, @angular/compiler-cli, @angular-devkit/build-angular, @capacitor/cli, dotenv, firebase-admin, jasmine-core (+9 more)
 
 ### Community 33 - "DEPLOY.md"
-Cohesion: 0.12
-Nodes (14): Android, Nota de dominio/identidad, Paso 0 — Autenticación (manual, una vez), Paso 2 — Deploy Hosting (SPA), Paso 3 — Seed de catálogo en producción (opcional, una vez), Paso 4 — Verificación post-deploy, Requisitos previos, Rollback (+6 more)
+Cohesion: 0.20
+Nodes (9): Android, Nota de dominio/identidad, Paso 0 — Autenticación (manual, una vez), Paso 1 — Deploy Cloud Functions (correo de pedido), Paso 2 — Deploy Hosting (SPA), Paso 3 — Seed de catálogo en producción (opcional, una vez), Paso 4 — Verificación post-deploy, Requisitos previos (+1 more)
 
 ### Community 34 - "Firebase Authentication Web SDK"
 Cohesion: 0.13
@@ -341,9 +347,9 @@ Nodes (13): Add a Document with Auto-ID, Get a Single Document, Get Multiple Doc
 Cohesion: 0.14
 Nodes (13): ✅ 1. Verificar o Instalar Git, ⚖️ 2. Configurar Git con tus datos de GitHub, 🚀 3. Instalar GitHub CLI (`gh`), 🔑 4. Autenticarse en GitHub, 🌐 5. Comandos básicos para verificar funcionamiento, Instalación de GitHub CLI y Git en macOS, Instalar con Homebrew:, Instalar Git con Homebrew (si no está instalado): (+5 more)
 
-### Community 44 - "Examples"
-Cohesion: 0.15
-Nodes (12): Blog with Permissions, E-Commerce Store, Examples, Movie Review App, Mutations, Operations, Operations with Role Checks, Queries (+4 more)
+### Community 44 - "Native SQL Examples"
+Cohesion: 0.10
+Nodes (20): Advanced aggregation with RANK, Advanced CTE with upserts (atomic get-or-create), Basic SELECT with field aliasing, Basic UPDATE, Blog with Permissions, E-Commerce Store, Examples, Movie Review App (+12 more)
 
 ### Community 45 - "Cloud Functions Integration Reference"
 Cohesion: 0.15
@@ -354,11 +360,11 @@ Cohesion: 0.15
 Nodes (12): CEL Bindings in Conditions, Combining Multiple @refresh Directives, Common Patterns, Contents, Explicit Mutation Signals (`onMutationExecuted`), Implicit Entity Refresh signals, `mutation` — The Triggering Event, Realtime Reference (+4 more)
 
 ### Community 47 - "iOS SDK"
-Cohesion: 0.15
+Cohesion: 0.17
 Nodes (12): Basic Query, Best Practices for Agents, Calling Operations, Client-Side Caching, Data Type Mapping Reference, Dependencies (Package.swift or SPM), Initialization, iOS SDK (+4 more)
 
 ### Community 48 - "Templates"
-Cohesion: 0.15
+Cohesion: 0.17
 Nodes (12): Basic CRUD Schema, Client Subscribe (Web), connector.yaml Template, dataconnect.yaml Template, Event-Driven Refresh, Firebase Init Commands, Many-to-Many Relationship, Realtime Query Templates (+4 more)
 
 ### Community 49 - "Flutter & Firebase Setup Guide"
@@ -397,8 +403,12 @@ Nodes (10): 1. Import and Initialize, 2. Type-Safe Data Models (Codable), 3. Wri
 Cohesion: 0.33
 Nodes (8): addCrashlyticsRunScriptBuildPhase(), hasCrashlyticsRunScriptBuildPhase(), isUserScriptSandboxingEnabled(), main(), setDwarfWithDsymDebugInformationFormat(), Foundation, PathKit, XcodeProj
 
+### Community 58 - "CxFilterBarComponent"
+Cohesion: 0.14
+Nodes (3): CxFilterBarComponent, FilterGroup, FilterOption
+
 ### Community 59 - "firebase-data-connect/SKILL.md"
-Cohesion: 0.20
+Cohesion: 0.18
 Nodes (6): 2. Production: Admin SDK Bulk Operations, 3. Production: Bulk Operations via raw SQL, 🚨 Critical SQL Operations Constraint, Data Seeding & Bulk Operations Reference, SDK Bulk APIs Features:, SDK Bulk Operations Example
 
 ### Community 60 - "Admin Node SDK"
@@ -406,7 +416,7 @@ Cohesion: 0.20
 Nodes (9): 1. Impersonating an Unauthenticated User, 2. Impersonating a Specific User (Cloud Functions), 3. Impersonating a Specific User (Plain HTTP), 4. Running with Unrestricted Access, Admin Node SDK, Best Practices for Agents, Configuration in `connector.yaml`, Generation (+1 more)
 
 ### Community 61 - "Android SDK"
-Cohesion: 0.20
+Cohesion: 0.18
 Nodes (10): Android SDK, Basic Query, Best Practices for Agents, Calling Operations, Client-Side Caching, Data Type Mapping Reference, Dependencies (build.gradle.kts), Initialization (+2 more)
 
 ### Community 62 - "Cloud Firestore on Android (Kotlin)"
@@ -465,21 +475,21 @@ Nodes (7): Authentication in Security Rules, Basic Checks, Check if user is sign
 Cohesion: 0.25
 Nodes (7): 1. Configure and Verify Firebase MCP Server, 1. Install and Verify Firebase Extension, 2. Restart and Verify Connection, 2. Restart and Verify Connection, Alternative: Manual MCP Configuration (Project Scope), Gemini CLI Setup, Recommended: Installing Extensions
 
-### Community 77 - "Native SQL Examples"
-Cohesion: 0.25
-Nodes (8): Advanced aggregation with RANK, Advanced CTE with upserts (atomic get-or-create), Basic SELECT with field aliasing, Basic UPDATE, Multi-statement Transactions, Native SQL Examples, UPDATE with RETURNING and Auth Context, Use of extensions (e.g. PostGIS for geospatial data)
+### Community 77 - "SeoService"
+Cohesion: 0.15
+Nodes (3): HomeComponent, PrivacyComponent, SeoService
 
 ### Community 78 - "Manual Initialization"
 Cohesion: 0.25
 Nodes (8): 1. Create a Firestore Enterprise Database, 2. Create `firebase.json`, 2. Create `firestore.rules`, 3. Create `firestore.indexes.json`, Deploy rules and indexes, Local Emulation, Manual Initialization, Provisioning Firestore Enterprise Native Mode
 
 ### Community 79 - "scripts"
-Cohesion: 0.25
-Nodes (8): scripts, android:sync, build, ng, set-env, start, test, watch
+Cohesion: 0.18
+Nodes (11): scripts, android:sync, build, ng, set-env, start, test, test:ci (+3 more)
 
-### Community 80 - "auth-routing.module.ts"
-Cohesion: 0.29
-Nodes (4): AuthModule, AUTH_ROUTES, AuthRoutingModule, routes
+### Community 80 - "@angular/core"
+Cohesion: 0.14
+Nodes (8): @angular/core, AuthModule, AUTH_ROUTES, AuthRoutingModule, routes, ProductsModule, ProductsRoutingModule, routes
 
 ### Community 81 - "Flutter Setup for Firebase AI Logic"
 Cohesion: 0.29
@@ -517,13 +527,17 @@ Nodes (7): 1. Instance Selection and Edition Detection, 2. Specialized Guides, A
 Cohesion: 0.29
 Nodes (6): Admin Bootstrapping & Privileges:, Assessment: Security Validator (Red Team Edition), Mandatory Audit Checklist:, Overview, Scoring Criteria, Scoring Criteria (1-5):
 
-### Community 90 - "OrderEmailService"
-Cohesion: 0.29
-Nodes (3): Added, Paso 1 — Deploy Cloud Functions (correo de pedido), OrderEmailService
+### Community 90 - "auth.service.ts"
+Cohesion: 0.23
+Nodes (5): @angular/forms, firebase, testProviders, environment, firebaseConfig
 
-### Community 91 - "Certare Design Decisions (living log)"
-Cohesion: 0.29
-Nodes (5): Certare Design Decisions (living log), Collection Standard v1, Discarded, Tokens (`theme.css`), SharedModule
+### Community 91 - "Certare"
+Cohesion: 0.22
+Nodes (9): Certare, Commands, Contributing, Documentation, Intentionally disabled, Security reporting, Setup from a clean clone, Stack and boundaries (+1 more)
+
+### Community 92 - "CartService"
+Cohesion: 0.13
+Nodes (4): CartComponent, CartService, routes, SalesRoutingModule
 
 ### Community 93 - "App Check Debug Tokens for Local Development & CI/CD"
 Cohesion: 0.33
@@ -553,9 +567,17 @@ Nodes (5): 1. Create a Firebase Project and App, 2. Installation, 3. Initializat
 Cohesion: 0.33
 Nodes (6): 1. Local Prototyping: Data Seeding, Resetting Seed Data, ⚠️ Seeding Directives Rule, Seeding Independent Tables (FK Order), Seeding Related Tables (Nested Relational Inserts), The `seed_data.gql` Workflow
 
-### Community 100 - "[1.0.1] - 2026-09-18"
-Cohesion: 0.33
-Nodes (5): [1.0.1] - 2026-09-18, Changed, Docs, [Unreleased] - 2026-09-21, [Unreleased] - 2026-09-23
+### Community 100 - "CHANGELOG.md"
+Cohesion: 0.29
+Nodes (6): [1.0.1] - 2026-09-18, Added, Changed, Docs, [Unreleased] - 2026-09-21, [Unreleased] - 2026-09-23
+
+### Community 101 - "Certare Quality Foundation"
+Cohesion: 0.25
+Nodes (7): Approved Outcome, Boundaries, Certare Quality Foundation, Delivery, Design Decisions, Scope, Verification Contract
+
+### Community 102 - "Testing: Certare verification guide"
+Cohesion: 0.25
+Nodes (8): Browser requirements, CI design (agreed interfaces), Historical evidence, Node versions, Safe test data, Testing: Certare verification guide, Verification layers, What these suites do not cover
 
 ### Community 103 - "Antigravity Setup"
 Cohesion: 0.40
@@ -586,8 +608,12 @@ Cohesion: 0.40
 Nodes (4): 1. Propósito, 2.1 Entidades, 2. Modelo de negocio (REFACTOR APLICADO), SPEC — Certare (aplicación de servicios móviles)
 
 ### Community 111 - "Public experience release — verification record"
-Cohesion: 0.40
+Cohesion: 0.50
 Nodes (4): Delivered structure, Operational facts and limitations, Public experience release — verification record, Verified before the production release
+
+### Community 112 - "Core Directives"
+Cohesion: 0.29
+Nodes (7): @col, Core Directives, @default, @index, @searchable, @table, @unique
 
 ### Community 113 - "Android Studio Setup"
 Cohesion: 0.50
@@ -601,15 +627,31 @@ Nodes (3): DOMAIN — connecting a paid domain, Later (same window or after), St
 Cohesion: 0.50
 Nodes (4): overrides, serialize-javascript, tar, @tootallnate/once
 
+### Community 126 - "Contributing to Certare"
+Cohesion: 0.29
+Nodes (7): Code standards, Contributing to Certare, Ground rules, Licensing, Setup, Verification before a pull request, What CI does and doesn't do
+
+### Community 128 - "Certare UX implementation: interrupted-session checkpoint"
+Cohesion: 0.33
+Nodes (5): Certare UX implementation: interrupted-session checkpoint, Outstanding plan items, Production blocker, Verification limits, Verified locally
+
+### Community 129 - "Migración y verificación funcional — 21 de septiembre de 2026"
+Cohesion: 0.33
+Nodes (6): Comprobaciones ejecutadas, Firebase, Mantenimiento detectado, Migración y verificación funcional — 21 de septiembre de 2026, Problemas corregidos en la aplicación, Respaldos locales
+
+### Community 130 - "Emulator"
+Cohesion: 0.40
+Nodes (5): Connect from SDK, Emulator, Emulator Configuration (firebase.json), Seed Data, Start Emulator
+
 ## Knowledge Gaps
 - **29 isolated node(s):** `PackageDescription`, `Foundation`, `PathKit`, `cors`, `firebase-admin` (+24 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1015 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1054 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `AuthService` connect `AuthService` to `product-list.component.ts`, `ProductListComponent`, `@angular/common`, `.initPayment`, `Firebase Auth & Google Sign-In for Flutter`?**
+- **Why does `AuthService` connect `AuthService` to `product-list.component.ts`, `ProductListComponent`, `@angular/core`, `Firebase Auth & Google Sign-In for Flutter`, `NavbarComponent`, `rxjs`, `auth.service.ts`?**
   _High betweenness centrality (0.036) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `AuthService` (e.g. with `5. Robust `AuthService` Boilerplate` and `Data model and collections`) actually correct?**
   _`AuthService` has 2 INFERRED edges - model-reasoned connections that need verification._
@@ -618,8 +660,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `ref_firebase_admin` be split into smaller, more focused modules?**
   _Cohesion score 0.047872340425531915 - nodes in this community are weakly interconnected._
 - **Why does `5. Robust `AuthService` Boilerplate` connect `Firebase Auth & Google Sign-In for Flutter` to `AuthService`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **Should `functions/package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.04830917874396135 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04609929078014184 - nodes in this community are weakly interconnected._
 - **Why does `Firebase Auth & Google Sign-In for Flutter` connect `Firebase Auth & Google Sign-In for Flutter` to `firebase-auth-basics/SKILL.md`?**
-  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._

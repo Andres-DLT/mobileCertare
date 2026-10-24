@@ -54,13 +54,13 @@ runner, Node 22.23.4 and GitHub Actions on Ubuntu 24.04.
 **Interfaces:** npm scripts `test:ci`, `test:tools`, `verify` and the Functions
 `test:ci`/`verify` scripts; root `verify` runs every approved verification layer.
 
-- [ ] Add stable commands without changing the default interactive test behavior.
-- [ ] Pin the Node quality runtime and third-party actions to verified versions.
-- [ ] Run real tests, coverage and builds with read-only job permissions and
+- [x] Add stable commands without changing the default interactive test behavior.
+- [x] Pin the Node quality runtime and third-party actions to verified versions.
+- [x] Run real tests, coverage and builds with read-only job permissions and
   retain reports as short-lived artifacts, with no secret references.
-- [ ] Add the explicit preview-label guard and label event types; do not modify
+- [x] Add the explicit preview-label guard and label event types; do not modify
   the live workflow or request the preview label on the quality PR.
-- [ ] Validate YAML and run the exact commands locally. Prove the tools gate fails
+- [x] Validate YAML and run the exact commands locally. Prove the tools gate fails
   when the existing serializer defect is temporarily reintroduced, then restore it.
 
 ## Task 3: Document the Product and Verification Contract
@@ -70,12 +70,12 @@ runner, Node 22.23.4 and GitHub Actions on Ubuntu 24.04.
 **Interfaces:** consume the npm commands from Task 2 and current product facts in
 `docs/PROJECT.md`, `docs/QUALITY.md`, `docs/SECURITY.md` and release records.
 
-- [ ] Explain shipped behavior, demo, setup, test commands and known limitations.
-- [ ] Distinguish public intake from the legacy order-email backend; do not promise
+- [x] Explain shipped behavior, demo, setup, test commands and known limitations.
+- [x] Distinguish public intake from the legacy order-email backend; do not promise
   automatic intake notifications or enabled checkout.
-- [ ] Document secret-free CI, opt-in previews, safe test environments and the
+- [x] Document secret-free CI, opt-in previews, safe test environments and the
   unchanged production/IAM boundary. Do not copy local machine paths or secrets.
-- [ ] Verify commands, links, attribution and absence of private data.
+- [x] Verify commands, links, attribution and absence of private data.
 
 ## Task 4: Review and Publish the Authorized GitHub Changes
 

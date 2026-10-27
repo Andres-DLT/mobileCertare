@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../language.service';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,14 +18,14 @@ export interface FilterGroup {
 @Component({
   selector: 'cx-filter-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [TranslatePipe, CommonModule, FormsModule],
   template: `
     <div class="cx-filters" role="search" aria-label="Catalog filters">
       <div class="cx-filter-tools">
         <label class="cx-search" *ngIf="searchable">
           <span class="cx-sr">Search services</span>
           <input type="search" [ngModel]="search" (ngModelChange)="searchChange.emit($event)"
-            placeholder="Search services…" autocomplete="off" aria-label="Search services" />
+            [placeholder]="'Search services' | tr" autocomplete="off" aria-label="Search services" />
         </label>
         <button #openButton type="button" class="cx-filter-trigger" aria-haspopup="dialog"
           [attr.aria-expanded]="isOpen" (click)="openFilters()">
@@ -37,17 +38,17 @@ export interface FilterGroup {
           [class.active]="(selection[group.key] || 'all') === option.key"
           [attr.aria-pressed]="(selection[group.key] || 'all') === option.key"
           (click)="select(group.key, option.key)">
-          {{ option.label }}<span class="cx-count" *ngIf="option.count != null">{{ option.count }}</span>
+          {{ option.label | tr }}<span class="cx-count" *ngIf="option.count != null">{{ option.count }}</span>
         </button>
       </div>
 
       <div class="cx-filter-footer">
-        <span class="cx-result-count" aria-live="polite">{{ resultCount }} {{ resultCount === 1 ? 'service' : 'services' }}</span>
-        <button *ngIf="activeCount || search" type="button" class="cx-reset" (click)="clearAll()">Clear all</button>
+        <span class="cx-result-count" aria-live="polite">{{ resultCount }} {{ (resultCount === 1 ? 'service' : 'services') | tr }}</span>
+        <button *ngIf="activeCount || search" type="button" class="cx-reset" (click)="clearAll()">{{ "Clear all" | tr }}</button>
         <label class="cx-sort" *ngIf="sortOptions.length">
           <span class="cx-sr">Sort services</span>
           <select [ngModel]="sort" (ngModelChange)="sortChange.emit($event)" aria-label="Sort services">
-            <option *ngFor="let option of sortOptions" [value]="option.key">{{ option.label }}</option>
+            <option *ngFor="let option of sortOptions" [value]="option.key">{{ option.label | tr }}</option>
           </select>
         </label>
       </div>
@@ -55,30 +56,30 @@ export interface FilterGroup {
 
     <dialog #filterPanel class="cx-filter-panel" aria-labelledby="catalog-filter-title" (close)="isOpen = false; openButton.focus()">
       <div class="cx-panel-header">
-        <div><span class="cx-panel-eyebrow">Refine results</span><h2 id="catalog-filter-title">Filters</h2></div>
+        <div><span class="cx-panel-eyebrow">{{ "Refine results" | tr }}</span><h2 id="catalog-filter-title">{{ "Filters" | tr }}</h2></div>
         <button type="button" class="cx-panel-close" aria-label="Close filters" (click)="closeFilters()">×</button>
       </div>
       <div class="cx-panel-body">
         <fieldset *ngFor="let group of collapsibleGroups" class="cx-filter-fieldset">
-          <legend>{{ group.label }}</legend>
+          <legend>{{ group.label | tr }}</legend>
           <div class="cx-panel-options">
             <button type="button" class="cx-chip" *ngFor="let option of group.options"
               [class.active]="(selection[group.key] || 'all') === option.key"
               [attr.aria-pressed]="(selection[group.key] || 'all') === option.key"
               (click)="select(group.key, option.key)">
-              {{ option.label }}<span class="cx-count" *ngIf="option.count != null">{{ option.count }}</span>
+              {{ option.label | tr }}<span class="cx-count" *ngIf="option.count != null">{{ option.count }}</span>
             </button>
           </div>
         </fieldset>
-        <label class="cx-panel-sort" *ngIf="sortOptions.length">Sort by
+        <label class="cx-panel-sort" *ngIf="sortOptions.length">{{ "Sort by" | tr }}
           <select [ngModel]="sort" (ngModelChange)="sortChange.emit($event)">
-            <option *ngFor="let option of sortOptions" [value]="option.key">{{ option.label }}</option>
+            <option *ngFor="let option of sortOptions" [value]="option.key">{{ option.label | tr }}</option>
           </select>
         </label>
       </div>
       <div class="cx-panel-actions">
-        <button type="button" class="cx-panel-reset" (click)="clearAll()">Clear all</button>
-        <button type="button" class="cx-panel-apply" (click)="closeFilters()">Show {{ resultCount }} {{ resultCount === 1 ? 'service' : 'services' }}</button>
+        <button type="button" class="cx-panel-reset" (click)="clearAll()">{{ "Clear all" | tr }}</button>
+        <button type="button" class="cx-panel-apply" (click)="closeFilters()">{{ "Show" | tr }} {{ resultCount }} {{ (resultCount === 1 ? 'service' : 'services') | tr }}</button>
       </div>
     </dialog>
   `,

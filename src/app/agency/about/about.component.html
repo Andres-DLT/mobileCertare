@@ -10,86 +10,86 @@
   </cx-hero>
 
   <section class="pillars" aria-labelledby="about-practices-title">
-    <h2 id="about-practices-title" class="pillars-heading">The practices</h2>
+    <h2 id="about-practices-title" class="pillars-heading">{{ "The practices" | tr }}</h2>
     <a class="pillar-card" routerLink="/agency/mobile">
-      <h3>Mobile development</h3>
-      <p>Apps for iOS and Android, tested on real devices, published to the stores without surprises.</p>
+      <h3>{{ "Mobile development" | tr }}</h3>
+      <p>{{ "Apps for iOS and Android, tested on real devices, published to the stores without surprises." | tr }}</p>
     </a>
     <a class="pillar-card" routerLink="/agency/web">
-      <h3>Web development</h3>
-      <p>Web platforms and APIs with automated end-to-end coverage wired into your pipeline.</p>
+      <h3>{{ "Web development" | tr }}</h3>
+      <p>{{ "Web platforms and APIs with automated end-to-end coverage wired into your pipeline." | tr }}</p>
     </a>
     <a class="pillar-card" routerLink="/agency/testing">
-      <h3>Global testing</h3>
-      <p>Manual, automation, API, performance and CI/CD quality gates across your whole stack.</p>
+      <h3>{{ "Global testing" | tr }}</h3>
+      <p>{{ "Manual, automation, API, performance and CI/CD quality gates across your whole stack." | tr }}</p>
     </a>
     <a class="pillar-card" routerLink="/agency/ai">
-      <h3>AI integration & testing</h3>
-      <p>LLM features, agents and RAG systems — evaluated, red-teamed and governed for production.</p>
+      <h3>{{ "AI integration & testing" | tr }}</h3>
+      <p>{{ "LLM features, agents and RAG systems — evaluated, red-teamed and governed for production." | tr }}</p>
     </a>
     <a class="pillar-card" routerLink="/agency/training">
-      <h3>IT education & training</h3>
-      <p>Courses, bootcamps and mentoring across QA, development and IT operations.</p>
+      <h3>{{ "IT education & training" | tr }}</h3>
+      <p>{{ "Courses, bootcamps and mentoring across QA, development and IT operations." | tr }}</p>
     </a>
   </section>
 
   <section class="about-section">
-    <h2>How we work</h2>
+    <h2>{{ "How we work" | tr }}</h2>
     <div class="process-row">
       <div class="process-step">
         <span class="step-num">01</span>
-        <h3>Discover</h3>
-        <p>You get: a scoped proposal with goals, timeline and estimate. We review your stack, risks and release cadence.</p>
+        <h3>{{ "Discover" | tr }}</h3>
+        <p>{{ "You get: a scoped proposal with goals, timeline and estimate. We review your stack, risks and release cadence." | tr }}</p>
       </div>
       <div class="process-step">
         <span class="step-num">02</span>
-        <h3>Plan</h3>
-        <p>You get: a work plan with deliverables and quality gates. Test strategy, tooling and pipeline integration defined upfront.</p>
+        <h3>{{ "Plan" | tr }}</h3>
+        <p>{{ "You get: a work plan with deliverables and quality gates. Test strategy, tooling and pipeline integration defined upfront." | tr }}</p>
       </div>
       <div class="process-step">
         <span class="step-num">03</span>
-        <h3>Deliver</h3>
-        <p>You get: working software plus evidence — code, automated suites, reports and dashboards your team keeps.</p>
+        <h3>{{ "Deliver" | tr }}</h3>
+        <p>{{ "You get: working software plus evidence — code, automated suites, reports and dashboards your team keeps." | tr }}</p>
       </div>
     </div>
   </section>
 
   <section class="about-section">
-    <h2>What a useful proposal contains</h2>
-    <p>A good starting plan identifies the systems involved, dependencies, acceptance criteria and what can be verified at each stage. Explore a capability or tell us about your own constraints.</p>
+    <h2>{{ "What a useful proposal contains" | tr }}</h2>
+    <p>{{ "A good starting plan identifies the systems involved, dependencies, acceptance criteria and what can be verified at each stage. Explore a capability or tell us about your own constraints." | tr }}</p>
   </section>
 
   <section class="about-section">
-    <h2>Mission & values</h2>
-    <p>Clear scope, visible decisions and validation are useful across development, testing and AI work. Those principles guide how we frame each conversation.</p>
+    <h2>{{ "Mission & values" | tr }}</h2>
+    <p>{{ "Clear scope, visible decisions and validation are useful across development, testing and AI work. Those principles guide how we frame each conversation." | tr }}</p>
     <div class="process-row">
       <div class="process-step">
         <span class="step-num">01</span>
-        <h3>Discipline</h3>
-        <p>Scoped work, defined gates and versioned releases — no improvisation with your product.</p>
+        <h3>{{ "Discipline" | tr }}</h3>
+        <p>{{ "Scoped work, defined gates and versioned releases — no improvisation with your product." | tr }}</p>
       </div>
       <div class="process-step">
         <span class="step-num">02</span>
-        <h3>Evidence</h3>
-        <p>Define observable outputs and acceptance criteria rather than relying on a polished presentation.</p>
+        <h3>{{ "Evidence" | tr }}</h3>
+        <p>{{ "Define observable outputs and acceptance criteria rather than relying on a polished presentation." | tr }}</p>
       </div>
       <div class="process-step">
         <span class="step-num">03</span>
-        <h3>Directness</h3>
-        <p>Surface dependencies and uncertainty early, before they become delivery surprises.</p>
+        <h3>{{ "Directness" | tr }}</h3>
+        <p>{{ "Surface dependencies and uncertainty early, before they become delivery surprises." | tr }}</p>
       </div>
     </div>
   </section>
 
   <section class="about-section">
-    <h2>Working with Certare</h2>
-    <p>Start by describing the system and the decision you need to make. We use that context to discuss the appropriate scope, dependencies and validation approach. There is no account requirement to send a discovery request.</p>
-    <a class="about-text-link" routerLink="/agency/schedule">Share your project context <span aria-hidden="true">→</span></a>
+    <h2>{{ "Working with Certare" | tr }}</h2>
+    <p>{{ "Start by describing the system and the decision you need to make. We use that context to discuss the appropriate scope, dependencies and validation approach. There is no account requirement to send a discovery request." | tr }}</p>
+    <a class="about-text-link" routerLink="/agency/schedule">{{ "Share your project context" | tr }} <span aria-hidden="true">→</span></a>
   </section>
 
   <section class="about-section" aria-label="Industry insights" *ngIf="insights.length">
-    <h2>Industry context</h2>
-    <p>What is changing in software delivery — and why it matters for your roadmap.</p>
+    <h2>{{ "Industry context" | tr }}</h2>
+    <p>{{ "What is changing in software delivery — and why it matters for your roadmap." | tr }}</p>
     <div class="service-list" style="margin-top: 16px">
       <cx-card
         *ngFor="let insight of insights"

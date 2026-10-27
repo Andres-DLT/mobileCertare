@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../shared/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
@@ -162,7 +163,7 @@ const PILLARS: Record<string, PillarContent> = {
 @Component({
   selector: 'app-pillar',
   standalone: true,
-  imports: [
+  imports: [TranslatePipe,
     CommonModule,
     RouterModule,
     CxHeroComponent,

@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../language.service';
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -5,14 +6,14 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'cx-cta-section',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [TranslatePipe, CommonModule, RouterModule],
   template: `
     <section class="cx-cta" aria-label="Call to action">
-      <h2>{{ title }}</h2>
-      <p>{{ message }}</p>
+      <h2>{{ title | tr }}</h2>
+      <p>{{ message | tr }}</p>
       <div class="cx-cta-actions">
-        <a class="cx-btn-primary" [routerLink]="primaryLink">{{ primaryLabel }}</a>
-        <a *ngIf="secondaryLabel" class="cx-btn-secondary" [routerLink]="secondaryLink">{{ secondaryLabel }}</a>
+        <a class="cx-btn-primary" [routerLink]="primaryLink">{{ primaryLabel | tr }}</a>
+        <a *ngIf="secondaryLabel" class="cx-btn-secondary" [routerLink]="secondaryLink">{{ secondaryLabel | tr }}</a>
       </div>
     </section>
   `,

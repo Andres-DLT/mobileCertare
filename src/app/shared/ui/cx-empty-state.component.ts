@@ -1,16 +1,17 @@
+import { TranslatePipe } from '../language.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'cx-empty-state',
   standalone: true,
-  imports: [CommonModule],
+  imports: [TranslatePipe, CommonModule],
   host: { role: 'status' },
   template: `
     <div class="cx-empty">
-      <p>{{ message }}</p>
+      <p>{{ message | tr }}</p>
       <button *ngIf="actionLabel" class="cx-chip-active" type="button" (click)="action.emit()">
-        {{ actionLabel }}
+        {{ actionLabel | tr }}
       </button>
     </div>
   `,

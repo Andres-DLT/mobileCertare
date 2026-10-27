@@ -10,7 +10,7 @@
 
   <div class="user-header" *ngIf="userLabel">
     <div>
-      <p class="welcome-kicker">Welcome,</p>
+      <p class="welcome-kicker">{{ "Welcome," | tr }}</p>
       <h2>{{ userLabel }}</h2>
     </div>
     <div class="user-avatar" role="img" [attr.aria-label]="'Profile of ' + userLabel">{{ userLabel.charAt(0).toUpperCase() }}</div>

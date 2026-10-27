@@ -1,12 +1,12 @@
 <main class="cart-page" id="main-content">
   <header class="page-head">
-    <span class="head-chip">FOLLOW-UP</span>
-    <h1>My Requests</h1>
-    <p class="cart-sub">Requests submitted from this member account and their current status.</p>
+    <span class="head-chip">{{ "FOLLOW-UP" | tr }}</span>
+    <h1>{{ "My Requests" | tr }}</h1>
+    <p class="cart-sub">{{ "Requests submitted from this member account and their current status." | tr }}</p>
   </header>
 
   <div class="cart-empty" *ngIf="loading" aria-busy="true">
-    <p>Loading your requests…</p>
+    <p>{{ "Loading your requests…" | tr }}</p>
   </div>
 
   <cx-empty-state
@@ -27,7 +27,7 @@
         <h2 class="item-title">{{ req.message | slice:0:80 }}{{ req.message.length > 80 ? '…' : '' }}</h2>
         <span class="unit-price">{{ req.name }} · {{ req.email }}</span>
       </div>
-      <div class="item-total">{{ req.status | uppercase }}</div>
+      <div class="item-total">{{ req.status | tr | uppercase }}</div>
     </div>
   </section>
 </main>

@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../shared/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -8,7 +9,7 @@ import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component'
 @Component({
   selector: 'app-sales-history',
   standalone: true,
-  imports: [CommonModule, RouterModule, CxEmptyStateComponent],
+  imports: [TranslatePipe, CommonModule, RouterModule, CxEmptyStateComponent],
   templateUrl: './sales-history.component.html',
   styleUrl: './sales-history.component.css'
 })

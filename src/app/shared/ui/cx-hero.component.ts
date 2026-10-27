@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../language.service';
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,19 +11,19 @@ export interface HeroStat {
 @Component({
   selector: 'cx-hero',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [TranslatePipe, CommonModule, RouterModule],
   template: `
     <section class="cx-hero" [class.cx-hero-compact]="compact">
-      <span class="cx-eyebrow" *ngIf="eyebrow">{{ eyebrow }}</span>
-      <h1 class="cx-display">{{ title }}</h1>
-      <p class="cx-lead" *ngIf="subtitle">{{ subtitle }}</p>
+      <span class="cx-eyebrow" *ngIf="eyebrow">{{ eyebrow | tr }}</span>
+      <h1 class="cx-display">{{ title | tr }}</h1>
+      <p class="cx-lead" *ngIf="subtitle">{{ subtitle | tr }}</p>
       <div class="cx-hero-actions" *ngIf="primaryLabel || secondaryLabel">
-        <a *ngIf="primaryLabel" class="cx-btn-primary" [routerLink]="primaryLink">{{ primaryLabel }}</a>
-        <a *ngIf="secondaryLabel" class="cx-btn-secondary" [routerLink]="secondaryLink">{{ secondaryLabel }}</a>
+        <a *ngIf="primaryLabel" class="cx-btn-primary" [routerLink]="primaryLink">{{ primaryLabel | tr }}</a>
+        <a *ngIf="secondaryLabel" class="cx-btn-secondary" [routerLink]="secondaryLink">{{ secondaryLabel | tr }}</a>
       </div>
       <dl class="cx-hero-stats" *ngIf="stats?.length">
         <div class="cx-stat" *ngFor="let stat of stats">
-          <dt>{{ stat.label }}</dt>
+          <dt>{{ stat.label | tr }}</dt>
           <dd>{{ stat.value }}</dd>
         </div>
       </dl>

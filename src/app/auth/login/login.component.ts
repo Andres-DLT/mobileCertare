@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../shared/language.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +9,7 @@ import { SeoService } from '../../shared/seo.service';
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [TranslatePipe, FormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

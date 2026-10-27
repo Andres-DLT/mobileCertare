@@ -1,3 +1,4 @@
+import { TranslatePipe, LanguageService } from '../language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,7 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLinkActive],
+  imports: [TranslatePipe, CommonModule, RouterModule, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -23,7 +24,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public language: LanguageService
   ) {}
 
   ngOnInit(): void {

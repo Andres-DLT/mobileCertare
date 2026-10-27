@@ -1,3 +1,4 @@
+import { TranslatePipe } from './shared/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, RouterLink, NavigationError } from '@angular/router';
@@ -15,7 +16,7 @@ const CHUNK_RELOAD_KEY = 'certare.chunkReloaded';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, NavbarComponent],
+  imports: [TranslatePipe, CommonModule, RouterOutlet, RouterLink, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

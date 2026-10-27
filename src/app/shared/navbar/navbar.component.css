@@ -333,3 +333,11 @@
 @media (max-width: 380px) {
   .brand-text { display: none; }
 }
+
+/* Always-visible language selection, including mobile. */
+.language-switch { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid rgba(125, 148, 190, .32); border-radius: 999px; background: #0b1428; }
+.language-switch button { border: 0; background: transparent; color: #aab8d1; min-width: 34px; min-height: 34px; border-radius: 999px; font-size: 11px; font-weight: 800; cursor: pointer; }
+.language-switch button.active { background: #a3f0dc; color: #061b21; }
+@media (max-width: 440px) { .app-bar-inner { padding-inline: 12px; gap: 6px; } .app-bar-right { gap: 6px; } .language-switch button { min-width: 30px; } }
+
+.auth-language { position: fixed; top: calc(12px + var(--safe-top)); right: 16px; z-index: 1000; }

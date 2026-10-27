@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../language.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -7,32 +8,32 @@ export type CxCardVariant = 'service' | 'stage' | 'insight' | 'capability' | 'fe
 @Component({
   selector: 'cx-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [TranslatePipe, CommonModule, RouterLink],
   template: `
     <article class="cx-card" [attr.data-variant]="variant" [attr.data-sector]="sector">
       <span class="cx-card-mark" *ngIf="variant === 'service'" aria-hidden="true">{{ title.charAt(0) }}</span>
       <div class="cx-card-top">
-        <span class="cx-card-eyebrow" *ngIf="eyebrow">{{ eyebrow }}</span>
-        <span class="cx-card-badge" *ngIf="badge">{{ badge }}</span>
+        <span class="cx-card-eyebrow" *ngIf="eyebrow">{{ eyebrow | tr }}</span>
+        <span class="cx-card-badge" *ngIf="badge">{{ badge | tr }}</span>
       </div>
       <h3 class="cx-card-title">
-        <a *ngIf="detailLink; else plainTitle" [routerLink]="detailLink">{{ title }}</a>
-        <ng-template #plainTitle>{{ title }}</ng-template>
+        <a *ngIf="detailLink; else plainTitle" [routerLink]="detailLink">{{ title | tr }}</a>
+        <ng-template #plainTitle>{{ title | tr }}</ng-template>
       </h3>
-      <p class="cx-card-desc" *ngIf="description">{{ description }}</p>
+      <p class="cx-card-desc" *ngIf="description">{{ description | tr }}</p>
       <div class="cx-card-tags" *ngIf="tags?.length">
-        <span class="cx-tag" *ngFor="let tag of tags">{{ tag }}</span>
+        <span class="cx-tag" *ngFor="let tag of tags">{{ tag | tr }}</span>
       </div>
       <div class="cx-card-foot" *ngIf="priceLabel || actionLabel || (detailLink && variant === 'service')">
-        <span class="cx-card-price" *ngIf="priceLabel">{{ priceLabel }}</span>
-        <a *ngIf="detailLink && variant === 'service'" class="cx-card-detail" [routerLink]="detailLink" [attr.aria-label]="'Explore ' + title">Details <span aria-hidden="true">↗</span></a>
+        <span class="cx-card-price" *ngIf="priceLabel">{{ priceLabel | tr }}</span>
+        <a *ngIf="detailLink && variant === 'service'" class="cx-card-detail" [routerLink]="detailLink" [attr.aria-label]="('Details' | tr) + ': ' + (title | tr)">{{ "Details" | tr }} <span aria-hidden="true">↗</span></a>
         <button
           *ngIf="actionLabel"
           class="cx-card-action"
           type="button"
           (click)="action.emit()"
           [attr.aria-label]="actionAriaLabel || actionLabel">
-          {{ actionLabel }}
+          {{ actionLabel | tr }}
         </button>
       </div>
     </article>

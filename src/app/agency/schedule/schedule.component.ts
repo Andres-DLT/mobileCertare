@@ -1,3 +1,4 @@
+import { TranslatePipe, LanguageService } from '../../shared/language.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +12,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-schedule',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [TranslatePipe, CommonModule, FormsModule, RouterModule],
   templateUrl: './schedule.component.html',
   styleUrl: '../about/about.component.css'
 })
@@ -47,7 +48,8 @@ export class ScheduleComponent implements OnInit {
     private auth: Auth,
     private discovery: DiscoveryService,
     private seo: SeoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private language: LanguageService
   ) {}
 
   ngOnInit() {
@@ -61,7 +63,9 @@ export class ScheduleComponent implements OnInit {
     }
     const selectedService = this.route.snapshot.queryParamMap.get('service')?.trim().slice(0, 150);
     if (selectedService && !this.message) {
-      this.message = `I would like to discuss ${selectedService}. My project context is: `;
+      this.message = this.language.language === 'es'
+        ? `Me gustaría conocer más sobre ${selectedService}. Mi proyecto consiste en: `
+        : `I would like to discuss ${selectedService}. My project context is: `;
     }
     const user = this.auth.currentUser;
     if (user) {

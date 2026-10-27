@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../shared/language.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -10,7 +11,7 @@ import { SeoService } from '../shared/seo.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, CxCardComponent],
+  imports: [TranslatePipe, CommonModule, RouterLink, CxCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../shared/language.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -8,17 +9,17 @@ import { SeoService } from '../../shared/seo.service';
 @Component({
   selector: 'app-insight-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [TranslatePipe, CommonModule, RouterLink],
   template: `
     <main class="insight-page" id="main-content">
-      <nav aria-label="Breadcrumb"><a routerLink="/">Home</a> / <a routerLink="/agency/about">Agency</a> / Insight</nav>
+      <nav aria-label="Breadcrumb"><a routerLink="/">{{ 'Home' | tr }}</a> / <a routerLink="/agency/about">{{ 'Agency' | tr }}</a> / Insight</nav>
       <p *ngIf="loading" role="status">Loading insight…</p>
       <div *ngIf="error" role="alert"><h1>Insight unavailable</h1><p>{{ error }}</p><a routerLink="/agency/about">Explore our approach</a></div>
       <article *ngIf="insight as item">
-        <header><p class="eyebrow">Industry context · {{ item.readingTime }} min read</p><h1>{{ item.title }}</h1><p class="intro">{{ item.excerpt }}</p></header>
-        <p class="body-paragraph" *ngFor="let paragraph of paragraphs">{{ paragraph }}</p>
-        <div class="tags"><span *ngFor="let tag of item.tags">{{ tag }}</span></div>
-        <aside class="insight-end"><h2>Explore the work behind the topic</h2><p>Browse relevant services and discuss your own constraints with Certare.</p><a routerLink="/products/list">Explore services</a><a routerLink="/agency/schedule">Start a conversation</a></aside>
+        <header><p class="eyebrow">Industry context · {{ item.readingTime }} min read</p><h1>{{ item.title | tr }}</h1><p class="intro">{{ item.excerpt | tr }}</p></header>
+        <p class="body-paragraph" *ngFor="let paragraph of paragraphs">{{ paragraph | tr }}</p>
+        <div class="tags"><span *ngFor="let tag of item.tags">{{ tag | tr }}</span></div>
+        <aside class="insight-end"><h2>Explore the work behind the topic</h2><p>Browse relevant services and discuss your own constraints with Certare.</p><a routerLink="/products/list">{{ 'Explore services' | tr }}</a><a routerLink="/agency/schedule">{{ 'Start a conversation' | tr }}</a></aside>
       </article>
     </main>
   `,

@@ -10,42 +10,42 @@
   </cx-hero>
 
   <section class="about-section" aria-label="Scope">
-    <h2>Scope</h2>
+    <h2>{{ "Scope" | tr }}</h2>
     <div class="scope-lists">
       <div class="scope-box">
-        <h3>Included</h3>
+        <h3>{{ "Included" | tr }}</h3>
         <ul>
-          <li *ngFor="let item of pillar.included">{{ item }}</li>
+          <li *ngFor="let item of pillar.included">{{ item | tr }}</li>
         </ul>
       </div>
       <div class="scope-box">
-        <h3>Not included</h3>
+        <h3>{{ "Not included" | tr }}</h3>
         <ul>
-          <li *ngFor="let item of pillar.excluded">{{ item }}</li>
+          <li *ngFor="let item of pillar.excluded">{{ item | tr }}</li>
         </ul>
       </div>
     </div>
   </section>
 
   <section class="about-section" aria-label="Typical timelines">
-    <h2>Typical timelines</h2>
+    <h2>{{ "Typical timelines" | tr }}</h2>
     <div class="scope-box" style="margin-top: 16px">
       <ul>
-        <li *ngFor="let estimate of pillar.estimates">{{ estimate }}</li>
+        <li *ngFor="let estimate of pillar.estimates">{{ estimate | tr }}</li>
       </ul>
     </div>
-    <p style="margin-top: 12px">Final scope and timeline are confirmed in the discovery call.</p>
+    <p style="margin-top: 12px">{{ "Final scope and timeline are confirmed in the discovery call." | tr }}</p>
     <div *ngIf="pillar.catalogLink" style="margin-top: 12px">
-      <a class="chip active" [routerLink]="pillar.catalogLink">Browse the testing catalog</a>
+      <a class="chip active" [routerLink]="pillar.catalogLink">{{ "Browse the testing catalog" | tr }}</a>
     </div>
   </section>
 
   <section class="about-section" *ngIf="sectorKey" aria-label="Lifecycle stages">
-    <h2>Lifecycle stages</h2>
-    <p>Every stage of the sector, in order — each with its deliverables.</p>
+    <h2>{{ "Lifecycle stages" | tr }}</h2>
+    <p>{{ "Every stage of the sector, in order — each with its deliverables." | tr }}</p>
 
     <div class="empty-state" *ngIf="stagesLoading" aria-busy="true">
-      <p>Loading stages…</p>
+      <p>{{ "Loading stages…" | tr }}</p>
     </div>
 
     <cx-empty-state
@@ -69,11 +69,11 @@
   </section>
 
   <section class="about-section" aria-label="Frequently asked questions">
-    <h2>Questions we hear often</h2>
+    <h2>{{ "Questions we hear often" | tr }}</h2>
     <div class="faq">
       <details *ngFor="let faq of pillar.faqs">
-        <summary>{{ faq.q }}</summary>
-        <p>{{ faq.a }}</p>
+        <summary>{{ faq.q | tr }}</summary>
+        <p>{{ faq.a | tr }}</p>
       </details>
     </div>
   </section>

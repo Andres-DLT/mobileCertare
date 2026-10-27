@@ -1,33 +1,37 @@
 <header class="app-bar" *ngIf="!onAuth">
   <div class="app-bar-inner">
     <a class="navbar-brand" routerLink="/" aria-label="Certare home">
-      <span class="brand-mark">C</span>
-      <span class="brand-text">Certare</span>
+      <span class="brand-mark">{{ "C" | tr }}</span>
+      <span class="brand-text">{{ "Certare" | tr }}</span>
     </a>
 
     <nav id="primary-navigation" class="nav-links" [class.open]="publicMenuOpen" aria-label="Primary">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Home</a>
-      <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">Services</a>
-      <a routerLink="/agency/about" routerLinkActive="active" ariaCurrentWhenActive="page">Agency</a>
-      <a routerLink="/agency/schedule" routerLinkActive="active" ariaCurrentWhenActive="page">Contact</a>
-      <a *ngIf="isLoggedIn" routerLink="/sales/history" routerLinkActive="active">My requests</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">{{ "Home" | tr }}</a>
+      <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" ariaCurrentWhenActive="page">{{ "Services" | tr }}</a>
+      <a routerLink="/agency/about" routerLinkActive="active" ariaCurrentWhenActive="page">{{ "Agency" | tr }}</a>
+      <a routerLink="/agency/schedule" routerLinkActive="active" ariaCurrentWhenActive="page">{{ "Contact" | tr }}</a>
+      <a *ngIf="isLoggedIn" routerLink="/sales/history" routerLinkActive="active">{{ "My requests" | tr }}</a>
     </nav>
 
     <div class="app-bar-right">
+      <div class="language-switch" role="group" aria-label="Language / Idioma">
+        <button type="button" (click)="language.setLanguage('es')" [class.active]="language.language === 'es'" [attr.aria-pressed]="language.language === 'es'" aria-label="Español">ES</button>
+        <button type="button" (click)="language.setLanguage('en')" [class.active]="language.language === 'en'" [attr.aria-pressed]="language.language === 'en'" aria-label="English">EN</button>
+      </div>
       <a class="btn-cta" routerLink="/agency/schedule">
-        <span class="cta-long">Start a conversation</span>
-        <span class="cta-short">Talk</span>
+        <span class="cta-long">{{ "Start a conversation" | tr }}</span>
+        <span class="cta-short">{{ "Talk" | tr }}</span>
       </a>
       <button *ngIf="!isLoggedIn" class="public-menu-trigger" type="button" aria-label="Open navigation"
         aria-controls="primary-navigation" [attr.aria-expanded]="publicMenuOpen"
-        (click)="publicMenuOpen = !publicMenuOpen">{{ publicMenuOpen ? 'Close' : 'Menu' }}</button>
+        (click)="publicMenuOpen = !publicMenuOpen">{{ (publicMenuOpen ? 'Close' : 'Menu') | tr }}</button>
       <ng-container *ngIf="hasCheckedLogin && isLoggedIn">
         <div class="avatar-menu">
           <button class="avatar-btn" (click)="toggleMenu()" aria-label="Account menu" aria-controls="account-menu" aria-haspopup="true" [attr.aria-expanded]="menuOpen">
             {{ initials }}
           </button>
           <ul id="account-menu" class="menu" [class.open]="menuOpen">
-            <li><button type="button" class="menu-link" (click)="logout()">Log Out</button></li>
+            <li><button type="button" class="menu-link" (click)="logout()">{{ "Log Out" | tr }}</button></li>
           </ul>
         </div>
       </ng-container>
@@ -40,22 +44,27 @@
     <span class="nav-icon">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
     </span>
-    Home
+    {{ "Home" | tr }}
   </a>
   <a routerLink="/products/list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
     <span class="nav-icon">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
     </span>
-    Services
+    {{ "Services" | tr }}
   </a>
   <a routerLink="/agency/about" routerLinkActive="active" ariaCurrentWhenActive="page">
     <span class="nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span>
-    Agency
+    {{ "Agency" | tr }}
   </a>
   <a routerLink="/agency/schedule" routerLinkActive="active">
     <span class="nav-icon">
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     </span>
-    Talk
+    {{ "Talk" | tr }}
   </a>
 </nav>
+
+<div *ngIf="onAuth" class="auth-language language-switch" role="group" aria-label="Language / Idioma">
+  <button type="button" (click)="language.setLanguage('es')" [class.active]="language.language === 'es'" [attr.aria-pressed]="language.language === 'es'" aria-label="Español">ES</button>
+  <button type="button" (click)="language.setLanguage('en')" [class.active]="language.language === 'en'" [attr.aria-pressed]="language.language === 'en'" aria-label="English">EN</button>
+</div>

@@ -56,3 +56,12 @@
   .method-list li { grid-template-columns: 1fr; }
   .home-close { padding: var(--space-5); }
 }
+/* Shared visual direction: dark surfaces, technical grid and restrained glow. */
+.home-hero { position: relative; overflow: hidden; isolation: isolate; padding: clamp(28px, 5vw, 64px); margin: 22px 0 64px; border: 1px solid rgba(143,166,213,.18); border-radius: 24px; background: radial-gradient(ellipse at 85% 0%, rgba(77,112,235,.25), transparent 42%), radial-gradient(ellipse at 10% 100%, rgba(28,192,178,.13), transparent 42%), #0b1425; }
+.home-hero::before { content:''; position:absolute; inset:0; z-index:-1; opacity:.22; background-image:linear-gradient(rgba(120,152,210,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(120,152,210,.14) 1px,transparent 1px); background-size:48px 48px; mask-image:linear-gradient(120deg,transparent 25%,#000); pointer-events:none; }
+.home-hero .eyebrow, .practice-index { color:#82f3d2; }
+.home-hero .primary-action { background:#8af1d4; color:#06231e; }
+.home-hero .primary-action:hover { background:#b2ffe8; }
+.delivery-map { background:linear-gradient(150deg,rgba(26,45,72,.96),rgba(13,22,41,.98)); border-color:rgba(140,165,223,.24); box-shadow:0 24px 70px rgba(0,0,0,.24); }
+.practice-link { background:linear-gradient(150deg,#111d31,#0d1728); border-color:rgba(140,165,223,.17); }
+@media(max-width:600px) { .home-hero { padding:28px 22px; margin:16px 0 35px; border-radius:18px; } }

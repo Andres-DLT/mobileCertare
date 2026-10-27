@@ -1,52 +1,52 @@
 <main class="detail-page" id="main-content">
-  <nav aria-label="Breadcrumb" class="breadcrumbs"><a routerLink="/">Home</a><span aria-hidden="true">/</span><a routerLink="/products/list">Services</a><span aria-hidden="true">/</span><span>{{ service?.title || 'Service' }}</span></nav>
-  <p *ngIf="loading" role="status">Loading service…</p>
+  <nav aria-label="Breadcrumb" class="breadcrumbs"><a routerLink="/">{{ "Home" | tr }}</a><span aria-hidden="true">/</span><a routerLink="/products/list">{{ "Services" | tr }}</a><span aria-hidden="true">/</span><span>{{ (service?.title || 'Service') | tr }}</span></nav>
+  <p *ngIf="loading" role="status">{{ "Loading service…" | tr }}</p>
   <section *ngIf="error" role="alert" class="detail-error">
-    <p class="eyebrow">SERVICE NOT FOUND</p>
-    <h1>That service isn't available</h1>
-    <p>{{ error }}</p>
+    <p class="eyebrow">{{ "SERVICE NOT FOUND" | tr }}</p>
+    <h1>{{ "That service isn't available" | tr }}</h1>
+    <p>{{ error | tr }}</p>
     <div class="detail-error-actions">
-      <a class="primary" routerLink="/products/list">Browse all services</a>
-      <a routerLink="/agency/schedule">Tell us what you need</a>
+      <a class="primary" routerLink="/products/list">{{ "Browse all services" | tr }}</a>
+      <a routerLink="/agency/schedule">{{ "Tell us what you need" | tr }}</a>
     </div>
   </section>
 
   <ng-container *ngIf="service as item">
     <header class="detail-header" [attr.data-sector]="item.sector">
       <div>
-        <p class="eyebrow">{{ item.sectorLabel }} / {{ item.group }}</p>
-        <h1>{{ item.title }}</h1>
-        <p class="detail-lead">{{ item.description }}</p>
-        <div class="detail-tags" *ngIf="item.tags?.length"><span *ngFor="let tag of item.tags">{{ tag }}</span></div>
+        <p class="eyebrow">{{ item.sectorLabel | tr }} / {{ item.group | tr }}</p>
+        <h1>{{ item.title | tr }}</h1>
+        <p class="detail-lead">{{ item.description | tr }}</p>
+        <div class="detail-tags" *ngIf="item.tags?.length"><span *ngFor="let tag of item.tags">{{ tag | tr }}</span></div>
       </div>
-      <aside class="detail-quote" aria-label="Discuss your project">
-        <span class="quote-label">LET'S TALK</span>
-        <strong>Built around your goals</strong>
-        <p>Tell us what you need. We will discuss scope, dependencies and the right next step.</p>
-        <a class="detail-add" routerLink="/agency/schedule" [queryParams]="{ service: item.title }">Discuss this service <span aria-hidden="true">↗</span></a>
+      <aside class="detail-quote" [attr.aria-label]="'Discuss your project' | tr">
+        <span class="quote-label">{{ "LET'S TALK" | tr }}</span>
+        <strong>{{ "Built around your goals" | tr }}</strong>
+        <p>{{ "Tell us what you need. We will discuss scope, dependencies and the right next step." | tr }}</p>
+        <a class="detail-add" routerLink="/agency/schedule" [queryParams]="{ service: (item.title | tr) }">{{ "Discuss this service" | tr }} <span aria-hidden="true">↗</span></a>
       </aside>
     </header>
 
     <section class="detail-section" aria-labelledby="detail-scope">
-      <div><p class="eyebrow">The capability</p><h2 id="detail-scope">Where it fits</h2></div>
-      <p>{{ practiceIntro }} We confirm dependencies, scope and acceptance criteria before work begins.</p>
+      <div><p class="eyebrow">{{ "The capability" | tr }}</p><h2 id="detail-scope">{{ "Where it fits" | tr }}</h2></div>
+      <p>{{ practiceIntro | tr }} {{ "We confirm dependencies, scope and acceptance criteria before work begins." | tr }}</p>
     </section>
 
     <section class="detail-section" *ngIf="item.deliverables?.length" aria-labelledby="detail-deliverables">
-      <div><p class="eyebrow">Working outputs</p><h2 id="detail-deliverables">Indicative deliverables</h2></div>
-      <ul class="deliverables"><li *ngFor="let deliverable of item.deliverables">{{ deliverable }}</li></ul>
+      <div><p class="eyebrow">{{ "Working outputs" | tr }}</p><h2 id="detail-deliverables">{{ "Indicative deliverables" | tr }}</h2></div>
+      <ul class="deliverables"><li *ngFor="let deliverable of item.deliverables">{{ deliverable | tr }}</li></ul>
     </section>
 
     <section class="detail-section" aria-labelledby="detail-questions">
-      <div><p class="eyebrow">Discovery</p><h2 id="detail-questions">What we need to establish</h2></div>
-      <ul class="questions"><li>Which business or delivery risk needs to change?</li><li>What systems, people and deadlines define the constraints?</li><li>What evidence would make the outcome acceptable to your team?</li></ul>
+      <div><p class="eyebrow">{{ "Discovery" | tr }}</p><h2 id="detail-questions">{{ "What we need to establish" | tr }}</h2></div>
+      <ul class="questions"><li>{{ "Which business or delivery risk needs to change?" | tr }}</li><li>{{ "What systems, people and deadlines define the constraints?" | tr }}</li><li>{{ "What evidence would make the outcome acceptable to your team?" | tr }}</li></ul>
     </section>
 
     <section class="detail-related" *ngIf="related.length" aria-labelledby="related-title">
-      <h2 id="related-title">Continue exploring {{ item.sectorLabel }}</h2>
+      <h2 id="related-title">{{ "Continue exploring" | tr }} {{ item.sectorLabel | tr }}</h2>
       <div class="related-grid"><cx-card *ngFor="let other of related" variant="service" [sector]="other.sector" [eyebrow]="other.group" [title]="other.title" [description]="other.description" [detailLink]="serviceLink(other)"></cx-card></div>
     </section>
 
-    <section class="detail-end"><h2>Have a project in mind?</h2><p>Bring your goals and constraints to a discovery conversation.</p><a routerLink="/agency/schedule">Start a conversation</a></section>
+    <section class="detail-end"><h2>{{ "Have a project in mind?" | tr }}</h2><p>{{ "Bring your goals and constraints to a discovery conversation." | tr }}</p><a routerLink="/agency/schedule">{{ "Start a conversation" | tr }}</a></section>
   </ng-container>
 </main>

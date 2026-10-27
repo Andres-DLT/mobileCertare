@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TranslatePipe, LanguageService } from '../../shared/language.service';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { CatalogItem, CatalogSector, ProductService } from '../product-services';
@@ -21,7 +22,7 @@ const SORT_OPTIONS = [
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [
+  imports: [TranslatePipe,
     CommonModule,
     CxHeroComponent,
     CxCardComponent,
@@ -48,6 +49,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
+    private language: LanguageService,
     private authService: AuthService,
     private seo: SeoService
   ) {}
@@ -158,7 +160,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     if (group !== 'all') items = items.filter((p) => p.group === group);
     if (query) {
       items = items.filter((p) =>
-        [p.title, p.description, p.group, p.sectorLabel, ...(p.tags ?? [])]
+        [p.title, p.description, p.group, p.sectorLabel, ...(p.tags ?? []),
+          this.language.translate(p.title), this.language.translate(p.description),
+          this.language.translate(p.group), this.language.translate(p.sectorLabel),
+          ...(p.tags ?? []).map(tag => this.language.translate(tag))]
           .join(' ')
           .toLowerCase()
           .includes(query)

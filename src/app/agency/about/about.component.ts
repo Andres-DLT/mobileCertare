@@ -1,3 +1,4 @@
+import { TranslatePipe } from '../../shared/language.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,7 +12,7 @@ import { InsightService, Insight } from '../insight.service';
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterModule, CxHeroComponent, CxCtaSectionComponent, CxCardComponent],
+  imports: [TranslatePipe, CommonModule, RouterModule, CxHeroComponent, CxCtaSectionComponent, CxCardComponent],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })

@@ -28,7 +28,7 @@
 - Type the remaining `any` in `paypal.service.ts` and
   `order-email.service.ts`; replace `container.innerHTML = ''` with safe DOM clearing.
 - Centralize logging in an injectable `Logger` (levels per environment).
-- Add specs for `PillarComponent` routing data and `DiscoveryService`
+- Add specs for `DiscoveryService`
   (rules covered via emulator when the suite grows).
 - Upgrade path Angular 19 → 22 and `npm audit` remediation as a release
   of its own with full regression (web + APK).

@@ -22,6 +22,7 @@ export class ServiceDetailComponent implements OnInit, OnDestroy {
   error = '';
   added = false;
   private sub?: Subscription;
+  private routeSub?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,14 +32,25 @@ export class ServiceDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const sector = this.route.snapshot.paramMap.get('sector');
-    const id = this.route.snapshot.paramMap.get('id');
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      this.loadService(params.get('sector'), params.get('id'));
+    });
+  }
+
+  private loadService(sector: string | null, id: string | null): void {
+    this.sub?.unsubscribe();
+    this.service = undefined;
+    this.related = [];
+    this.loading = true;
+    this.error = '';
+    this.added = false;
     if (!COLLECTIONS.some(c => c.key === sector) || !id) {
       this.loading = false;
       this.error = 'This service does not exist.';
       return;
     }
-    this.sub = this.products.getService(sector as CatalogItem['sector'], id).pipe(timeout({ first: 15000 })).subscribe({
+    this.sub = new Subscription();
+    this.sub.add(this.products.getService(sector as CatalogItem['sector'], id).pipe(timeout({ first: 15000 })).subscribe({
       next: service => {
         this.service = service ?? undefined;
         this.loading = false;
@@ -56,14 +68,14 @@ export class ServiceDetailComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.error = 'Could not load this service. Please try again later.';
       },
-    });
+    }));
     this.sub.add(this.products.getCollection(sector as CatalogItem['sector']).subscribe({
       next: items => this.related = items.filter(item => item.id !== id).slice(0, 3),
       error: () => this.related = [],
     }));
   }
 
-  ngOnDestroy(): void { this.sub?.unsubscribe(); }
+  ngOnDestroy(): void { this.routeSub?.unsubscribe(); this.sub?.unsubscribe(); }
 
   get practiceIntro(): string {
     return COLLECTIONS.find(c => c.key === this.service?.sector)?.intro ?? '';

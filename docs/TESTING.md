@@ -25,9 +25,8 @@ Run `npm run verify` only after installing dependencies in both directories
 ## Node versions
 
 - Quality tests and builds target Node 22.23.4.
-- The Functions deployment engine remains Node 18. That is a documented legacy
-  limitation: running quality tests on Node 22 does not migrate or deploy the
-  production backend.
+- The Functions deployment engine is Node 22. Changing this declaration and
+  running tests does not migrate or deploy the production backend.
 
 ## CI design (agreed interfaces)
 
@@ -40,7 +39,7 @@ Run `npm run verify` only after installing dependencies in both directories
 - **Opt-in previews.** A pull request preview deploys only when a maintainer
   applies the `deploy-preview` label to a same-repository pull request.
   Ordinary quality runs never touch Firebase.
-- **Live deployment.** The main deployment workflow is separate and unchanged.
+- **Live deployment.** The main deployment workflow is separate and manually dispatched by a maintainer.
 
 These are the agreed interfaces for this repository's quality CI. This
 document describes the design; it does not claim results for any particular

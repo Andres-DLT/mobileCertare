@@ -13,8 +13,8 @@ effects.
   must never trigger a production deployment. The one explicit exception is a
   maintainer opt-in preview: a maintainer applies the `deploy-preview` label
   to a same-repository pull request. Ordinary quality runs need no cloud
-  credentials and never touch Firebase. The existing live deployment workflow
-  on `main` is unchanged and stays a maintainer operation.
+  credentials and never touch Firebase. The live deployment workflow on `main` is manually dispatched and stays a
+  maintainer operation.
 - **No secrets in git.** `.env`, `functions/.env` and `serviceAccountKey.json`
   are git-ignored. Keep them that way, and never paste credentials into
   issues, PRs or logs.
@@ -68,9 +68,8 @@ the PR.
   measured, not gated by an arbitrary threshold.
 - Preview deploys happen only with the maintainer-applied `deploy-preview`
   label on a same-repository pull request.
-- The existing live deployment workflow on `main` is unchanged. Merging to
-  `main` and production deploying are maintainer operations, never a side
-  effect of an ordinary contribution.
+- The live deployment workflow is manually dispatched on `main`. Merging to
+  `main` and production deploying are maintainer operations.
 - End-to-end journeys, native APK builds and production deployments are not
   part of the quality workflow. See [docs/TESTING.md](docs/TESTING.md) for the
   full boundary and the historical verification records.

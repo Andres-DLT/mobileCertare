@@ -9,6 +9,10 @@ test('preserves quoted and multiline contact details when generating the environ
   const source = readFileSync(join(__dirname, 'set-env.ts'), 'utf8');
   const input = "O'Neil Consulting\nSuite \\2";
   const env = {
+    NG_APP_SITE_URL: input,
+    NG_APP_SCHEDULE_URL: input,
+    NG_APP_PAYPAL_CLIENT_ID: input,
+    NG_APP_FIREBASE_API_KEY: input,
     NG_APP_CONTACT_EMAIL: input,
     NG_APP_CONTACT_PHONE: input,
     NG_APP_WHATSAPP: input,
@@ -47,6 +51,10 @@ test('preserves quoted and multiline contact details when generating the environ
   }).outputText;
   const context = { exports: {} };
   vm.runInNewContext(compiled, context);
+  for (const field of ['siteUrl', 'scheduleUrl', 'paypalClientId']) {
+    assert.equal(context.exports.environment[field], input);
+  }
+  assert.equal(context.exports.environment.firebaseConfig.apiKey, input);
   for (const group of ['contact', 'legal']) {
     for (const value of Object.values(context.exports.environment[group])) {
       assert.equal(value, input);

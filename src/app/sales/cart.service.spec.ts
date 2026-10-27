@@ -28,4 +28,18 @@ describe('CartService', () => {
     expect(cart.getTotalUnits()).toBe(2);
     expect(cart.getTotalCost()).toBe(300);
   });
+
+  it('keeps the same document ID in different sectors separate', () => {
+    const cart = new CartService();
+    const mobile = { ...product, id: 'discovery-scoping', sector: 'mobile' as const, price: 100 };
+    const web = { ...mobile, sector: 'web' as const, price: 200 };
+    cart.addToCart(mobile);
+    cart.addToCart(web);
+    expect(cart.snapshot().length).toBe(2);
+    expect(cart.getTotalCost()).toBe(300);
+    cart.addUnit({ ...web, units: 1 });
+    cart.removeUnit({ ...mobile, units: 1 });
+    expect(cart.snapshot().map(item => [item.sector, item.units])).toEqual([['web', 2]]);
+  });
+
 });

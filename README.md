@@ -29,9 +29,9 @@ Live demo: <https://certare.web.app>
   operator or book a calendar slot. The Google Appointment Schedules link
   (`scheduleUrl`) is empty in the environment configuration, and the intake
   path implemented here wires no operator notification.
-- **Legacy order email.** The `sendOrderEmail` callable remains in `functions/`
-  for the legacy checkout path. Checkout is disabled in the app configuration,
-  so the current public catalog and discovery intake do not invoke it.
+- **Legacy order email.** The `sendOrderEmail` callable in `functions/` rejects all requests.
+  An older deployed version remains active until an operator updates it;
+  the current public catalog and discovery intake do not invoke it.
 - **Self-service registration.** `/auth/register` redirects to login. The
   Firebase email/password API can still create an Auth record directly, but
   the `access-allowlist` keeps such accounts out of private data. See
@@ -48,8 +48,8 @@ Live demo: <https://certare.web.app>
   public read-only; `discovery-requests` accepts a bounded write from visitors
   and denies unauthenticated reads; `access-allowlist/{uid}` is read-own,
   Admin-write, and gates member access.
-- **Backend.** Cloud Functions live in `functions/` with a Node 18 deployment
-  engine, a documented legacy limitation. Functions are not part of the public
+- **Backend.** Cloud Functions live in `functions/` with a Node 22 deployment
+  engine. Functions are not part of the public
   request path today.
 - **Hosting.** Firebase Hosting serves the single-page app with security
   headers configured in `firebase.json`.
@@ -81,8 +81,8 @@ npm ci --prefix functions
 Browser note: on Windows, Karma needs `CHROME_BIN` pointing at an installed
 Chromium or Chrome. CI runners use their preinstalled Chrome.
 
-Node note: quality tests and builds run on Node 22. The Functions deployment
-engine stays on Node 18; testing on 22 does not migrate or deploy the backend.
+Node note: quality tests and builds run on Node 22. The Functions deployment engine is Node 22; updating the repository does not
+deploy the backend.
 
 ## Documentation
 

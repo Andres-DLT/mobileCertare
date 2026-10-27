@@ -7,8 +7,8 @@ const envConfig = `
 export const environment = {
   production: false,
   release: 'dev',
-  siteUrl: '${process.env['NG_APP_SITE_URL'] || 'https://certare.web.app'}',
-  scheduleUrl: '${process.env['NG_APP_SCHEDULE_URL'] || ''}',
+  siteUrl: ${JSON.stringify(process.env['NG_APP_SITE_URL'] || "https://certare.web.app")},
+  scheduleUrl: ${JSON.stringify(process.env['NG_APP_SCHEDULE_URL'] || "")},
   contact: {
     email: ${JSON.stringify(process.env['NG_APP_CONTACT_EMAIL'] || '')},
     phone: ${JSON.stringify(process.env['NG_APP_CONTACT_PHONE'] || '')},
@@ -23,15 +23,15 @@ export const environment = {
     lastUpdated: ${JSON.stringify(process.env['NG_APP_LEGAL_UPDATED'] || '2026-10-22')},
   },
   paymentsEnabled: false,
-  paypalClientId: '${process.env['NG_APP_PAYPAL_CLIENT_ID'] || ''}',
+  paypalClientId: ${JSON.stringify(process.env['NG_APP_PAYPAL_CLIENT_ID'] || "")},
   firebaseConfig: {
-    apiKey: '${process.env['NG_APP_FIREBASE_API_KEY']}',
-    authDomain: '${process.env['NG_APP_FIREBASE_AUTH_DOMAIN']}',
-    projectId: '${process.env['NG_APP_FIREBASE_PROJECT_ID']}',
-    storageBucket: '${process.env['NG_APP_FIREBASE_STORAGE_BUCKET']}',
-    messagingSenderId: '${process.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID']}',
-    appId: '${process.env['NG_APP_FIREBASE_APP_ID']}',
-    measurementId: '${process.env['NG_APP_FIREBASE_MEASUREMENT_ID']}'
+    apiKey: ${JSON.stringify(process.env['NG_APP_FIREBASE_API_KEY'] || '')},
+    authDomain: ${JSON.stringify(process.env['NG_APP_FIREBASE_AUTH_DOMAIN'] || '')},
+    projectId: ${JSON.stringify(process.env['NG_APP_FIREBASE_PROJECT_ID'] || '')},
+    storageBucket: ${JSON.stringify(process.env['NG_APP_FIREBASE_STORAGE_BUCKET'] || '')},
+    messagingSenderId: ${JSON.stringify(process.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'] || '')},
+    appId: ${JSON.stringify(process.env['NG_APP_FIREBASE_APP_ID'] || '')},
+    measurementId: ${JSON.stringify(process.env['NG_APP_FIREBASE_MEASUREMENT_ID'] || '')}
   }
 };
 `;

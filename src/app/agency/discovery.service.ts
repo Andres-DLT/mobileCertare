@@ -11,8 +11,8 @@ import {
   DocumentReference,
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 export interface DiscoveryRequest {
   id?: string;
@@ -35,7 +35,8 @@ export class DiscoveryService {
   constructor(
     private firestore: Firestore,
     private auth: Auth,
-    private injector: EnvironmentInjector
+    private injector: EnvironmentInjector,
+    private authService: AuthService
   ) {}
 
   /** Visitors can create a request. Only signed-in owners can read theirs. */
@@ -56,12 +57,15 @@ export class DiscoveryService {
 
   /** Lists the current user's requests, newest first. */
   listMyRequests(): Observable<DiscoveryRequest[]> {
-    const user = this.auth.currentUser;
-    if (!user) return of([]);
-    const ref = collection(this.firestore, 'discovery-requests');
-    const q = query(ref, where('uid', '==', user.uid), orderBy('createdAt', 'desc'));
-    return runInInjectionContext(this.injector, () =>
-      collectionData(q, { idField: 'id' })
-    ) as Observable<DiscoveryRequest[]>;
+    return this.authService.getCurrentUser().pipe(
+      switchMap(user => {
+        if (!user) return of([]);
+        return runInInjectionContext(this.injector, () => {
+          const ref = collection(this.firestore, 'discovery-requests');
+          const q = query(ref, where('uid', '==', user.uid), orderBy('createdAt', 'desc'));
+          return collectionData(q, { idField: 'id' }) as Observable<DiscoveryRequest[]>;
+        });
+      })
+    );
   }
 }

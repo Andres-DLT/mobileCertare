@@ -9,7 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
-    "test:tools": "node --test tools/set-env.spec.cjs",
+    "test:tools": "node --test tools/*.spec.cjs",
     "verify": "npm run test:ci && npm run test:tools && npm run build && npm --prefix functions run verify",
     "set-env": "ts-node tools/set-env.ts"
   },

@@ -18,7 +18,7 @@ export class CartService {
   /** Adds a product to the interest list (same id sums units) */
   addToCart(p: CatalogItem) {
     const list = this.snapshot();
-    const idx = list.findIndex(i => i.id === p.id);
+    const idx = list.findIndex(i => i.id === p.id && i.sector === p.sector);
     if (idx > -1) {
       list[idx].units += 1;
     } else {
@@ -40,7 +40,7 @@ export class CartService {
   /** Removes one unit (removes the item at 0) */
   removeUnit(item: CartItem) {
     const list = this.snapshot();
-    const idx = list.findIndex(i => i.id === item.id);
+    const idx = list.findIndex(i => i.id === item.id && i.sector === item.sector);
     if (idx > -1) {
       list[idx].units -= 1;
       if (list[idx].units <= 0) {
@@ -53,7 +53,7 @@ export class CartService {
   /** Adds one extra unit */
   addUnit(item: CartItem) {
     const list = this.snapshot();
-    const idx = list.findIndex(i => i.id === item.id);
+    const idx = list.findIndex(i => i.id === item.id && i.sector === item.sector);
     if (idx > -1) {
       list[idx].units += 1;
       this.items$.next(list);

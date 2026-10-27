@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Auth } from '@angular/fire/auth';
 import { DiscoveryService } from '../discovery.service';
 import { SeoService } from '../../shared/seo.service';
 import { environment } from '../../../environments/environment';
-import { CartService } from '../../sales/cart.service';
 
 @Component({
   selector: 'app-schedule',
@@ -48,7 +47,7 @@ export class ScheduleComponent implements OnInit {
     private auth: Auth,
     private discovery: DiscoveryService,
     private seo: SeoService,
-    private shortlist: CartService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -60,9 +59,9 @@ export class ScheduleComponent implements OnInit {
     if (this.scheduleUrl) {
       this.safeScheduleUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.scheduleUrl);
     }
-    const selected = this.shortlist.snapshot();
-    if (selected.length && !this.message) {
-      this.message = `I would like to discuss: ${selected.map(item => item.title).join(', ')}. My project context is: `;
+    const selectedService = this.route.snapshot.queryParamMap.get('service')?.trim().slice(0, 150);
+    if (selectedService && !this.message) {
+      this.message = `I would like to discuss ${selectedService}. My project context is: `;
     }
     const user = this.auth.currentUser;
     if (user) {

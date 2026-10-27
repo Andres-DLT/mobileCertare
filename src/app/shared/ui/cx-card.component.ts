@@ -23,7 +23,7 @@ export type CxCardVariant = 'service' | 'stage' | 'insight' | 'capability' | 'fe
       <div class="cx-card-tags" *ngIf="tags?.length">
         <span class="cx-tag" *ngFor="let tag of tags">{{ tag }}</span>
       </div>
-      <div class="cx-card-foot" *ngIf="priceLabel || actionLabel">
+      <div class="cx-card-foot" *ngIf="priceLabel || actionLabel || (detailLink && variant === 'service')">
         <span class="cx-card-price" *ngIf="priceLabel">{{ priceLabel }}</span>
         <a *ngIf="detailLink && variant === 'service'" class="cx-card-detail" [routerLink]="detailLink" [attr.aria-label]="'Explore ' + title">Details <span aria-hidden="true">↗</span></a>
         <button

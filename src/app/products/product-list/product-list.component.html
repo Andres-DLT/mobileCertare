@@ -70,12 +70,9 @@
       [title]="service.title"
       [description]="service.description"
       [tags]="service.tags ?? []"
-      [priceLabel]="priceLabel(service)"
       [sector]="service.sector"
       [detailLink]="serviceLink(service)"
-      actionLabel="Shortlist"
-      [actionAriaLabel]="'Add ' + service.title + ' to shortlist'"
-      (action)="onAddToCart(service)">
+      >
     </cx-card>
   </div>
 
@@ -88,9 +85,4 @@
     secondaryLink="/agency/about">
   </cx-cta-section>
 
-  <!-- Snackbar -->
-  <div class="snackbar" *ngIf="snackbarVisible" role="status">
-    <span>{{ snackbarMessage }}</span>
-    <button id="snackbar-undo" (click)="undoLast()">Undo</button>
-  </div>
 </main>

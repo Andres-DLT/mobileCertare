@@ -5,7 +5,6 @@ import { Subscription, timeout } from 'rxjs';
 import { CatalogItem, ProductService } from '../product-services';
 import { COLLECTIONS } from '../../collections/collection-config';
 import { CxCardComponent } from '../../shared/ui/cx-card.component';
-import { CartService } from '../../sales/cart.service';
 import { SeoService } from '../../shared/seo.service';
 
 @Component({
@@ -20,14 +19,12 @@ export class ServiceDetailComponent implements OnInit, OnDestroy {
   related: CatalogItem[] = [];
   loading = true;
   error = '';
-  added = false;
   private sub?: Subscription;
   private routeSub?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private products: ProductService,
-    private cart: CartService,
     private seo: SeoService,
   ) {}
 
@@ -43,7 +40,6 @@ export class ServiceDetailComponent implements OnInit, OnDestroy {
     this.related = [];
     this.loading = true;
     this.error = '';
-    this.added = false;
     if (!COLLECTIONS.some(c => c.key === sector) || !id) {
       this.loading = false;
       this.error = 'This service does not exist.';
@@ -79,16 +75,6 @@ export class ServiceDetailComponent implements OnInit, OnDestroy {
 
   get practiceIntro(): string {
     return COLLECTIONS.find(c => c.key === this.service?.sector)?.intro ?? '';
-  }
-
-  get priceLabel(): string {
-    return this.service?.price == null ? 'Scoped to your project' : `From $${this.service.price.toLocaleString('en-US')} MXN`;
-  }
-
-  shortlist(): void {
-    if (!this.service) return;
-    this.cart.addToCart(this.service);
-    this.added = true;
   }
 
   serviceLink(item: CatalogItem): string {

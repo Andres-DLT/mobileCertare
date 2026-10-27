@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { ServiceDetailComponent } from './service-detail.component';
 import { CatalogItem, ProductService } from '../product-services';
-import { CartService } from '../../sales/cart.service';
 
 describe('Service detail', () => {
   const service: CatalogItem = {
@@ -13,7 +12,7 @@ describe('Service detail', () => {
     deliverables: ['Code repository'],
   };
 
-  it('resolves a service by sector and document id and preserves the shortlist flow', async () => {
+  it('resolves a service and links directly to a conversation', async () => {
     await TestBed.configureTestingModule({
       imports: [ServiceDetailComponent, RouterTestingModule],
       providers: [
@@ -26,9 +25,10 @@ describe('Service detail', () => {
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('h1')?.textContent).toBe('iOS Development');
     expect(root.textContent).toContain('Code repository');
-    expect(root.textContent).toContain('From $35,000 MXN');
-    (root.querySelector('.detail-add') as HTMLButtonElement).click();
-    expect(TestBed.inject(CartService).getTotalUnits()).toBe(1);
+    const contact = root.querySelector('.detail-add') as HTMLAnchorElement;
+    expect(contact.getAttribute('href')).toContain('/agency/schedule');
+    expect(contact.getAttribute('href')).toContain('service=iOS');
+    expect(root.textContent).not.toContain('shortlist');
   });
 
   it('loads new service data and clears state when route parameters change', async () => {
@@ -46,11 +46,9 @@ describe('Service detail', () => {
     }).compileComponents();
     const fixture = TestBed.createComponent(ServiceDetailComponent);
     fixture.detectChanges();
-    fixture.componentInstance.shortlist();
     params.next(convertToParamMap({ sector: 'mobile', id: next.id }));
     fixture.detectChanges();
     expect(fixture.componentInstance.service?.id).toBe(next.id);
-    expect(fixture.componentInstance.added).toBeFalse();
     expect(fixture.nativeElement.querySelector('h1')?.textContent).toBe(next.title);
   });
 

@@ -1,10 +1,7 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Capacitor } from '@capacitor/core';
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { CatalogItem, CatalogSector, ProductService } from '../product-services';
-import { CartService, CartItem } from '../../sales/cart.service';
 import { AuthService } from '../../auth/auth.service';
 import { SeoService } from '../../shared/seo.service';
 import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
@@ -14,12 +11,10 @@ import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component'
 import { CxCtaSectionComponent } from '../../shared/ui/cx-cta-section.component';
 import { COLLECTIONS } from '../../collections/collection-config';
 
-type SortKey = 'relevance' | 'price-asc' | 'price-desc' | 'title';
+type SortKey = 'relevance' | 'title';
 
 const SORT_OPTIONS = [
   { key: 'relevance', label: 'Sort: relevance' },
-  { key: 'price-asc', label: 'Price: low to high' },
-  { key: 'price-desc', label: 'Price: high to low' },
   { key: 'title', label: 'Title: A to Z' },
 ];
 
@@ -46,20 +41,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
   search = '';
   sort: SortKey = 'relevance';
   sortOptions = SORT_OPTIONS;
-  private lastSnapshot: CartItem[] = [];
   private subs = new Subscription();
   private productsSubscription?: Subscription;
-
-  snackbarMessage = '';
-  snackbarVisible = false;
-  private snackbarTimer: number | undefined;
-  private undoCallback: (() => void) | undefined;
 
   readonly skeletonItems = [0, 1, 2, 3, 4, 5];
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService,
     private authService: AuthService,
     private seo: SeoService
   ) {}
@@ -67,7 +55,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.seo.setPage({
       title: 'Services',
-      description: 'Browse 60 services across testing, mobile, web, AI and training. Filter by practice, search and shortlist for a discovery call.',
+      description: 'Browse 60 services across testing, mobile, web, AI and training. Explore the scope and discuss your project with us.',
       path: '/products/list',
     });
     this.loadProducts();
@@ -82,7 +70,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subs.unsubscribe();
     this.productsSubscription?.unsubscribe();
-    if (this.snackbarTimer) clearTimeout(this.snackbarTimer);
   }
 
   loadProducts() {
@@ -160,16 +147,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
           })),
         ],
       },
-      {
-        key: 'price',
-        label: 'Indicative starting price',
-        options: [
-          { key: 'all', label: 'Any price', count: inSector.length },
-          { key: 'under-10000', label: 'Under $10k MXN', count: inSector.filter(p => p.price != null && p.price < 10000).length },
-          { key: '10000-25000', label: '$10k–$25k MXN', count: inSector.filter(p => p.price != null && p.price >= 10000 && p.price <= 25000).length },
-          { key: 'over-25000', label: 'Over $25k MXN', count: inSector.filter(p => p.price != null && p.price > 25000).length },
-        ],
-      },
     ];
   }
 
@@ -179,10 +156,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     if (this.sector !== 'all') items = items.filter((p) => p.sector === this.sector);
     const group = this.selection['group'] ?? 'all';
     if (group !== 'all') items = items.filter((p) => p.group === group);
-    const price = this.selection['price'] ?? 'all';
-    if (price === 'under-10000') items = items.filter(p => p.price != null && p.price < 10000);
-    if (price === '10000-25000') items = items.filter(p => p.price != null && p.price >= 10000 && p.price <= 25000);
-    if (price === 'over-25000') items = items.filter(p => p.price != null && p.price > 25000);
     if (query) {
       items = items.filter((p) =>
         [p.title, p.description, p.group, p.sectorLabel, ...(p.tags ?? [])]
@@ -192,8 +165,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
       );
     }
     const sorted = [...items];
-    if (this.sort === 'price-asc') sorted.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
-    if (this.sort === 'price-desc') sorted.sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
     if (this.sort === 'title') sorted.sort((a, b) => a.title.localeCompare(b.title));
     return sorted;
   }
@@ -205,9 +176,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     ];
   }
 
-  priceLabel(p: CatalogItem): string {
-    return p.price == null ? 'Custom quote' : `From $${p.price.toLocaleString('en-US')} MXN`;
-  }
   onSelectionChange(selection: Record<string, string>): void {
     const previousSector = this.selection['sector'];
     this.selection = selection;
@@ -217,7 +185,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   clearFilters(): void {
-    this.selection = { sector: 'all', group: 'all', price: 'all' };
+    this.selection = { sector: 'all', group: 'all' };
     this.search = '';
     this.sort = 'relevance';
   }
@@ -227,46 +195,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   onSort(value: string): void {
-    if (value === 'price-asc' || value === 'price-desc' || value === 'title' || value === 'relevance') {
+    if (value === 'title' || value === 'relevance') {
       this.sort = value;
     }
   }
 
-  onAddToCart(p: CatalogItem): void {
-    if (Capacitor.isNativePlatform()) {
-      Haptics.impact({ style: ImpactStyle.Medium }).catch(() => { /* Optional feedback. */ });
-    }
-
-    // Snapshot for Undo, then actually add to the interest list.
-    this.lastSnapshot = this.cartService.snapshot();
-    this.cartService.addToCart(p);
-
-    this.showSnackbar(
-      `${p.title} · ${this.priceLabel(p)} added`,
-      () => this.cartService.restore(this.lastSnapshot)
-    );
-  }
-
-  private showSnackbar(message: string, onUndo: () => void): void {
-    this.snackbarMessage = message;
-    this.snackbarVisible = true;
-    this.undoCallback = onUndo;
-
-    if (this.snackbarTimer) clearTimeout(this.snackbarTimer);
-    this.snackbarTimer = window.setTimeout(() => this.hideSnackbar(), 4000);
-  }
-
-  undoLast(): void {
-    if (this.undoCallback) this.undoCallback();
-    this.hideSnackbar();
-  }
-
-  private hideSnackbar(): void {
-    this.snackbarVisible = false;
-    this.undoCallback = undefined;
-    if (this.snackbarTimer) {
-      clearTimeout(this.snackbarTimer);
-      this.snackbarTimer = undefined;
-    }
-  }
 }

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
-import { CartService } from '../../sales/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,14 +18,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   menuOpen = false;
   publicMenuOpen = false;
   initials = 'S';
-  cartCount = 0;
   onAuth = false;
   private subs = new Subscription();
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private cartService: CartService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -44,9 +41,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.initials = this.computeInitials(user?.displayName);
     }));
 
-    this.subs.add(this.cartService.getCartItems().subscribe(items => {
-      this.cartCount = items.reduce((acc, i) => acc + i.units, 0);
-    }));
+
   }
 
   ngOnDestroy(): void {

@@ -12,14 +12,13 @@ accounts. Checkout and PayPal remain disabled.
 - `/products/list`: 60 services in a data-driven directory with search,
   practice filters and a native mobile filter dialog.
 - `/products/:sector/:id`: individual service details (scope, documented
-  deliverables when available, indicative price, related services and
-  shortlist). Detail uses a single Firestore document read plus one related
+  deliverables when available, related services and a direct contact link). Detail uses a single Firestore document read plus one related
   collection listener, not five catalog listeners.
 - `/agency/about`, `/agency/mobile|web|testing|ai|training`: approach and
   practice pages. `/agency/insights/:id` is the reader for the three published
   articles; `/agency/schedule` accepts a public discovery request.
-- `/sales/cart`: in-memory shortlist; signed-in existing members can see
-  their requests at `/sales/history`.
+- `/sales/cart`: legacy links redirect to the services directory; signed-in
+  existing members can see their requests at `/sales/history`.
 - `/auth/login`: existing managed accounts only. `/auth/register` redirects
   to login; Firebase's email/password API can still create accounts directly,
   but the `access-allowlist` prevents those accounts from using private data.

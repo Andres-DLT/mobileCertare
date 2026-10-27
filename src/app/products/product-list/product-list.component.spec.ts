@@ -4,7 +4,6 @@ import { BehaviorSubject, NEVER, of, throwError } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { ProductListComponent } from './product-list.component';
 import { ProductService, CatalogItem } from '../product-services';
-import { CartService } from '../../sales/cart.service';
 import { AuthService } from '../../auth/auth.service';
 
 describe('ProductListComponent', () => {
@@ -30,7 +29,6 @@ describe('ProductListComponent', () => {
       providers: [
         { provide: ProductService, useValue: productService },
         { provide: AuthService, useValue: { getCurrentUser: () => user.asObservable() } },
-        CartService,
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(ProductListComponent);
@@ -56,11 +54,18 @@ describe('ProductListComponent', () => {
     expect(component.filteredProducts).toEqual([mobileItem]);
   });
 
-  it('sorts by price without mutating the source order', () => {
+  it('sorts services by title without mutating the source order', () => {
     fixture.detectChanges();
-    component.sort = 'price-desc';
-    expect(component.filteredProducts.map((p) => p.id)).toEqual(['2', '1']);
-    expect(component.products.map((p) => p.id)).toEqual(['1', '2']);
+    component.sort = 'title';
+    expect(component.filteredProducts.map(p => p.id)).toEqual(['1', '2']);
+    expect(component.products.map(p => p.id)).toEqual(['1', '2']);
+  });
+
+  it('provides details without a shopping action or price', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).not.toContain('Shortlist');
+    expect(fixture.nativeElement.textContent).not.toContain('MXN');
+    expect(fixture.nativeElement.querySelector('cx-card a').getAttribute('href')).toContain('/products/');
   });
 
   it('shows a permissions error and recovers when retry succeeds', () => {
@@ -93,14 +98,4 @@ describe('ProductListComponent', () => {
     expect(fixture.nativeElement.querySelector('.user-header h2').textContent).toBe('Andres');
   });
 
-  it('undoes a repeated addition without corrupting previous quantities', () => {
-    fixture.detectChanges();
-    const cart = TestBed.inject(CartService);
-    component.onAddToCart(testingItem);
-    component.onAddToCart(testingItem);
-    expect(cart.getTotalUnits()).toBe(2);
-    component.undoLast();
-    expect(cart.getTotalUnits()).toBe(1);
-    expect(cart.getTotalCost()).toBe(100);
-  });
 });

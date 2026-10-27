@@ -19,13 +19,11 @@
         <p class="detail-lead">{{ item.description }}</p>
         <div class="detail-tags" *ngIf="item.tags?.length"><span *ngFor="let tag of item.tags">{{ tag }}</span></div>
       </div>
-      <aside class="detail-quote" aria-label="Pricing and next steps">
-        <span class="quote-label">Indicative starting point</span>
-        <strong>{{ priceLabel }}</strong>
-        <p *ngIf="item.price != null">Scope and final price are confirmed after discovery. This is not a checkout price.</p>
-        <button class="detail-add" type="button" (click)="shortlist()">Add to shortlist</button>
-        <a routerLink="/agency/schedule">Discuss this service <span aria-hidden="true">↗</span></a>
-        <p role="status" *ngIf="added">Added. <a routerLink="/sales/cart">View shortlist</a></p>
+      <aside class="detail-quote" aria-label="Discuss your project">
+        <span class="quote-label">LET'S TALK</span>
+        <strong>Built around your goals</strong>
+        <p>Tell us what you need. We will discuss scope, dependencies and the right next step.</p>
+        <a class="detail-add" routerLink="/agency/schedule" [queryParams]="{ service: item.title }">Discuss this service <span aria-hidden="true">↗</span></a>
       </aside>
     </header>
 
@@ -49,6 +47,6 @@
       <div class="related-grid"><cx-card *ngFor="let other of related" variant="service" [sector]="other.sector" [eyebrow]="other.group" [title]="other.title" [description]="other.description" [detailLink]="serviceLink(other)"></cx-card></div>
     </section>
 
-    <section class="detail-end"><h2>Have a project in mind?</h2><p>Bring the context to a discovery conversation. You can also shortlist services to discuss together.</p><a routerLink="/agency/schedule">Start a conversation</a></section>
+    <section class="detail-end"><h2>Have a project in mind?</h2><p>Bring your goals and constraints to a discovery conversation.</p><a routerLink="/agency/schedule">Start a conversation</a></section>
   </ng-container>
 </main>

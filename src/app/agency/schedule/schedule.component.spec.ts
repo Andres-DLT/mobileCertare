@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { ScheduleComponent } from './schedule.component';
 import { DiscoveryService } from '../discovery.service';
 import { Auth } from '@angular/fire/auth';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
 describe('ScheduleComponent', () => {
   let fixture: ComponentFixture<ScheduleComponent>;
@@ -17,6 +18,7 @@ describe('ScheduleComponent', () => {
       providers: [
         { provide: DiscoveryService, useValue: discoverySpy },
         { provide: Auth, useValue: { currentUser: null } },
+        { provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: convertToParamMap({ service: 'iOS Development' }) } } },
       ]
     }).compileComponents();
 
@@ -27,6 +29,7 @@ describe('ScheduleComponent', () => {
   it('should create with a request form', () => {
     expect(fixture.componentInstance).toBeTruthy();
     expect(fixture.nativeElement.querySelector('.request-form')).not.toBeNull();
+    expect(fixture.componentInstance.message).toContain('iOS Development');
   });
 
   it('requires name, email and message before sending', async () => {

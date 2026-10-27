@@ -4,7 +4,6 @@ import { of } from 'rxjs';
 import { NavbarComponent } from './navbar.component';
 import { testProviders } from '../../testing/firebase-testing';
 import { AuthService } from '../../auth/auth.service';
-import { CartService } from '../../sales/cart.service';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -14,15 +13,11 @@ describe('NavbarComponent', () => {
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['login', 'register', 'getCurrentUser']);
     authServiceSpy.getCurrentUser.and.returnValue(of(null));
 
-    const cartServiceSpy = jasmine.createSpyObj('CartService', ['getCartItems', 'getTotalUnits']);
-    cartServiceSpy.getCartItems.and.returnValue(of([]));
-
     await TestBed.configureTestingModule({
       imports: [NavbarComponent],
       providers: [
         ...testProviders,
-        { provide: AuthService, useValue: authServiceSpy },
-        { provide: CartService, useValue: cartServiceSpy }
+        { provide: AuthService, useValue: authServiceSpy }
       ]
     })
     .compileComponents();
@@ -44,6 +39,8 @@ describe('NavbarComponent', () => {
     expect(routes).toContain('/products/list');
     expect(routes).toContain('/agency/schedule');
     expect(routes).not.toContain('/sales/history');
+    const allRoutes = [...fixture.nativeElement.querySelectorAll('a')].map((link: HTMLAnchorElement) => link.getAttribute('href'));
+    expect(allRoutes).not.toContain('/sales/cart');
     fixture.nativeElement.querySelector('.public-menu-trigger').click();
     fixture.detectChanges();
     expect(component.publicMenuOpen).toBeTrue();

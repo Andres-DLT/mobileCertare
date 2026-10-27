@@ -8,7 +8,7 @@ Live demo: <https://certare.web.app>
 ## What ships
 
 - **Public catalog.** 60 services across five practices at `/products/list`,
-  with search, practice filters and per-service detail pages. No account
+  with search, practice filters and per-service detail pages. Each service links directly to contact. No account
   needed to browse.
 - **Discovery intake.** `/agency/schedule` collects a discovery request from
   visitors. Submissions are stored privately in Firestore; guests cannot read

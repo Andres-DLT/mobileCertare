@@ -32,6 +32,26 @@ describe('ScheduleComponent', () => {
     expect(fixture.componentInstance.message).toContain('iOS Development');
   });
 
+  it('walks through the three steps and validates each one', () => {
+    const component = fixture.componentInstance;
+    component.next();
+    expect(component.step).toBe(1);
+    expect(component.errorMessage).toContain('valid email');
+    component.name = 'Visitor Example';
+    component.email = 'visitor@example.com';
+    component.next();
+    expect(component.step).toBe(2);
+    component.message = 'Too short';
+    component.next();
+    expect(component.step).toBe(2);
+    component.message = 'We need an iOS application with a test strategy.';
+    component.next();
+    expect(component.step).toBe(3);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.review').textContent).toContain('visitor@example.com');
+    expect(fixture.nativeElement.querySelector('[aria-current="step"]').textContent).toContain('Review');
+  });
+
   it('requires name, email and message before sending', async () => {
     const component = fixture.componentInstance;
     await component.sendRequest();

@@ -4,17 +4,17 @@
   background: var(--bg);
 }
 
-.skip-link { position: fixed; top: -100px; left: var(--space-4); z-index: 3000; background: var(--accent); color: white; border-radius: var(--radius-sm); padding: var(--space-3); }
+.skip-link { position: fixed; top: -100px; left: var(--space-4); z-index: 3000; background: var(--signal); color: var(--on-signal); border-radius: var(--radius-sm); padding: var(--space-3); }
 .skip-link:focus { top: var(--space-3); }
-.app-footer { display: flex; align-items: flex-start; gap: var(--space-5); flex-wrap: wrap; max-width: 1100px; margin: 0 auto; padding: var(--space-6) var(--space-5) calc(var(--space-6) + var(--safe-bottom)); border-top: 1px solid var(--border); color: var(--text-muted); font-size: var(--text-sm); }
+.app-footer { display: flex; align-items: flex-start; gap: var(--space-5); flex-wrap: wrap; max-width: 1100px; margin: 0 auto; padding: var(--space-6) var(--space-5) calc(var(--space-6) + var(--safe-bottom)); border-top: 2px solid var(--border-strong); color: var(--text-muted); font-size: var(--text-sm); }
 .footer-brand { display: grid; gap: var(--space-1); }
-.app-footer strong { color: var(--text); letter-spacing: .12em; text-transform: uppercase; }
-.footer-location { font-size: var(--text-xs); opacity: .75; max-width: 320px; line-height: 1.5; }
+.app-footer strong { color: var(--text); font-family: var(--font-display); font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+.footer-location { font-size: var(--text-xs); font-family: var(--font-mono); max-width: 320px; line-height: 1.5; }
 .footer-contact { display: flex; gap: var(--space-4); flex-wrap: wrap; }
 .footer-contact a { display: inline-flex; align-items: center; min-width: var(--touch-min); min-height: var(--touch-min); color: var(--text-muted); }
-.footer-contact a:hover { color: var(--accent-2); }
+.footer-contact a:hover { color: var(--text); text-decoration: underline; }
 .app-footer nav { display: flex; gap: var(--space-4); flex-wrap: wrap; margin-left: auto; }
 .app-footer nav a { display: inline-flex; align-items: center; min-width: var(--touch-min); min-height: var(--touch-min); color: var(--text-muted); }
-.app-footer nav a:hover { color: var(--accent-2); }
-.app-footer small { width: 100%; opacity: .6; }
+.app-footer nav a:hover { color: var(--text); text-decoration: underline; }
+.app-footer small { width: 100%; font-family: var(--font-mono); font-size: var(--text-xs); }
 @media (max-width: 768px) { .app-footer { padding-bottom: calc(96px + var(--safe-bottom)); } .app-footer nav { margin-left: 0; gap: var(--space-3); } }

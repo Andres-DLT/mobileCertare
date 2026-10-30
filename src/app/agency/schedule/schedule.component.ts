@@ -1,5 +1,5 @@
 import { TranslatePipe, LanguageService } from '../../shared/language.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -9,16 +9,24 @@ import { DiscoveryService } from '../discovery.service';
 import { SeoService } from '../../shared/seo.service';
 import { environment } from '../../../environments/environment';
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 @Component({
   selector: 'app-schedule',
   standalone: true,
   imports: [TranslatePipe, CommonModule, FormsModule, RouterModule],
   templateUrl: './schedule.component.html',
-  styleUrl: '../about/about.component.css'
+  styleUrl: './schedule.component.css'
 })
 export class ScheduleComponent implements OnInit {
   scheduleUrl = environment.scheduleUrl;
   safeScheduleUrl: SafeResourceUrl | null = null;
+  @ViewChild('stepHeading') stepHeading?: ElementRef<HTMLElement>;
+
+  readonly stepLabels = ['You', 'Your project', 'Review'];
+  readonly stepTitles = ['Who should we reply to?', 'What are you working on?', 'Check your request'];
+  step = 1;
+  sent = false;
 
   readonly services = ['Development', 'Quality engineering', 'AI evaluation', 'Training', 'Not sure yet'];
   readonly timelines = ['As soon as possible', 'In 1–3 months', 'In 3–6 months', 'Exploring options'];
@@ -37,6 +45,10 @@ export class ScheduleComponent implements OnInit {
   successMessage = '';
   isLoading = false;
   website = '';
+
+  get companyLine(): string {
+    return [this.company, this.role, this.country].map(value => value.trim()).filter(Boolean).join(' · ');
+  }
 
   get legalReady(): boolean {
     const legal = environment.legal;
@@ -74,6 +86,46 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+  /** Validates the current step before moving on; the last step sends. */
+  submitStep() {
+    if (this.step < this.stepLabels.length) this.next();
+    else void this.sendRequest();
+  }
+
+  next() {
+    this.errorMessage = '';
+    if (this.step === 1 && (this.name.trim().length < 2 || !EMAIL_PATTERN.test(this.email.trim()))) {
+      this.errorMessage = 'Enter your name and a valid email.';
+      return;
+    }
+    if (this.step === 2 && this.message.trim().length < 15) {
+      this.errorMessage = 'Tell us about your project in at least 15 characters.';
+      return;
+    }
+    this.goTo(this.step + 1);
+  }
+
+  back() {
+    this.goTo(this.step - 1);
+  }
+
+  goTo(step: number) {
+    this.errorMessage = '';
+    this.step = Math.min(Math.max(step, 1), this.stepLabels.length);
+    this.focusHeading();
+  }
+
+  reset() {
+    this.sent = false;
+    this.successMessage = '';
+    this.step = 1;
+    this.focusHeading();
+  }
+
+  private focusHeading() {
+    setTimeout(() => this.stepHeading?.nativeElement.focus());
+  }
+
   openBooking() {
     if (this.scheduleUrl) window.open(this.scheduleUrl, '_blank', 'noopener');
   }
@@ -82,7 +134,7 @@ export class ScheduleComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     if (this.website) return;
-    if (this.name.trim().length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email.trim()) || this.message.trim().length < 15) {
+    if (this.name.trim().length < 2 || !EMAIL_PATTERN.test(this.email.trim()) || this.message.trim().length < 15) {
       this.errorMessage = 'Enter your name, a valid email and at least 15 characters about your project.';
       return;
     }
@@ -114,6 +166,8 @@ export class ScheduleComponent implements OnInit {
         message: payloadMessage,
       });
       this.successMessage = 'Request received. We will reply by email to arrange a call and agree on the next step.';
+      this.sent = true;
+      this.focusHeading();
       try { localStorage.setItem('certare.lastRequest', String(Date.now())); } catch { /* Optional throttle. */ }
       this.message = '';
     } catch (err: unknown) {

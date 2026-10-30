@@ -17,7 +17,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   hasCheckedLogin = false;
   menuOpen = false;
-  publicMenuOpen = false;
   initials = 'S';
   onAuth = false;
   private subs = new Subscription();
@@ -34,7 +33,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         this.onAuth = e.urlAfterRedirects.startsWith('/auth');
-        this.publicMenuOpen = false;
+        this.menuOpen = false;
       }));
 
     this.subs.add(this.authService.getCurrentUser().subscribe(user => {

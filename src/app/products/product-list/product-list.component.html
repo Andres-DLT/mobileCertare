@@ -1,19 +1,19 @@
 <main class="product-page" id="main-content">
-  <cx-hero
-    eyebrow="THE SERVICE DIRECTORY"
-    title="Find the right capability"
-    subtitle="Compare development, quality engineering, AI evaluation and training. Open a service for scope and deliverables."
-    [compact]="true"
-    primaryLabel="Start a conversation"
-    primaryLink="/agency/schedule">
-  </cx-hero>
+  <header class="catalog-header">
+    <div>
+      <p class="eyebrow">{{ "Service directory" | tr }}</p>
+      <h1>{{ "Find the right capability" | tr }}</h1>
+      <p class="catalog-lead">{{ "Compare development, quality engineering, AI evaluation and training. Open a service for scope and deliverables." | tr }}</p>
+    </div>
+    <a class="catalog-cta" routerLink="/agency/schedule">{{ "Start a conversation" | tr }}</a>
+  </header>
 
   <div class="user-header" *ngIf="userLabel">
+    <div class="user-avatar" role="img" [attr.aria-label]="'Profile of ' + userLabel">{{ userLabel.charAt(0).toUpperCase() }}</div>
     <div>
       <p class="welcome-kicker">{{ "Welcome," | tr }}</p>
       <h2>{{ userLabel }}</h2>
     </div>
-    <div class="user-avatar" role="img" [attr.aria-label]="'Profile of ' + userLabel">{{ userLabel.charAt(0).toUpperCase() }}</div>
   </div>
 
   <!-- Unified filters: search + practice now, stages behind disclosure -->
@@ -33,14 +33,11 @@
   </cx-filter-bar>
 
   <!-- Skeleton -->
-  <div class="service-list" *ngIf="loading" aria-busy="true" aria-label="Loading services">
-    <div class="service-card skeleton" *ngFor="let _ of skeletonItems">
-      <div class="skeleton-block icon"></div>
-      <div class="skeleton-info">
-        <div class="skeleton-block line w60"></div>
-        <div class="skeleton-block line w90"></div>
-        <div class="skeleton-block line w40"></div>
-      </div>
+  <div class="service-rows" *ngIf="loading" aria-busy="true" aria-label="Loading services">
+    <div class="service-row skeleton" *ngFor="let _ of skeletonItems">
+      <div class="skeleton-block line w40"></div>
+      <div class="skeleton-block line w60 tall"></div>
+      <div class="skeleton-block line w90"></div>
     </div>
   </div>
 
@@ -60,21 +57,20 @@
     (action)="clearFilters()">
   </cx-empty-state>
 
-  <!-- Service cards -->
-  <div class="service-list" *ngIf="!loading && filteredProducts.length" aria-label="Available services">
-    <cx-card
-      *ngFor="let service of filteredProducts"
-      variant="service"
-      [eyebrow]="service.group"
-      [badge]="service.sectorLabel"
-      [title]="service.title"
-      [description]="service.description"
-      [tags]="service.tags ?? []"
-      [sector]="service.sector"
-      [detailLink]="serviceLink(service)"
-      >
-    </cx-card>
-  </div>
+  <!-- Service rows: practice rule, category, description, deliverables -->
+  <ol class="service-rows" *ngIf="!loading && filteredProducts.length" aria-label="Available services">
+    <li class="service-row" *ngFor="let service of filteredProducts; trackBy: trackService" [attr.data-sector]="service.sector">
+      <p class="row-meta">
+        <span class="row-dot" aria-hidden="true"></span>{{ service.sectorLabel | tr }} · {{ groupLabel(service.group) | tr }}
+      </p>
+      <h2 class="row-title"><a [routerLink]="serviceLink(service)">{{ service.title | tr }}</a></h2>
+      <p class="row-desc">{{ service.description | tr }}</p>
+      <ul class="row-deliverables" *ngIf="service.deliverables?.length" [attr.aria-label]="'Indicative deliverables' | tr">
+        <li *ngFor="let deliverable of service.deliverables">{{ deliverable | tr }}</li>
+      </ul>
+      <a class="row-link" [routerLink]="serviceLink(service)" [attr.aria-label]="('Details' | tr) + ': ' + (service.title | tr)">{{ "Details" | tr }} <span aria-hidden="true">→</span></a>
+    </li>
+  </ol>
 
   <cx-cta-section
     title="Not sure where to start?"

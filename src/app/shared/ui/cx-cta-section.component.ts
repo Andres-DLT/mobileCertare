@@ -18,21 +18,23 @@ import { RouterModule } from '@angular/router';
     </section>
   `,
   styles: [`
+
     .cx-cta {
-      margin: 56px auto 0; max-width: 920px; text-align: center;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 40px 28px;
+      margin: var(--space-8) 0 0; padding: var(--space-7) clamp(24px, 5vw, 56px);
+      background: var(--text); color: var(--bg); border-radius: var(--radius-lg);
     }
-    .cx-cta h2 { font-family: var(--font-display); font-size: var(--text-3xl); margin: 0 0 12px; }
-    .cx-cta p { font-size: var(--text-lg); max-width: 640px; margin: 0 auto; }
-    .cx-cta-actions { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; margin-top: var(--space-5); }
+    .cx-cta h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; color: var(--bg); margin: 0 0 var(--space-3); }
+    .cx-cta p { font-size: var(--text-lg); line-height: 1.6; max-width: 620px; margin: 0; color: var(--bg); opacity: .8; }
+    .cx-cta-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-5); }
     .cx-btn-primary, .cx-btn-secondary {
-      display: inline-flex; align-items: center; min-height: var(--touch-min);
-      padding: 0 var(--space-5); border-radius: var(--radius); font-weight: 700;
+      display: inline-flex; align-items: center; min-height: 48px;
+      padding: 0 var(--space-5); border-radius: var(--radius-sm); font-weight: 600;
       font-size: var(--text-md); text-decoration: none;
     }
-    .cx-btn-primary { background: var(--accent-action); color: #fff; }
-    .cx-btn-secondary { border: 1px solid var(--border); color: var(--text); }
+    .cx-btn-primary { background: var(--signal); color: var(--on-signal); }
+    .cx-btn-primary:hover { filter: brightness(1.08); }
+    .cx-btn-secondary { border: 1px solid var(--bg); color: var(--bg); }
+    @media (max-width: 600px) { .cx-cta-actions a { width: 100%; justify-content: center; } }
   `]
 })
 export class CxCtaSectionComponent {

@@ -2,6 +2,24 @@
 
 Todas las versiones notables de este proyecto se documentan en este archivo.
 
+## [Unreleased] - 2026-10-29
+
+- New visual direction "Evidencia": paper background, ink text and one
+  signal-orange action colour, with practice colours used only as markers.
+  Dark mode follows the system setting. New logo mark, favicon and
+  `theme-color`. See `docs/BRAND.md` and `docs/DESIGN-SYSTEM.md`.
+- Home: open hero, facts strip, practices as an index of rows and an ink
+  closing band. Catalog: compact header so services appear on the first
+  screen, service rows with practice rule and deliverables.
+- Contact: three-step request form (You, Your project, Review) with
+  per-step validation and a confirmation state.
+- Mobile: one bottom navigation; removed the header CTA and Menu button.
+- Spanish: fixed machine-translation errors (for example "apio", "trapo",
+  "Máster en Derecho") and standardised on "tú".
+- Dependencies: aligned Angular packages on 21.2 (Dependabot had mixed 22
+  and 21, breaking `npm ci`), TypeScript 5.9 and Firebase 12 to remove a
+  duplicate Firebase bundle pulled in by `@angular/fire` 21.
+
 ## [Unreleased] - 2026-09-23
 
 - Public editorial home and navigation, including mobile guest menu; service

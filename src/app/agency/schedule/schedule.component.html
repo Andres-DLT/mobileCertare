@@ -1,98 +1,137 @@
-<main class="agency-page" id="main-content">
-  <section class="hero">
-    <span class="hero-chip">{{ "DISCOVERY CALL" | tr }}</span>
-    <h1>{{ "Start a conversation" | tr }}</h1>
-    <p class="hero-sub">
-      {{ "Tell us what you are building or what needs to improve. We will use your context to discuss scope, dependencies and the right next step." | tr }}
-    </p>
-  </section>
-
-  <section class="about-section schedule-box" *ngIf="safeScheduleUrl">
-    <h2>{{ "Pick a time" | tr }}</h2>
-    <p>{{ "Choose a slot from the available appointments." | tr }}</p>
-    <div style="margin: 12px 0">
-      <button class="chip active" (click)="openBooking()">{{ "Open booking page" | tr }}</button>
-    </div>
-    <iframe [src]="safeScheduleUrl" title="Schedule a discovery call" loading="lazy"></iframe>
-  </section>
-
-  <section class="about-section schedule-box">
-    <h2>{{ (safeScheduleUrl ? 'Prefer writing?' : 'Request a call') | tr }}</h2>
-    <p>{{ "Send your context without creating an account. The more specific the context, the more useful our reply." | tr }}</p>
-    <ol class="next-steps">
-      <li><strong>{{ "We read the context." | tr }}</strong> {{ "No sales sequence, no account required." | tr }}</li>
-      <li><strong>{{ "We reply by email." | tr }}</strong> {{ "We confirm whether the request fits how we work." | tr }}</li>
-      <li><strong>{{ "We agree on the next step." | tr }}</strong> {{ "A call, a scoped proposal, or a clear referral." | tr }}</li>
-    </ol>
-    <form class="request-form" (ngSubmit)="sendRequest()">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="req-name">{{ "NAME" | tr }}</label>
-          <input id="req-name" [(ngModel)]="name" name="name" autocomplete="name" maxlength="100" required />
-        </div>
-        <div class="form-field">
-          <label for="req-email">{{ "EMAIL" | tr }}</label>
-          <input id="req-email" type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="req-company">{{ "COMPANY" | tr }}</label>
-          <input id="req-company" [(ngModel)]="company" name="company" autocomplete="organization" maxlength="100" />
-        </div>
-        <div class="form-field">
-          <label for="req-role">{{ "YOUR ROLE" | tr }}</label>
-          <input id="req-role" [(ngModel)]="role" name="role" autocomplete="organization-title" maxlength="100" />
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="req-country">{{ "COUNTRY" | tr }}</label>
-          <input id="req-country" [(ngModel)]="country" name="country" autocomplete="country-name" maxlength="100" />
-        </div>
-        <div class="form-field">
-          <label for="req-service">{{ "SERVICE INTEREST" | tr }}</label>
-          <select id="req-service" [(ngModel)]="service" name="service">
-            <option value="">{{ "Select a service" | tr }}</option>
-            <option *ngFor="let option of services" [value]="option">{{ option | tr }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-field">
-          <label for="req-timeline">{{ "TIMELINE" | tr }}</label>
-          <select id="req-timeline" [(ngModel)]="timeline" name="timeline">
-            <option value="">{{ "Select a timeline" | tr }}</option>
-            <option *ngFor="let option of timelines" [value]="option">{{ option | tr }}</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="req-budget">{{ "BUDGET RANGE" | tr }}</label>
-          <select id="req-budget" [(ngModel)]="budget" name="budget">
-            <option value="">{{ "Select a range" | tr }}</option>
-            <option *ngFor="let option of budgets" [value]="option">{{ option | tr }}</option>
-          </select>
-        </div>
-      </div>
-
-      <label for="req-message">{{ "WHAT NEEDS TO CHANGE?" | tr }}</label>
-      <textarea id="req-message" [(ngModel)]="message" name="message" rows="4" minlength="15" maxlength="1500"
-        [placeholder]="'Current stack, the problem, and what a good outcome looks like.' | tr" required></textarea>
-      <div class="honeypot" aria-hidden="true"><label for="request-website">{{ "Website" | tr }}</label><input id="request-website" type="text" name="website" [(ngModel)]="website" tabindex="-1" autocomplete="off"></div>
-
-      <p class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage | tr }}</p>
-      <p class="form-ok" *ngIf="successMessage" role="status">{{ successMessage | tr }}</p>
-
-      <button class="chip active" type="submit" [disabled]="isLoading">
-        {{ (isLoading ? 'SENDING…' : 'SEND REQUEST') | tr }}
-      </button>
-      <p class="form-privacy">
-        {{ "We use these details only to reply about this request." | tr }}
-        <ng-container *ngIf="legalReady"> {{ "Read the" | tr }} <a routerLink="/legal/privacy">{{ "privacy notice" | tr }}</a>.</ng-container>
+<main class="contact-page" id="main-content">
+  <div class="contact-layout">
+    <aside class="contact-aside">
+      <p class="eyebrow">{{ "Discovery call" | tr }}</p>
+      <h1>{{ "Start a conversation" | tr }}</h1>
+      <p class="contact-lead">
+        {{ "Tell us what you are building or what needs to improve. We will use your context to discuss scope, dependencies and the right next step." | tr }}
       </p>
-    </form>
+      <ol class="next-steps">
+        <li><span class="step-num">01</span><div><strong>{{ "We read the context." | tr }}</strong> {{ "No sales sequence, no account required." | tr }}</div></li>
+        <li><span class="step-num">02</span><div><strong>{{ "We reply by email." | tr }}</strong> {{ "We confirm whether the request fits how we work." | tr }}</div></li>
+        <li><span class="step-num">03</span><div><strong>{{ "We agree on the next step." | tr }}</strong> {{ "A call, a scoped proposal, or a clear referral." | tr }}</div></li>
+      </ol>
+      <button *ngIf="safeScheduleUrl" type="button" class="booking-link" (click)="openBooking()">{{ "Open booking page" | tr }} <span aria-hidden="true">↗</span></button>
+    </aside>
+
+    <section class="contact-panel" aria-labelledby="form-step-title">
+      <ng-container *ngIf="!sent; else sentState">
+        <ol class="stepper" [attr.aria-label]="'Progress' | tr">
+          <li *ngFor="let label of stepLabels; let i = index" [class.done]="step > i + 1" [class.current]="step === i + 1"
+            [attr.aria-current]="step === i + 1 ? 'step' : null">
+            <span class="stepper-num">{{ i + 1 }}</span>{{ label | tr }}
+          </li>
+        </ol>
+
+        <form class="request-form" (ngSubmit)="submitStep()" novalidate>
+          <p class="step-count">{{ "Step" | tr }} {{ step }} {{ "of" | tr }} {{ stepLabels.length }}</p>
+          <h2 id="form-step-title" #stepHeading tabindex="-1">{{ stepTitles[step - 1] | tr }}</h2>
+
+          <!-- Step 1: who to reply to -->
+          <div class="form-step" *ngIf="step === 1">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="req-name">{{ "Name" | tr }}</label>
+                <input id="req-name" [(ngModel)]="name" name="name" autocomplete="name" maxlength="100" required />
+              </div>
+              <div class="form-field">
+                <label for="req-email">{{ "Email" | tr }}</label>
+                <input id="req-email" type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="req-company">{{ "Company" | tr }} <span class="optional">{{ "(optional)" | tr }}</span></label>
+                <input id="req-company" [(ngModel)]="company" name="company" autocomplete="organization" maxlength="100" />
+              </div>
+              <div class="form-field">
+                <label for="req-role">{{ "Your role" | tr }} <span class="optional">{{ "(optional)" | tr }}</span></label>
+                <input id="req-role" [(ngModel)]="role" name="role" autocomplete="organization-title" maxlength="100" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="req-country">{{ "Country" | tr }} <span class="optional">{{ "(optional)" | tr }}</span></label>
+              <input id="req-country" [(ngModel)]="country" name="country" autocomplete="country-name" maxlength="100" />
+            </div>
+          </div>
+
+          <!-- Step 2: the project -->
+          <div class="form-step" *ngIf="step === 2">
+            <fieldset class="choice-group">
+              <legend>{{ "Service interest" | tr }}</legend>
+              <div class="choices">
+                <label class="choice" *ngFor="let option of services" [class.selected]="service === option">
+                  <input type="radio" name="service" [value]="option" [(ngModel)]="service" />{{ option | tr }}
+                </label>
+              </div>
+            </fieldset>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="req-timeline">{{ "Timeline" | tr }}</label>
+                <select id="req-timeline" [(ngModel)]="timeline" name="timeline">
+                  <option value="">{{ "Select a timeline" | tr }}</option>
+                  <option *ngFor="let option of timelines" [value]="option">{{ option | tr }}</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="req-budget">{{ "Budget range" | tr }}</label>
+                <select id="req-budget" [(ngModel)]="budget" name="budget">
+                  <option value="">{{ "Select a range" | tr }}</option>
+                  <option *ngFor="let option of budgets" [value]="option">{{ option | tr }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="req-message">{{ "What needs to change?" | tr }}</label>
+              <textarea id="req-message" [(ngModel)]="message" name="message" rows="5" minlength="15" maxlength="1500"
+                [placeholder]="'Current stack, the problem, and what a good outcome looks like.' | tr" required></textarea>
+              <span class="field-hint">{{ message.length }} / 1500</span>
+            </div>
+          </div>
+
+          <!-- Step 3: review -->
+          <div class="form-step" *ngIf="step === 3">
+            <dl class="review">
+              <div><dt>{{ "Name" | tr }}</dt><dd>{{ name }}</dd><button type="button" class="edit" (click)="goTo(1)">{{ "Edit" | tr }}</button></div>
+              <div><dt>{{ "Email" | tr }}</dt><dd>{{ email }}</dd></div>
+              <div *ngIf="company || role || country"><dt>{{ "Company" | tr }}</dt><dd>{{ companyLine }}</dd></div>
+              <div><dt>{{ "Service interest" | tr }}</dt><dd>{{ (service || 'Not provided') | tr }}</dd><button type="button" class="edit" (click)="goTo(2)">{{ "Edit" | tr }}</button></div>
+              <div *ngIf="timeline || budget"><dt>{{ "Timeline" | tr }}</dt><dd>{{ (timeline || 'Not provided') | tr }} · {{ (budget || 'Not provided') | tr }}</dd></div>
+              <div class="review-message"><dt>{{ "What needs to change?" | tr }}</dt><dd>{{ message }}</dd></div>
+            </dl>
+            <p class="form-privacy">
+              {{ "We use these details only to reply about this request." | tr }}
+              <ng-container *ngIf="legalReady"> {{ "Read the" | tr }} <a routerLink="/legal/privacy">{{ "privacy notice" | tr }}</a>.</ng-container>
+            </p>
+          </div>
+
+          <div class="honeypot" aria-hidden="true"><label for="request-website">{{ "Website" | tr }}</label><input id="request-website" type="text" name="website" [(ngModel)]="website" tabindex="-1" autocomplete="off"></div>
+
+          <p class="form-error" *ngIf="errorMessage" role="alert">{{ errorMessage | tr }}</p>
+
+          <div class="form-actions">
+            <button *ngIf="step > 1" type="button" class="btn-secondary" (click)="back()">{{ "Back" | tr }}</button>
+            <button type="submit" class="btn-primary" [disabled]="isLoading">
+              {{ (step < stepLabels.length ? 'Continue' : (isLoading ? 'Sending…' : 'Send request')) | tr }}
+            </button>
+          </div>
+        </form>
+      </ng-container>
+
+      <ng-template #sentState>
+        <div class="sent" role="status">
+          <span class="sent-mark" aria-hidden="true">✓</span>
+          <h2 id="form-step-title" #stepHeading tabindex="-1">{{ "Request received" | tr }}</h2>
+          <p>{{ successMessage | tr }}</p>
+          <button type="button" class="btn-secondary" (click)="reset()">{{ "Send another request" | tr }}</button>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+
+  <section class="booking" *ngIf="safeScheduleUrl" aria-labelledby="booking-title">
+    <h2 id="booking-title">{{ "Pick a time" | tr }}</h2>
+    <p>{{ "Choose a slot from the available appointments." | tr }}</p>
+    <iframe [src]="safeScheduleUrl" title="Schedule a discovery call" loading="lazy"></iframe>
   </section>
 </main>

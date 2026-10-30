@@ -25,16 +25,16 @@ import { SeoService } from '../../shared/seo.service';
   `,
   styles: [`
     .insight-page { max-width: 880px; margin: 0 auto; padding: calc(88px + var(--safe-top)) var(--space-5) var(--space-7); }
-    nav { font-size: var(--text-sm); color: var(--text-muted); } nav a { color: var(--accent-2); }
-    header { padding: var(--space-7) 0; border-bottom: 1px solid var(--border); }
-    .eyebrow { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: .1em; color: var(--accent-2); }
-    h1 { font-size: clamp(2.1rem, 5vw, 3.6rem); line-height: 1.1; }
+    nav { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); } nav a { color: var(--text-muted); text-decoration: underline; }
+    header { padding: var(--space-7) 0; border-bottom: 2px solid var(--border-strong); }
+    .eyebrow { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); }
+    h1 { font-size: clamp(2.1rem, 5vw, 3.6rem); font-weight: 600; line-height: 1.08; }
     .intro { font-size: 1.18rem; line-height: 1.6; }
     .body-paragraph { font-size: 1.06rem; line-height: 1.8; margin: var(--space-6) 0; }
     .tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-    .tags span { padding: var(--space-2) var(--space-3); background: var(--surface-2); border-radius: var(--radius-full); }
+    .tags span { padding: 2px 8px; background: var(--surface-2); border-radius: 4px; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); }
     .insight-end { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-5); margin-top: var(--space-7); }
-    .insight-end a { display: inline-flex; min-height: var(--touch-min); align-items: center; padding: 0 var(--space-3); font-weight: 700; }
+    .insight-end a { display: inline-flex; min-height: var(--touch-min); align-items: center; margin-right: var(--space-4); font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
   `],
 })
 export class InsightDetailComponent implements OnInit, OnDestroy {

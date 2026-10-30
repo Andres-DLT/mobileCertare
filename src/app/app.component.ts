@@ -56,8 +56,9 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     if (Capacitor.isNativePlatform()) {
       try {
-        await StatusBar.setBackgroundColor({ color: '#0b1220' });
-        await StatusBar.setStyle({ style: Style.Dark });
+        const dark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+        await StatusBar.setBackgroundColor({ color: dark ? '#101215' : '#f5f3ee' });
+        await StatusBar.setStyle({ style: dark ? Style.Dark : Style.Light });
         await StatusBar.setOverlaysWebView({ overlay: true });
       } catch (error) {
         console.warn('Status bar configuration unavailable:', error);

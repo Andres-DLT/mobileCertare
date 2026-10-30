@@ -1,6 +1,6 @@
 <main class="agency-page" id="main-content">
   <cx-hero
-    eyebrow="WHO WE ARE"
+    eyebrow="Who we are"
     title="Certare"
     subtitle="Explore mobile and web development, quality engineering, AI evaluation and practical training. Find the work that fits your challenge, then define scope together."
     primaryLabel="Start a conversation"
@@ -94,7 +94,7 @@
       <cx-card
         *ngFor="let insight of insights"
         variant="insight"
-        [badge]="insight.readingTime + ' min read'"
+        [badge]="insight.readingTime + ' ' + ('min read' | tr)"
         [title]="insight.title"
         [description]="insight.excerpt"
         [tags]="insight.tags"

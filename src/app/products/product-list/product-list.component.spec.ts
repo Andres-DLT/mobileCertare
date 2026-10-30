@@ -65,7 +65,8 @@ describe('ProductListComponent', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).not.toContain('Shortlist');
     expect(fixture.nativeElement.textContent).not.toContain('MXN');
-    expect(fixture.nativeElement.querySelector('cx-card a').getAttribute('href')).toContain('/products/');
+    expect(fixture.nativeElement.querySelector('.service-row a').getAttribute('href')).toContain('/products/');
+    expect(fixture.nativeElement.querySelectorAll('.service-row').length).toBe(2);
   });
 
   it('shows a permissions error and recovers when retry succeeds', () => {

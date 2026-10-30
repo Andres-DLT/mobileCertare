@@ -1,18 +1,27 @@
 import { TranslatePipe, LanguageService } from '../../shared/language.service';
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Subscription, timeout, TimeoutError } from 'rxjs';
 import { CatalogItem, CatalogSector, ProductService } from '../product-services';
 import { AuthService } from '../../auth/auth.service';
 import { SeoService } from '../../shared/seo.service';
-import { CxHeroComponent } from '../../shared/ui/cx-hero.component';
-import { CxCardComponent } from '../../shared/ui/cx-card.component';
 import { CxFilterBarComponent } from '../../shared/ui/cx-filter-bar.component';
 import { CxEmptyStateComponent } from '../../shared/ui/cx-empty-state.component';
 import { CxCtaSectionComponent } from '../../shared/ui/cx-cta-section.component';
 import { COLLECTIONS } from '../../collections/collection-config';
 
 type SortKey = 'relevance' | 'title';
+
+/** Display labels for the testing categories stored as lowercase keys. */
+const GROUP_LABELS: Record<string, string> = {
+  api: 'API',
+  automation: 'Automation',
+  cicd: 'CI/CD',
+  consulting: 'Consulting',
+  manual: 'Manual',
+  performance: 'Performance',
+};
 
 const SORT_OPTIONS = [
   { key: 'relevance', label: 'Sort: relevance' },
@@ -24,8 +33,7 @@ const SORT_OPTIONS = [
   standalone: true,
   imports: [TranslatePipe,
     CommonModule,
-    CxHeroComponent,
-    CxCardComponent,
+    RouterLink,
     CxFilterBarComponent,
     CxEmptyStateComponent,
     CxCtaSectionComponent,
@@ -144,7 +152,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
           { key: 'all', label: 'All', count: inSector.length },
           ...groups.map((g) => ({
             key: g,
-            label: g,
+            label: this.groupLabel(g),
             count: inSector.filter((p) => p.group === g).length,
           })),
         ],
@@ -174,13 +182,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return sorted;
   }
 
-  get heroStats(): { value: string; label: string }[] {
-    return [
-      { value: this.loading ? '…' : String(this.products.length), label: 'Services' },
-      { value: String(COLLECTIONS.length), label: 'Practices' },
-    ];
-  }
-
   onSelectionChange(selection: Record<string, string>): void {
     const previousSector = this.selection['sector'];
     this.selection = selection;
@@ -193,6 +194,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.selection = { sector: 'all', group: 'all' };
     this.search = '';
     this.sort = 'relevance';
+  }
+
+  groupLabel(group: string): string {
+    return GROUP_LABELS[group] ?? group;
+  }
+
+  trackService(_: number, item: CatalogItem): string {
+    return `${item.sector}/${item.id}`;
   }
 
   serviceLink(item: CatalogItem): string {

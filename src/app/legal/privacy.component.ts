@@ -75,8 +75,8 @@ import { environment } from '../../environments/environment';
   styles: [`
     .legal-page { max-width: 760px; margin: 0 auto; padding: calc(96px + var(--safe-top)) var(--space-5) var(--space-7); }
     .legal-back { display: inline-flex; align-items: center; min-height: var(--touch-min); font-weight: 700; }
-    .legal-eyebrow { margin: var(--space-4) 0 0; color: var(--accent-2); font-size: var(--text-sm); font-weight: 700; letter-spacing: .12em; }
-    h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin: var(--space-3) 0; }
+    .legal-eyebrow { margin: var(--space-4) 0 0; color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; line-height: 1.12; margin: var(--space-3) 0; }
     h2 { font-size: var(--text-xl); margin: var(--space-6) 0 var(--space-2); }
     p, li { line-height: 1.7; }
     ul { padding-left: var(--space-5); color: var(--text-muted); }

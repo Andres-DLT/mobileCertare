@@ -41,9 +41,13 @@ describe('NavbarComponent', () => {
     expect(routes).not.toContain('/sales/history');
     const allRoutes = [...fixture.nativeElement.querySelectorAll('a')].map((link: HTMLAnchorElement) => link.getAttribute('href'));
     expect(allRoutes).not.toContain('/sales/cart');
-    fixture.nativeElement.querySelector('.public-menu-trigger').click();
-    fixture.detectChanges();
-    expect(component.publicMenuOpen).toBeTrue();
-    expect(fixture.nativeElement.querySelector('.public-menu-trigger').getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('offers a single mobile navigation with a path to contact', () => {
+    expect(fixture.nativeElement.querySelector('.public-menu-trigger')).toBeNull();
+    const bottomRoutes = [...fixture.nativeElement.querySelectorAll('.bottom-nav a')]
+      .map((link: HTMLAnchorElement) => link.getAttribute('href'));
+    expect(bottomRoutes).toEqual(['/', '/products/list', '/agency/about', '/agency/schedule']);
+    expect(fixture.nativeElement.querySelectorAll('.nav-cta').length).toBe(1);
   });
 });

@@ -17,9 +17,8 @@
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(24px, 5vw, 56px);
-  background: radial-gradient(1200px 600px at 20% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
-    radial-gradient(900px 500px at 110% 110%, rgba(34, 211, 238, 0.14), transparent 55%),
-    linear-gradient(160deg, #0f1b38, #0b1220 70%);
+  background: var(--surface-2);
+  border-right: 1px solid var(--border);
   overflow: hidden;
 }
 
@@ -29,7 +28,7 @@
   height: 380px;
   left: -120px;
   bottom: -120px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.28), transparent 65%);
+  display: none;
   filter: blur(40px);
   animation: float 9s ease-in-out infinite;
 }
@@ -52,12 +51,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
+  background: var(--mark-bg);
+  color: var(--mark-fg);
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 26px;
-  box-shadow: var(--shadow-glow);
+  
 }
 
 .brand-name {
@@ -128,8 +127,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 12px var(--accent-glow);
+  background: var(--signal);
+  
 }
 
 /* ===== Form panel ===== */
@@ -250,7 +249,7 @@ button[type="submit"] {
   width: 16px;
   height: 16px;
   border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #fff;
+  border-top-color: var(--on-signal);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }

@@ -69,10 +69,10 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
+  background: var(--mark-bg);
+  color: var(--mark-fg);
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -206,7 +206,7 @@
 
 .summary-line.total span:last-child {
   color: var(--accent-2);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .pay-btn {
@@ -215,8 +215,8 @@
   padding: 14px;
   border: none;
   border-radius: var(--radius);
-  background: linear-gradient(90deg, var(--accent), #7c6cf6);
-  color: #fff;
+  background: var(--signal);
+  color: var(--on-signal);
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
@@ -225,7 +225,7 @@
 }
 
 .pay-btn:hover:not(:disabled) {
-  box-shadow: var(--shadow-glow);
+  
 }
 
 .pay-btn:active:not(:disabled) {
@@ -256,17 +256,17 @@
   display: inline-block;
   padding: 10px 22px;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, var(--accent), #7c6cf6);
-  color: #fff;
+  background: var(--signal);
+  color: var(--on-signal);
   font-weight: 700;
   font-size: 14px;
-  box-shadow: 0 4px 16px var(--accent-glow);
+  
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .chip-link:hover {
   transform: translateY(-1px);
-  box-shadow: var(--shadow-glow);
+  
 }
 
 /* ===== Success screen ===== */
@@ -298,8 +298,8 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: rgba(52, 211, 153, 0.12);
-  box-shadow: 0 0 60px rgba(52, 211, 153, 0.25);
+  background: var(--surface-2);
+  
   margin-bottom: 8px;
 }
 

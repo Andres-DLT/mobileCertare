@@ -2,21 +2,26 @@
   <header class="home-hero">
     <div class="home-hero-copy">
       <p class="eyebrow">{{ "Engineering · Quality · Intelligence" | tr }}</p>
-      <h1>{{ "Software delivery with the risks in plain sight." | tr }}</h1>
+      <h1>{{ "Software delivery with the risks" | tr }} <span class="signal-text">{{ "in plain sight." | tr }}</span></h1>
       <p class="lead">{{ "Certare brings development and quality engineering into the same conversation. Scope what matters, build deliberately, and verify before release." | tr }}</p>
       <div class="home-actions">
         <a class="primary-action" routerLink="/agency/schedule">{{ "Start a conversation" | tr }}</a>
-        <a class="secondary-action" routerLink="/products/list">{{ "Explore services" | tr }}</a>
+        <a class="text-action" routerLink="/products/list">{{ "Explore services" | tr }} <span aria-hidden="true">→</span></a>
       </div>
     </div>
-    <div class="delivery-map" aria-label="Our approach: scope, build, verify, release" role="img">
-      <div class="map-heading">{{ "DELIVERY / SYSTEM" | tr }}</div>
-      <div class="map-step"><span>01</span><strong>{{ "Scope" | tr }}</strong><small>{{ "Goals + constraints" | tr }}</small></div>
-      <div class="map-step"><span>02</span><strong>{{ "Build" | tr }}</strong><small>{{ "Product + platform" | tr }}</small></div>
-      <div class="map-step"><span>03</span><strong>{{ "Verify" | tr }}</strong><small>{{ "Signals + evidence" | tr }}</small></div>
-      <div class="map-step"><span>04</span><strong>{{ "Release" | tr }}</strong><small>{{ "Visibility + handover" | tr }}</small></div>
-    </div>
+    <ol class="delivery-map" aria-label="Our approach: scope, build, verify, release">
+      <li><span class="map-num">01</span><strong>{{ "Scope" | tr }}</strong><small>{{ "Goals + constraints" | tr }}</small></li>
+      <li><span class="map-num">02</span><strong>{{ "Build" | tr }}</strong><small>{{ "Product + platform" | tr }}</small></li>
+      <li><span class="map-num">03</span><strong>{{ "Verify" | tr }}</strong><small>{{ "Signals + evidence" | tr }}</small></li>
+      <li><span class="map-num">04</span><strong>{{ "Release" | tr }}</strong><small>{{ "Visibility + handover" | tr }}</small></li>
+    </ol>
   </header>
+
+  <dl class="facts">
+    <div><dt>{{ "services across five practices" | tr }}</dt><dd>60</dd></div>
+    <div><dt>{{ "connected practices" | tr }}</dt><dd>{{ practices.length }}</dd></div>
+    <div><dt>{{ "accounts needed to start a conversation" | tr }}</dt><dd>0</dd></div>
+  </dl>
 
   <section class="home-section" aria-labelledby="practices-heading">
     <div class="section-heading">
@@ -24,28 +29,30 @@
       <h2 id="practices-heading">{{ "Five connected practices" | tr }}</h2>
       <p>{{ "Follow a discipline end to end, or assemble the capabilities your delivery team needs." | tr }}</p>
     </div>
-    <div class="practice-grid">
-      <a *ngFor="let practice of practices; let i = index" class="practice-link" [attr.data-sector]="practice.key" [routerLink]="practice.route">
-        <span class="practice-index">0{{ i + 1 }} / {{ practice.label | tr }}</span>
-        <h3>{{ practice.label | tr }}</h3>
-        <p>{{ practice.intro | tr }}</p>
-        <span class="practice-arrow" aria-hidden="true">↗</span>
-      </a>
-    </div>
+    <ol class="practice-index">
+      <li *ngFor="let practice of practices; let i = index">
+        <a class="practice-link" [attr.data-sector]="practice.key" [routerLink]="practice.route">
+          <span class="practice-num">0{{ i + 1 }}</span>
+          <span class="practice-name"><span class="practice-dot" aria-hidden="true"></span>{{ practice.label | tr }}</span>
+          <span class="practice-intro">{{ practice.intro | tr }}</span>
+          <span class="practice-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+    </ol>
   </section>
 
-  <section class="home-section method-section" aria-labelledby="method-heading">
+  <section class="home-section" aria-labelledby="method-heading">
     <div class="section-heading">
       <p class="eyebrow">{{ "How engagement starts" | tr }}</p>
       <h2 id="method-heading">{{ "From an open question to a scoped plan" | tr }}</h2>
       <p>{{ "A discovery conversation identifies the product, integration and delivery risks worth addressing first." | tr }}</p>
     </div>
     <ol class="method-list">
-      <li><span>{{ "01 / Discover" | tr }}</span><p>{{ "Describe the goal, the existing stack and the constraints that cannot move." | tr }}</p></li>
-      <li><span>{{ "02 / Plan" | tr }}</span><p>{{ "Define the work, dependencies and ways to validate progress before a delivery begins." | tr }}</p></li>
-      <li><span>{{ "03 / Deliver" | tr }}</span><p>{{ "Build and test with visible outputs your team can inspect and maintain." | tr }}</p></li>
+      <li><span class="method-num">01</span><strong>{{ "Discover" | tr }}</strong><p>{{ "Describe the goal, the existing stack and the constraints that cannot move." | tr }}</p></li>
+      <li><span class="method-num">02</span><strong>{{ "Plan" | tr }}</strong><p>{{ "Define the work, dependencies and ways to validate progress before a delivery begins." | tr }}</p></li>
+      <li><span class="method-num">03</span><strong>{{ "Deliver" | tr }}</strong><p>{{ "Build and test with visible outputs your team can inspect and maintain." | tr }}</p></li>
     </ol>
-    <a class="text-link" routerLink="/agency/about">{{ "How Certare works" | tr }} <span aria-hidden="true">→</span></a>
+    <a class="text-action" routerLink="/agency/about">{{ "How Certare works" | tr }} <span aria-hidden="true">→</span></a>
   </section>
 
   <section class="home-section" *ngIf="insights.length" aria-labelledby="insights-heading">
@@ -56,7 +63,7 @@
     </div>
     <div class="insight-grid">
       <cx-card *ngFor="let insight of insights" variant="insight" [title]="insight.title"
-        [description]="insight.excerpt" [badge]="insight.readingTime + ' min read'"
+        [description]="insight.excerpt" [badge]="insight.readingTime + ' ' + ('min read' | tr)"
         [detailLink]="'/agency/insights/' + insight.id">
       </cx-card>
     </div>

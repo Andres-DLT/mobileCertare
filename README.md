@@ -1,7 +1,7 @@
 # Certare
 
 Certare is a public service catalog and discovery intake with an allowlisted
-member portal, built with Angular 19, Capacitor 7 and Firebase.
+member portal, built with Angular 21, Capacitor 7 and Firebase.
 
 Live demo: <https://certare.web.app>
 
@@ -34,7 +34,7 @@ Live demo: <https://certare.web.app>
 
 ## Stack and boundaries
 
-- **Frontend.** Angular 19 standalone components with lazy-loaded feature
+- **Frontend.** Angular 21 standalone components with lazy-loaded feature
   areas (`auth`, `products`, `sales`, `agency`). Capacitor 7 wraps the same
   build for Android.
 - **Data.** Firestore. The rules are in `firestore.rules`: the catalog and the

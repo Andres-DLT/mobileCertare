@@ -16,6 +16,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -31,18 +33,28 @@ h6 {
   margin: 0;
 }
 
+h1,
+h2 {
+  letter-spacing: -0.02em;
+}
+
 p {
   color: var(--text-muted);
 }
 
 a {
-  color: var(--accent-2);
+  color: var(--text);
   text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.mono {
+  font-family: var(--font-mono);
 }
 
 ::selection {
-  background: var(--accent);
-  color: #fff;
+  background: var(--signal-soft);
+  color: var(--text);
 }
 
 /* Scrollbar (WebView/scroll) */
@@ -60,7 +72,7 @@ a {
 
 /* ===== Focus ===== */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--signal);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
@@ -78,10 +90,10 @@ input[type="number"],
 input[type="tel"] {
   width: 100%;
   padding: 14px 16px;
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   font-size: 16px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease,
@@ -89,32 +101,31 @@ input[type="tel"] {
 }
 
 input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 3px var(--signal-soft);
   background: var(--surface);
 }
 
 input::placeholder {
   color: var(--text-muted);
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 button[type="submit"] {
   width: 100%;
   padding: 15px;
-  background: var(--accent-action);
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
+  background: var(--signal);
+  color: var(--on-signal);
+  font-weight: 600;
+  font-size: 16px;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  letter-spacing: 0.5px;
   transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 button[type="submit"]:hover {
-  box-shadow: var(--shadow-glow);
+  filter: brightness(1.08);
 }
 
 button[type="submit"]:active {
@@ -163,7 +174,7 @@ button[type="submit"]:disabled {
 .user-header h2 {
   margin: 0;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--text);
 }
 
@@ -171,15 +182,14 @@ button[type="submit"]:disabled {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
+  background: var(--mark-bg);
+  color: var(--mark-fg);
   font-family: var(--font-display);
   font-size: 26px;
-  font-weight: 800;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-glow);
 }
 
 /* ===== Segmented control ===== */
@@ -217,14 +227,12 @@ button[type="submit"]:disabled {
   width: 18px;
   height: 18px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
   opacity: 0.8;
 }
 
 .segment.active {
-  background: var(--accent-action);
-  color: #fff;
-  box-shadow: 0 4px 16px var(--accent-glow);
+  background: var(--text);
+  color: var(--bg);
 }
 
 .segment.active img {
@@ -233,12 +241,12 @@ button[type="submit"]:disabled {
 
 .badge {
   display: inline-block;
-  background: var(--accent);
-  color: #fff;
+  background: var(--signal);
+  color: var(--on-signal);
   border-radius: var(--radius-full);
   padding: 0.05em 0.5em;
   font-size: 0.8em;
-  font-weight: 800;
+  font-weight: 700;
   margin-left: 0.3em;
 }
 
@@ -271,14 +279,15 @@ button[type="submit"]:disabled {
   padding: 0.6rem 1.4rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-full);
-  font-weight: 800;
-  font-size: 1.15rem;
-  color: var(--accent-2);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--text);
 }
 
 .cart-button {
-  background: var(--accent-action);
-  color: #fff;
+  background: var(--signal);
+  color: var(--on-signal);
   border: none;
   padding: 0.7rem 1rem;
   border-radius: var(--radius);
@@ -291,7 +300,7 @@ button[type="submit"]:disabled {
 }
 
 .cart-button:hover {
-  box-shadow: var(--shadow-glow);
+  filter: brightness(1.08);
 }
 
 .cart-button:active {
@@ -302,7 +311,6 @@ button[type="submit"]:disabled {
   width: 20px;
   height: 20px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
 }
 
 /* ===== Toast / snackbar (fallback) ===== */
@@ -311,8 +319,8 @@ button[type="submit"]:disabled {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--surface-3);
-  color: var(--text);
+  background: var(--text);
+  color: var(--bg);
   padding: 0.75rem 1.4rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);

@@ -5,58 +5,49 @@ member portal, built with Angular 19, Capacitor 7 and Firebase.
 
 Live demo: <https://certare.web.app>
 
-## What ships
+## What's in it
 
-- **Public catalog.** 60 services across five practices at `/products/list`,
-  with search, practice filters and per-service detail pages. Each service links directly to contact. No account
-  needed to browse.
-- **Discovery intake.** `/agency/schedule` collects a discovery request from
-  visitors. Submissions are stored privately in Firestore; guests cannot read
-  them back, and only an allowlisted member can see their own history.
-- **Member portal.** Existing, admin-allowlisted accounts can sign in and view
-  their own request history at `/sales/history`.
-- **Insights.** Three published articles with their existing attribution.
-- **Android wrapper.** Capacitor 7 wraps the same web build for debug APKs.
-  A Play Store release is a separate, not-yet-done task.
+- A public catalog of 60 services across five practices at `/products/list`,
+  with search, filters by practice and a page for each service. You don't need
+  an account to browse.
+- A discovery form at `/agency/schedule`. Requests are saved in Firestore and
+  visitors can't read them back.
+- A member area at `/sales/history` where approved accounts see their own
+  requests. An admin approves accounts through an allowlist.
+- Three articles under Insights.
+- An Android build: Capacitor wraps the same web app into a debug APK. It's not
+  on the Play Store yet.
 
-## Intentionally disabled
+## Turned off for now
 
-- **Checkout and payments.** The committed configuration sets
-  `paymentsEnabled: false` with an empty PayPal client ID, and this repo's
-  public flow has checkout and order processing disabled.
-- **Automatic booking and notifications.** In this repo's configured public
-  flow, the form records a discovery request only: it does not email the
-  operator or book a calendar slot. The Google Appointment Schedules link
-  (`scheduleUrl`) is empty in the environment configuration, and the intake
-  path implemented here wires no operator notification.
-- **Legacy order email.** The `sendOrderEmail` callable in `functions/` rejects all requests.
-  An older deployed version remains active until an operator updates it;
-  the current public catalog and discovery intake do not invoke it.
-- **Self-service registration.** `/auth/register` redirects to login. The
-  Firebase email/password API can still create an Auth record directly, but
-  the `access-allowlist` keeps such accounts out of private data. See
-  [docs/SECURITY.md](docs/SECURITY.md) for the distinction and the open
-  server-side follow-up.
+- Payments. `paymentsEnabled` is `false` and the PayPal client ID is empty, so
+  there's no checkout.
+- Booking and email notifications. The form only saves the request; it doesn't
+  send an email or book a meeting (`scheduleUrl` is empty).
+- `sendOrderEmail` in `functions/` rejects every call. The old deployed version
+  stays live until functions are deployed again, but nothing on the site calls
+  it.
+- Sign-up. `/auth/register` redirects to login. Someone could still create an
+  account directly through the Firebase Auth API, but without being on the
+  allowlist they can't see any private data. More in
+  [docs/SECURITY.md](docs/SECURITY.md).
 
 ## Stack and boundaries
 
 - **Frontend.** Angular 19 standalone components with lazy-loaded feature
   areas (`auth`, `products`, `sales`, `agency`). Capacitor 7 wraps the same
   build for Android.
-- **Data.** Firestore, with access controlled by the committed rules in
-  `firestore.rules`: the five catalog collections and published insights are
-  public read-only; `discovery-requests` accepts a bounded write from visitors
-  and denies unauthenticated reads; `access-allowlist/{uid}` is read-own,
-  Admin-write, and gates member access.
-- **Backend.** Cloud Functions live in `functions/` with a Node 22 deployment
-  engine. Functions are not part of the public
-  request path today.
-- **Hosting.** Firebase Hosting serves the single-page app with security
-  headers configured in `firebase.json`.
+- **Data.** Firestore. The rules are in `firestore.rules`: the catalog and the
+  articles are public and read-only, `discovery-requests` takes a limited write
+  from visitors and can't be read without signing in, and
+  `access-allowlist/{uid}` can only be read by its owner and written by an admin.
+- **Backend.** Cloud Functions in `functions/` (Node 22). The public site
+  doesn't call them right now.
+- **Hosting.** Firebase Hosting, with the security headers in `firebase.json`.
 
-## Setup from a clean clone
+## Running it locally
 
-The quality runtime target is Node 22.23.4.
+Use Node 22.
 
 ```bash
 git clone https://github.com/Andres-DLT/mobileCertare.git
@@ -78,13 +69,13 @@ npm ci --prefix functions
 | `npm run verify` | Root unit tests, tools test and web build, plus Functions verify |
 | `npm run android:sync` | Rebuild web assets and sync them into the Android wrapper |
 
-Browser note: on Windows, Karma needs `CHROME_BIN` pointing at an installed
-Chromium or Chrome. CI runners use their preinstalled Chrome.
+On Windows, Karma needs `CHROME_BIN` pointing to Chrome or Chromium. The CI
+runners already have Chrome.
 
-Node note: quality tests and builds run on Node 22. The Functions deployment engine is Node 22; updating the repository does not
-deploy the backend.
+Pushing to the repo doesn't deploy the functions; that's a separate step (see
+[docs/DEPLOY.md](docs/DEPLOY.md)).
 
-## Documentation
+## Docs
 
 | Doc | Contents |
 | --- | --- |
@@ -96,22 +87,12 @@ deploy the backend.
 | [docs/DOMAIN.md](docs/DOMAIN.md) | Connecting a paid domain |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | Production deployment runbook (operator only) |
 | [docs/CHANGELOG.md](docs/CHANGELOG.md) | Release history |
-| [docs/VERIFICATION-2026-09-21.md](docs/VERIFICATION-2026-09-21.md) | Dated verification record (historical) |
-| [docs/UX-RELEASE-2026-09-23.md](docs/UX-RELEASE-2026-09-23.md) | Public release verification record (historical) |
 
-The two verification records describe what was checked on those dates. They
-are historical evidence, not a claim about the current branch.
+## Security
 
-## Security reporting
-
-Please report vulnerabilities privately through GitHub's security reporting
-for this repository instead of opening a public issue. No personal contact
-address is published for this purpose.
+If you find a vulnerability, please report it privately through GitHub's
+security reporting for this repo instead of opening an issue.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for branch and pull request workflow,
-the verification expected before a PR, and the rule that documentation or test
-changes must never cause unrequested production operations.
-
-No license has been chosen yet; do not add one without the owner's decision.
+See [CONTRIBUTING.md](CONTRIBUTING.md). There's no license yet.

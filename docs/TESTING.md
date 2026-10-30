@@ -57,21 +57,6 @@ following:
 - Integration tests against live Firebase services
 - Firebase deployments or production smoke checks
 
-## Historical evidence
-
-Two dated records exist. They describe what was verified on those dates and
-stay historical:
-
-- [docs/VERIFICATION-2026-09-21.md](VERIFICATION-2026-09-21.md): functional
-  migration review, including deployed Firestore rule checks.
-- [docs/UX-RELEASE-2026-09-23.md](UX-RELEASE-2026-09-23.md): pre-release
-  verification, including a debug APK on an emulator, real Firestore rule
-  checks and responsive Chrome journeys.
-
-Run evidence for a specific revision is recorded in that revision's pull
-request description and Actions artifacts, not pinned in this document, so
-nothing here goes stale as the code changes.
-
 ## Safe test data
 
 - Unit tests mock Firebase through the shared test providers in

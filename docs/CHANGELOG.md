@@ -12,8 +12,6 @@ Todas las versiones notables de este proyecto se documentan en este archivo.
   Firestore rules validate and bound new messages while denying guest reads.
 - Private account access backed by the Admin-managed `access-allowlist`.
   Direct Firebase Auth account creation is still possible; see `SECURITY.md`.
-- Responsive screenshots, browser flows and live rules are verified in the
-  release checklist documented in `docs/UX-RELEASE-2026-09-23.md`.
 
 ## [Unreleased] - 2026-09-21
 
@@ -29,7 +27,7 @@ Todas las versiones notables de este proyecto se documentan en este archivo.
 - Checkout oculto y SDK PayPal sin cargas mientras los pagos están desactivados.
 - CLI Capacitor local y comando `npm run android:sync`.
 - 35 pruebas Angular aprobadas y recorridos funcionales reales en Chrome y en
-  el emulador Android. Detalles en `VERIFICATION-2026-09-21.md`.
+  el emulador Android.
 
 ## [1.0.1] - 2026-09-18
 

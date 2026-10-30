@@ -1,6 +1,6 @@
 # Certare — project overview
 
-Certare is an Angular 19 + Capacitor 7 application backed by Firebase. The
+Certare is an Angular 21 + Capacitor 7 application backed by Firebase. The
 public site introduces five connected practices and lets visitors browse the
 catalog without an account. A separate, private member area serves existing
 accounts. Checkout and PayPal remain disabled.

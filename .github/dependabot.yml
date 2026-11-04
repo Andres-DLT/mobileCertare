@@ -1,0 +1,17 @@
+# Security updates only. Version update PRs stay off (limit 0).
+# Angular majors are held back until @angular/fire ships a stable release
+# for the next major; a mixed 21/22 install breaks `npm ci`.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: "@angular/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
